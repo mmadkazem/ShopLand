@@ -1,0 +1,9 @@
+global using ShopLand.Application.Categories.Commands.CreateCategory.Request;
+global using ShopLand.Domain.Products.Category_Aggregate.Entities;
+global using ShopLand.Application.Categories.Commands.RemoveCategory.Request;
+global using ShopLand.Application.Categories.Events.RemovedCategory;
+global using ShopLand.Application.Categories.Commands.CreateCategory.Handler;
+global using ShopLand.Application.Categories.Commands.RemoveCategory.Handler;
+global using ShopLand.Application.Categories.Commands.UpdateCategory.Handler;
+global using ShopLand.Application.Categories.Facade;
+global using ShopLand.Application.Categories.Queries.GetAllCategory.Response;
