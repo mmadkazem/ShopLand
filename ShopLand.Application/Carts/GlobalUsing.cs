@@ -1,0 +1,12 @@
+global using ShopLand.Domain.Carts.ValueObject;
+global using ShopLand.Domain.Carts.Entities;
+global using ShopLand.Application.Carts.Queries.GetCart.Request;
+global using ShopLand.Application.Carts.Queries.GetCart.Response;
+global using ShopLand.Application.Carts.Exceptions;
+global using ShopLand.Application.Carts.Commands.AddCartItem.Request;
+global using ShopLand.Application.Carts.Commands.RemoveCartItem.Request;
+global using ShopLand.Application.Carts.Commands.AddCartItem.Handler;
+global using ShopLand.Application.Carts.Commands.RemoveCartItem.Handler;
+global using ShopLand.Application.Carts.Commands.UpdateCartItem.Handler;
+global using ShopLand.Application.Carts.Facade;
+global using ShopLand.Application.Carts.Queries.GetCart.Handler;
