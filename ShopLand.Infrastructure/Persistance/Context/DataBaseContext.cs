@@ -22,6 +22,10 @@ public sealed class DataBaseContext(DbContextOptions<DataBaseContext> options)
     // Request Pay
     public DbSet<RequestPay> requestPays { get; set; }
 
+    // Order
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.AddConfig();

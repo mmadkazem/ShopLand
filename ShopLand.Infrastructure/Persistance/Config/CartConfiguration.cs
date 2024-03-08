@@ -6,7 +6,7 @@ internal sealed class CartConfiguration : IEntityTypeConfiguration<Cart>,
     public void Configure(EntityTypeBuilder<Cart> builder)
     {
         builder.HasKey(c => c.Id);
-        
+
         builder
             .Property(c => c.Id)
             .HasConversion(c => c.Value, c => new CartId(c))
@@ -19,7 +19,7 @@ internal sealed class CartConfiguration : IEntityTypeConfiguration<Cart>,
     {
         builder.Property<int>("Id");
 
-        var countConverter = new ValueConverter<Count,uint>
+        var countConverter = new ValueConverter<Count, uint>
             (c => c.Value, c => new(c));
         builder
             .Property(c => c.Count)

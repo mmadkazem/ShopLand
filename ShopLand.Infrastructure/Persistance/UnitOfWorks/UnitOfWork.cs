@@ -1,5 +1,3 @@
-
-
 namespace ShopLand.Infrastructure.Persistance.UnitOfWorks;
 
 public sealed class UnitOfWork(DataBaseContext context) : IUnitOfWork
@@ -23,6 +21,9 @@ public sealed class UnitOfWork(DataBaseContext context) : IUnitOfWork
 
     public IRequestPayRepository RequestPays
         => new RequestPayRepository(_context);
+
+    public IOrderRepository Orders
+        => new OrderRepository(_context);
 
     public async Task<int> SaveAsync()
         => await _context.SaveChangesAsync();
