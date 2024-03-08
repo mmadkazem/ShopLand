@@ -21,3 +21,4 @@ global using ShopLand.Domain.Products.Category_Aggregate.Repositories;
 global using ShopLand.Domain.Products.Product_Aggregate.Repositories;
 global using ShopLand.Domain.Carts.Entities;
 global using ShopLand.Domain.Carts.Repositories;
+global using ShopLand.Domain.Finances.Repositories;

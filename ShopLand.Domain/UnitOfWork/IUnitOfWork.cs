@@ -7,5 +7,6 @@ public interface IUnitOfWork
     IProductRepository Products { get; }
     ICategoryRepository Categories { get; }
     ICartRepository Carts { get; }
+    IRequestPayRepository RequestPays { get; }
     Task<int> SaveAsync();
 }
