@@ -36,3 +36,6 @@ global using ShopLand.Domain.Carts.Entities;
 global using ShopLand.Domain.Carts.Repositories;
 global using ShopLand.Domain.Carts.ValueObject;
 global using ShopLand.Domain.Carts.Factories;
+global using ShopLand.Domain.Finances.Entities;
+global using ShopLand.Domain.Finances.Repositories;
+global using ShopLand.Domain.Finances.ValueObject;

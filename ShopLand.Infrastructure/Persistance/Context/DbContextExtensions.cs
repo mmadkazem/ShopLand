@@ -9,6 +9,7 @@ public static class DbContextExtensions
         var productConfiguration = new ProductConfiguration();
         var categoryConfiguration = new CategoryConfiguration();
         var cartConfiguration = new CartConfiguration();
+        var requestPayConfiguration = new RequestPayConfiguration();
 
         modelBuilder.ApplyConfiguration<Product>(productConfiguration);
         modelBuilder.ApplyConfiguration<ProductCategory>(productConfiguration);
@@ -16,6 +17,7 @@ public static class DbContextExtensions
         modelBuilder.ApplyConfiguration<UserInRole>(userConfiguration);
         modelBuilder.ApplyConfiguration<Cart>(cartConfiguration);
         modelBuilder.ApplyConfiguration<CartItem>(cartConfiguration);
+        modelBuilder.ApplyConfiguration(requestPayConfiguration);
         modelBuilder.ApplyConfiguration(roleConfiguration);
         modelBuilder.ApplyConfiguration(categoryConfiguration);
     }

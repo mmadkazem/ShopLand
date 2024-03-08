@@ -1,3 +1,5 @@
+using ShopLand.Domain.Finances.Entities;
+
 namespace ShopLand.Infrastructure.Persistance.Context;
 
 public sealed class DataBaseContext(DbContextOptions<DataBaseContext> options)
@@ -16,6 +18,9 @@ public sealed class DataBaseContext(DbContextOptions<DataBaseContext> options)
     // Cart
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartItem> CartItems { get; set; }
+
+    // Request Pay
+    public DbSet<RequestPay> requestPays { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
