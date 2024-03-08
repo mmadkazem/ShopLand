@@ -14,9 +14,10 @@ public sealed class RequestPayRepository(DataBaseContext context)
                         .Where(p => p.Id == Id)
                         .FirstOrDefaultAsync();
 
-    public async Task<IEnumerable<RequestPay>> FindAsync(Guid userId)
+    public async Task<IEnumerable<RequestPay>> FindAsyncByUserId(Guid userId)
         => await _context.requestPays
                         .AsQueryable()
                         .Where(p => p.UserId == userId)
                         .ToListAsync();
+
 }
