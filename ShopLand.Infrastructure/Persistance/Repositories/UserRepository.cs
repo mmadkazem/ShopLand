@@ -44,4 +44,9 @@ public sealed class UserRepository(DataBaseContext context) : IUserRepository
 
     public void Remove(User user)
         => _context.Users.Remove(user);
+
+    public async Task<bool> Any(UserId id)
+        => await _context.Users
+            .AsQueryable()
+            .AnyAsync(u => u.Id == id);
 }

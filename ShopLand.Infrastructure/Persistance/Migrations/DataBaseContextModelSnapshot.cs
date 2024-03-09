@@ -37,12 +37,12 @@ namespace ShopLand.Infrastructure.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("88f3f59a-c587-45c1-9ad7-774f5793557c"),
+                            Id = new Guid("a822e0f7-5893-43cd-8252-4e19ac2055af"),
                             Name = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("c9ccb02c-9efa-48a6-b033-978fc85bb39e"),
+                            Id = new Guid("4219cf5f-cc05-46d0-9184-49e3d88a0186"),
                             Name = "Customer"
                         });
                 });
