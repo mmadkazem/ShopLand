@@ -1,12 +1,12 @@
-namespace ShopLand.Application.Orders.Queries.GetOrderByUserId.Response;
+namespace ShopLand.Application.Orders.Queries.Response;
 
-public record GetOrderByUserIdQueryResponse(Guid UserId, Guid RequestPayId,
+public record GetOrderQueryResponse(Guid UserId, Guid RequestPayId,
     OrderState OrderState, List<OrderDetailResponse> OrderDetails);
 public record OrderDetailResponse(Guid ProductId, uint Count, uint Price);
 
 public static class Extension
 {
-    public static GetOrderByUserIdQueryResponse AsResponse
+    public static GetOrderQueryResponse AsResponse
         (this Domain.Orders.Entities.Order order)
     {
         var orderDetailResponse = order.OrderDetails

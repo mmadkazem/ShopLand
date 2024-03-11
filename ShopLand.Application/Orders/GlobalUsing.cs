@@ -4,4 +4,4 @@ global using ShopLand.Application.Orders.Commands.UpdateOrderState.Request;
 global using ShopLand.Domain.Orders.Const;
 global using ShopLand.Application.Orders.Exceptions;
 global using ShopLand.Application.Orders.Queries.GetOrderByUserId.Request;
-global using ShopLand.Application.Orders.Queries.GetOrderByUserId.Response;
+global using ShopLand.Application.Orders.Queries.Response;

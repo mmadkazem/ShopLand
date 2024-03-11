@@ -2,7 +2,7 @@ namespace ShopLand.Application.Orders.Queries.GetOrderByUserId.Handler;
 
 public interface IGetOrderByUserIdQueryHandler
 {
-    Task<IEnumerable<GetOrderByUserIdQueryResponse>> HandelAsync
+    Task<IEnumerable<GetOrderQueryResponse>> HandelAsync
         (GetOrderByUserIdQueryRequest request);
 }
 
@@ -11,7 +11,7 @@ public sealed class GetOrderByUserIdQueryHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task<IEnumerable<GetOrderByUserIdQueryResponse>> HandelAsync(GetOrderByUserIdQueryRequest request)
+    public async Task<IEnumerable<GetOrderQueryResponse>> HandelAsync(GetOrderByUserIdQueryRequest request)
     {
         var orders = await _uow.Orders.FindAsyncByUserId(request.UserId);
         if (orders.Count() is 0)
