@@ -7,7 +7,7 @@ public record ProductName
 
     public ProductName(string value)
     {
-        if (IsValid(value))
+        if (!IsValid(value))
         {
             throw new ProductNameInvalidException();
         }
@@ -16,7 +16,7 @@ public record ProductName
 
     private bool IsValid(string value)
         => string.IsNullOrWhiteSpace(value) &&
-            StringUtil.IsValidLength(value, 10, 100);
+            StringUtil.IsValidLength(value, 5, 50);
 
 
     public static implicit operator string(ProductName productName)

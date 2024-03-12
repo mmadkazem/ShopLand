@@ -6,7 +6,7 @@ public record Brand
     public string Value { get; }
     public Brand(string value)
     {
-        if (IsValid(value))
+        if (!IsValid(value))
         {
             throw new BrandInvalidException();
         }

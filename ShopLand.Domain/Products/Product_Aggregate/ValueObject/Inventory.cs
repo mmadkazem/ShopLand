@@ -5,7 +5,7 @@ public record Inventory
     public uint Value { get; }
     public Inventory(uint value)
     {
-        if (value >= 100)
+        if (0 >= value || value > 100)
         {
             throw new InventoryInValidException();
         }
