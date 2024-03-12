@@ -19,4 +19,11 @@ public sealed class OrderRepository(DataBaseContext context)
                         .AsQueryable()
                         .Where(o => o.UserId == userId)
                         .ToListAsync();
+
+    public async Task<IEnumerable<Order>> GetAll(int page)
+        => await _context.Orders
+                        .AsQueryable()
+                        .Include(o => o.OrderDetails)
+                        .Skip((page - 1) * 25).Take(25)
+                        .ToListAsync();
 }
