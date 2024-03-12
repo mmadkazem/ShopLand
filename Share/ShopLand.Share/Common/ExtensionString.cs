@@ -4,6 +4,6 @@ public static class StringUtil
 {
     public static bool IsValidLength(string value, short min, short max)
     {
-        return value.Length > max && value.Length < min;
+        return value.Length < max && value.Length > min;
     }
 }

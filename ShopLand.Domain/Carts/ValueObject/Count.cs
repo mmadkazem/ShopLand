@@ -7,6 +7,10 @@ public record Count
 
     public Count(uint value)
     {
+        if (value == 0)
+        {
+            throw new CountZeroValueException();
+        }
         Value = value;
     }
 

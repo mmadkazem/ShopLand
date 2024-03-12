@@ -26,7 +26,7 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
 
         if (alreadyExists)
         {
-            throw new ProductCategoryAlreadyExistsException();
+            throw new CartItemAlreadyExistsException();
         }
         var cartItem = new CartFactory().CreateCartItem
             (count, inventory, productId, Id);

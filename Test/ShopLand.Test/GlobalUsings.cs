@@ -8,3 +8,7 @@ global using ShopLand.Domain.Products.Product_Aggregate.Entities;
 global using ShopLand.Domain.Products.Product_Aggregate.Factories;
 global using ShopLand.Domain.Products.Product_Aggregate.Exceptions;
 global using ShopLand.Domain.Products.Product_Aggregate.ValueObject;
+global using ShopLand.Domain.Carts.Entities;
+global using ShopLand.Domain.Carts.Exceptions;
+global using ShopLand.Domain.Carts.Factories;
+global using ShopLand.Domain.Carts.ValueObject;
