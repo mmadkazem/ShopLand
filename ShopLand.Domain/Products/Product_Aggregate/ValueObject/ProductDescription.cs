@@ -13,7 +13,7 @@ public record ProductDescription
     }
 
     private bool IsValid(string value)
-        => string.IsNullOrWhiteSpace(value) &&
+        => !string.IsNullOrWhiteSpace(value) &&
             StringUtil.IsValidLength(value, 10, 100);
 
     public static implicit operator string(ProductDescription brand)

@@ -14,7 +14,7 @@ public record Brand
     }
 
     private bool IsValid(string value)
-    => string.IsNullOrWhiteSpace(value) &&
+    => !string.IsNullOrWhiteSpace(value) &&
         StringUtil.IsValidLength(value, 5, 15);
 
     public static implicit operator string(Brand brand)

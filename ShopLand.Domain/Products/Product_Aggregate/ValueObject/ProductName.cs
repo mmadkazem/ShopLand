@@ -15,7 +15,7 @@ public record ProductName
     }
 
     private bool IsValid(string value)
-        => string.IsNullOrWhiteSpace(value) &&
+        => !string.IsNullOrWhiteSpace(value) &&
             StringUtil.IsValidLength(value, 5, 50);
 
 
