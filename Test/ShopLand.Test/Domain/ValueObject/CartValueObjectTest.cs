@@ -44,4 +44,18 @@ public class CartValueObjectTest
         exception.ShouldNotBeNull();
         exception.ShouldBeOfType<CountLessZeroException>();
     }
+
+    [Fact]
+    public void IsValid_Throw_CountLessZeroException_When_There_Is_More_Than_Inventory_Count_Not_Valid()
+    {
+        // ARRANGE
+        Count count = new(2);
+
+        // ACT
+        var exception = Record.Exception(() => count.IsValid(1));
+
+        // ASSERT
+        exception.ShouldNotBeNull();
+        exception.ShouldBeOfType<CountMoreInventoryException>();
+    }
 }

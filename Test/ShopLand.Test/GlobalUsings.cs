@@ -12,3 +12,8 @@ global using ShopLand.Domain.Carts.Entities;
 global using ShopLand.Domain.Carts.Exceptions;
 global using ShopLand.Domain.Carts.Factories;
 global using ShopLand.Domain.Carts.ValueObject;
+global using ShopLand.Domain.Orders.Entities;
+global using ShopLand.Domain.Orders.Factories;
+global using ShopLand.Domain.Orders.Exceptions;
+global using ShopLand.Domain.Orders.ValueObject;
+global using ShopLand.Domain.Orders.Const;
