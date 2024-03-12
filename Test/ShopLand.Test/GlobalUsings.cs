@@ -1,4 +1,10 @@
 global using Xunit;
+global using Shouldly;
 global using ShopLand.Domain.Account.Users.Entities;
 global using ShopLand.Domain.Account.Users.Factories;
-global using Shouldly;
+global using ShopLand.Domain.Account.Users.Exceptions;
+global using ShopLand.Domain.Account.Users.ValueObject;
+global using ShopLand.Domain.Products.Product_Aggregate.Entities;
+global using ShopLand.Domain.Products.Product_Aggregate.Factories;
+global using ShopLand.Domain.Products.Product_Aggregate.Exceptions;
+global using ShopLand.Domain.Products.Product_Aggregate.ValueObject;
