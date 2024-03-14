@@ -13,6 +13,9 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
         UserId = userId;
     }
 
+    // For Test
+    public Cart() : base(Guid.NewGuid()){}
+
     internal Cart(CartId id, Guid userId, LinkedList<CartItem> cartItems)
         : base(id)
     {

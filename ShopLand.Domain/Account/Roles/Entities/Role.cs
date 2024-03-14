@@ -9,4 +9,9 @@ public class Role : BaseEntity<RoleId>, IAggregateRoot
     {
         Name = name;
     }
+
+    public Role() : base(Guid.NewGuid())
+    {
+        
+    }
 }

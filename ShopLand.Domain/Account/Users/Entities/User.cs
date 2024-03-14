@@ -2,8 +2,8 @@ namespace ShopLand.Domain.Account.Users.Entities;
 
 public class User : BaseEntity<UserId>, IAggregateRoot
 {
-    public FullName FullName { get; }
-    public Email Email { get; }
+    public FullName FullName { get; private set; }
+    public Email Email { get; private set; }
     private Password _password;
 
     public readonly LinkedList<UserInRole> UsedInRoles = new();
@@ -20,6 +20,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
     {
         UsedInRoles = userInRoles;
     }
+    public User(): base(Guid.NewGuid()){}
     public void ChangePassword(string newPassword, string confirmNewPassword)
     {
         _password = new Password(newPassword, confirmNewPassword);

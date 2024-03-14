@@ -9,12 +9,14 @@ public class RequestPay : BaseEntity<RequestPayId>
     public DateTime? PayDate { get; private set; }
     public string Authority { get; private set; }
     public long RefId { get; private set; } = 0;
-    public RequestPay(RequestPayId id, Guid userId, uint amount)
+    internal RequestPay(RequestPayId id, Guid userId, uint amount)
         : base(id)
     {
         UserId = userId;
         Amount = amount;
     }
+
+    public RequestPay() : base(Guid.NewGuid()){}
 
     public void PayOff(string authority, long refId)
     {

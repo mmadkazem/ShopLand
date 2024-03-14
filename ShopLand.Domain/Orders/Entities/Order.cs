@@ -8,7 +8,7 @@ public class Order : BaseEntity<OrderId>, IAggregateRoot
     public OrderState OrderState { get; private set; }
 
     public LinkedList<OrderDetail> OrderDetails = new();
-    public Order(OrderId id, Guid userId, Guid requestPayId, Address address)
+    internal Order(OrderId id, Guid userId, Guid requestPayId, Address address)
         : base(id)
     {
         UserId = userId;
@@ -16,6 +16,8 @@ public class Order : BaseEntity<OrderId>, IAggregateRoot
         Address = address;
         OrderState = OrderState.Processing;
     }
+
+    public Order() : base(Guid.NewGuid()){}
 
     public void UpdateOrderState(OrderState orderState)
     {
