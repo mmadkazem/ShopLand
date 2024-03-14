@@ -55,7 +55,7 @@ public class UserTests
 
     private User GetUser()
     {
-        var user = _factory.Create("Chris", "Evans", "@@Chris11@@", "@@Chris11@@", "ChrisEvans@gmail.com");
+        var user = _factory.Create("TestFistName", "TestLastName", "@@Test1@@", "@@Test1@@", "TestEmail@test.com");
         return user;
     }
 
