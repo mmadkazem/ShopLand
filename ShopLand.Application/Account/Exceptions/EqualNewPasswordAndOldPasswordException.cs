@@ -1,7 +1,7 @@
 namespace ShopLand.Application.Account.Exceptions;
 
 
-class EqualNewPasswordAndOldPasswordException
+public class EqualNewPasswordAndOldPasswordException
     : ShopLandBadRequestBaseExceptions
 {
     public EqualNewPasswordAndOldPasswordException()

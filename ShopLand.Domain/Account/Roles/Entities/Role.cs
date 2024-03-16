@@ -10,8 +10,6 @@ public class Role : BaseEntity<RoleId>, IAggregateRoot
         Name = name;
     }
 
-    public Role() : base(Guid.NewGuid())
-    {
-        
-    }
+    // For Test
+    public Role() : base(Guid.NewGuid()){}
 }
