@@ -5,7 +5,7 @@ public interface IAccountFacade
     IRegisterUserCommandHandler RegisterUser { get; }
     ILoginUserQueryHandler LoginUser { get; }
     IAddUserRoleCommandHandler AddUserRole { get; }
-    IGetCurrentUserQueryHandler GetCurrentUser { get; }
+    IGetUserQueryHandler GetCurrentUser { get; }
     IChangePasswordCommandHandler ChangePassword { get; }
     ICreateRoleCommandHandler CreateRole { get; }
     IRemoveRoleCommandHandler RemoveRole { get; }
@@ -18,7 +18,7 @@ public class AccountFacade : IAccountFacade
     public AccountFacade(IRegisterUserCommandHandler registerUser,
             ILoginUserQueryHandler loginUser,
             IAddUserRoleCommandHandler addUserRole,
-            IGetCurrentUserQueryHandler getCurrentUser,
+            IGetUserQueryHandler getCurrentUser,
             IChangePasswordCommandHandler changePassword,
             ICreateRoleCommandHandler createRole,
             IRemoveRoleCommandHandler removeRole,
@@ -49,8 +49,8 @@ public class AccountFacade : IAccountFacade
         => _addUserRole;
 
 
-    private readonly IGetCurrentUserQueryHandler _getCurrentUser;
-    public IGetCurrentUserQueryHandler GetCurrentUser
+    private readonly IGetUserQueryHandler _getCurrentUser;
+    public IGetUserQueryHandler GetCurrentUser
         => _getCurrentUser;
 
     private readonly IChangePasswordCommandHandler _changePassword;

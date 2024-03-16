@@ -8,7 +8,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
 
     public readonly LinkedList<UserInRole> UsedInRoles = new();
 
-    internal User(UserId id, FullName fullName, Email email, Password password)
+    public User(UserId id, FullName fullName, Email email, Password password)
         : base(id)
     {
         FullName = fullName;
@@ -20,7 +20,10 @@ public class User : BaseEntity<UserId>, IAggregateRoot
     {
         UsedInRoles = userInRoles;
     }
+
+    // For Test
     public User(): base(Guid.NewGuid()){}
+
     public void ChangePassword(string newPassword, string confirmNewPassword)
     {
         _password = new Password(newPassword, confirmNewPassword);

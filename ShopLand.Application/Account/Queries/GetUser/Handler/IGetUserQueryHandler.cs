@@ -1,11 +1,11 @@
 namespace ShopLand.Application.Account.Queries.GetUser.Handler;
 
-public interface IGetCurrentUserQueryHandler
+public interface IGetUserQueryHandler
 {
     Task<GetUserQueryResponse> HandelAsync(GetUserQueryRequest request);
 }
 
-public class GetUserQueryHandler : IGetCurrentUserQueryHandler
+public class GetUserQueryHandler : IGetUserQueryHandler
 {
     private readonly IUnitOfWork _uow;
     public GetUserQueryHandler(IUnitOfWork uow)

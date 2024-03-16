@@ -54,7 +54,6 @@ public class RegisterUserCommandHandlerTest
         _uow = Substitute.For<IUnitOfWork>();
         _userFactories = Substitute.For<IUserFactories>();
         _registerUser = new RegisterUserCommandHandler(_userFactories, _uow);
-        // userMock = new Mock<User>();
     }
 
     #endregion

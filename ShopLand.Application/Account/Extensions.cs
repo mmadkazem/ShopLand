@@ -8,7 +8,7 @@ public static class Extensions
         services.AddTransient<IRegisterUserCommandHandler, RegisterUserCommandHandler>();
         services.AddTransient<ILoginUserQueryHandler, LoginUserQueryHandler>();
         services.AddTransient<IAddUserRoleCommandHandler, AddUserRoleCommandHandler>();
-        services.AddTransient<IGetCurrentUserQueryHandler, GetUserQueryHandler>();
+        services.AddTransient<IGetUserQueryHandler, GetUserQueryHandler>();
         services.AddTransient<IChangePasswordCommandHandler, ChangePasswordCommandHandler>();
         services.AddTransient<ICreateRoleCommandHandler, CreateRoleCommandHandler>();
         services.AddTransient<IRemoveRoleCommandHandler, RemoveRoleCommandHandler>();
