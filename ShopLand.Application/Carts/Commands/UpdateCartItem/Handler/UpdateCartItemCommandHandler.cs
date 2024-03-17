@@ -2,12 +2,8 @@ using ShopLand.Application.Carts.Commands.UpdateCartItem.Request;
 
 namespace ShopLand.Application.Carts.Commands.UpdateCartItem.Handler;
 
-public interface IUpdateCartItemCommandHandler
-{
-    Task HandelAsync(UpdateCartItemCommandRequest request);
-}
-
-public class UpdateCartItemCommandHandler(IUnitOfWork uow) : IUpdateCartItemCommandHandler
+public class UpdateCartItemCommandHandler(IUnitOfWork uow)
+    : IUpdateCartItemCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
 
@@ -31,7 +27,7 @@ public class UpdateCartItemCommandHandler(IUnitOfWork uow) : IUpdateCartItemComm
         }
         else
         {
-            cart.Low(product.Id, product.Inventory);
+            cart.Low(product.Id);
         }
         await _uow.SaveAsync();
     }

@@ -38,7 +38,7 @@ public class CartValueObjectTest
         Count count = new(1);
 
         // ACT
-        var exception = Record.Exception(() => count.Low(2));
+        var exception = Record.Exception(() => count.Low());
 
         // ASSERT
         exception.ShouldNotBeNull();

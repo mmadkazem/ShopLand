@@ -44,3 +44,6 @@ global using ShopLand.Application.Products.Commands.CreateProduct.Handler;
 global using ShopLand.Application.Products.Commands.CreateProduct.Request;
 global using ShopLand.Application.Products.Commands.RemoveProductCategory.Handler;
 global using ShopLand.Application.Products.Commands.RemoveProductCategory.Request;
+global using ShopLand.Application.Carts.Commands.AddCartItem.Handler;
+global using ShopLand.Application.Carts.Commands.AddCartItem.Request;
+global using ShopLand.Application.Carts.Exceptions;

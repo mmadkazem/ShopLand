@@ -1,10 +1,5 @@
 namespace ShopLand.Application.Carts.Commands.RemoveCartItem.Handler;
 
-public interface IRemoveCartItemCommandHandler
-{
-    Task HandleAsync(RemoveCartItemCommandRequest request);
-}
-
 public class RemoveCartItemCommandHandler(IUnitOfWork uow)
     : IRemoveCartItemCommandHandler
 {

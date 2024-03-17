@@ -7,7 +7,7 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
     public Guid UserId { get; private set; }
     public bool Finished { get; private set; } = default;
     public readonly LinkedList<CartItem> CartItems = new();
-    internal Cart(CartId id, Guid userId)
+    public Cart(CartId id, Guid userId)
         : base(id)
     {
         UserId = userId;
@@ -53,10 +53,10 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
         cartItem.Count.Add(inventory);
     }
 
-    public void Low(Guid productId, uint inventory)
+    public void Low(Guid productId)
     {
         var cartItem = GetCartItem(productId);
-        cartItem.Count.Low(inventory);
+        cartItem.Count.Low();
     }
     public void IsFinished()
     {

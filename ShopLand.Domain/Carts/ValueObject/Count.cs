@@ -23,9 +23,9 @@ public record Count
         Value++;
     }
 
-    public void Low(uint productInventory)
+    public void Low()
     {
-        if (Value - 1 < productInventory)
+        if (Value - 1 == 0)
         {
             throw new CountLessZeroException();
         }

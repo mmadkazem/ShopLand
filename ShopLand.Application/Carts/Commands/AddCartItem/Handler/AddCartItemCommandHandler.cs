@@ -1,10 +1,5 @@
 namespace ShopLand.Application.Carts.Commands.AddCartItem.Handler;
 
-public interface IAddCartItemCommandHandler
-{
-    Task HandelAsync(AddCartItemCommandRequest request);
-}
-
 public class AddCartItemCommandHandler : IAddCartItemCommandHandler
 {
     private readonly IUnitOfWork _uow;
