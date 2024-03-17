@@ -1,3 +1,5 @@
+using ShopLand.Application.Orders.Event.CreatedOrder;
+
 namespace ShopLand.Application.Orders.Commands.CreateOrder.Handler;
 
 public interface ICreateOrderCommandHandler
@@ -9,11 +11,14 @@ public class CreateOrderCommandHandler : ICreateOrderCommandHandler
 {
     private readonly IUnitOfWork _uow;
     private readonly IOrderFactory _orderFactory;
+    private readonly ICreatedOrderEventHandler _createdOrder;
 
-    public CreateOrderCommandHandler(IUnitOfWork uow, IOrderFactory orderFactory)
+    public CreateOrderCommandHandler(IUnitOfWork uow, IOrderFactory orderFactory,
+        ICreatedOrderEventHandler createdOrder)
     {
         _uow = uow;
         _orderFactory = orderFactory;
+        _createdOrder = createdOrder;
     }
 
     public async Task HandelAsync(CreateOrderCommandRequest request)
@@ -48,8 +53,9 @@ public class CreateOrderCommandHandler : ICreateOrderCommandHandler
             var product = await _uow.Products.FindAsync(item.ProductId);
             order.AddOrderDetail(product.Id, item.Count, product.Price);
         }
-
+        cart.IsFinished();
         await _uow.SaveAsync();
 
+        await _createdOrder.HandelAsync(userId);
     }
 }
