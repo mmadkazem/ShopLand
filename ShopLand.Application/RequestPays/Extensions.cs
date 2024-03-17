@@ -4,7 +4,7 @@ namespace ShopLand.Application.RequestPays;
 
 public static class Extensions
 {
-    internal static IServiceCollection AddProduct(this IServiceCollection services)
+    internal static IServiceCollection AddRequestPay(this IServiceCollection services)
     {
         // DI Account Commands and Queries Handlers
         services.AddTransient<ICreateRequestPayCommandHandler, CreateRequestPayCommandHandler>();
