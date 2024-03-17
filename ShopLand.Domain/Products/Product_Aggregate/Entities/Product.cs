@@ -9,7 +9,7 @@ public class Product : BaseEntity<ProductId>, IAggregateRoot
     public ProductPrice Price { get; private set; }
 
     public readonly LinkedList<ProductCategory> ProductCategories = new();
-    internal Product
+    public Product
         (ProductId id, Brand brand, ProductName productName,
          Inventory inventory, ProductDescription description,
          ProductPrice price)
@@ -22,9 +22,10 @@ public class Product : BaseEntity<ProductId>, IAggregateRoot
         ProductName = productName;
     }
 
-    public Product() : base(Guid.NewGuid()){}
+    // For Test
+    public Product() : base(Guid.NewGuid()) { }
 
-    public void AddCategory(Guid category) 
+    public void AddCategory(Guid category)
     {
         var alreadyExists = ProductCategories.Any(r => r.Category == category);
 

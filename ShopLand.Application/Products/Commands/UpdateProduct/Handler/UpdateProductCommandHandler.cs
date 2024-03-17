@@ -1,6 +1,7 @@
 namespace ShopLand.Application.Products.Commands.UpdateProduct.Handler;
 
-public class UpdateProductCommandHandler(IUnitOfWork uow) : IUpdateProductCommandHandler
+public class UpdateProductCommandHandler(IUnitOfWork uow)
+    : IUpdateProductCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
 

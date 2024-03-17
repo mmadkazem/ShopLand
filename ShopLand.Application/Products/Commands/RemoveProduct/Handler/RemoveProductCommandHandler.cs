@@ -1,3 +1,5 @@
+using ShopLand.Application.Products.Events.ProductRemoved;
+
 namespace ShopLand.Application.Products.Commands.RemoveProduct.Handler;
 
 public interface IRemoveProductCommandHandler
@@ -5,9 +7,12 @@ public interface IRemoveProductCommandHandler
     Task HandelAsync(RemoveProductCommandRequest request);
 }
 
-public class RemoveProductCommandHandler(IUnitOfWork uow) : IRemoveProductCommandHandler
+public class RemoveProductCommandHandler
+    (IUnitOfWork uow,IProductRemovedEventHandler productRemoved)
+        : IRemoveProductCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
+    private readonly IProductRemovedEventHandler _productRemoved = productRemoved;
 
     public async Task HandelAsync(RemoveProductCommandRequest request)
     {
@@ -19,6 +24,6 @@ public class RemoveProductCommandHandler(IUnitOfWork uow) : IRemoveProductComman
 
         _uow.Products.Remove(product);
         await _uow.SaveAsync();
-
+        await _productRemoved.HandelAsync(product.Id);
     }
 }

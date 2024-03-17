@@ -18,13 +18,13 @@ public class UpdateProductCategoryCommandHandler(IUnitOfWork uow)
             throw new ProductNotFoundException();
         }
 
-        var isExistOld = await _uow.Categories.Any(request.oldCategory);
         var isExistNew = await _uow.Categories.Any(request.newCategory);
-        if (!isExistNew && !isExistOld)
+        if (!isExistNew)
         {
             throw new CategoryNotFoundException();
         }
 
         product.UpdateCategory(request.oldCategory, request.newCategory);
+        await _uow.SaveAsync();
     }
 }
