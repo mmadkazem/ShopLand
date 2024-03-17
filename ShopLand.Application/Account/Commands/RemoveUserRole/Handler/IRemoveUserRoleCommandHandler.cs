@@ -18,12 +18,6 @@ public class RemoveUserRoleCommandHandler(IUnitOfWork uow)
             throw new UserNotFoundException();
         }
 
-        var result = await _uow.Roles.Any(request.RoleId);
-        if (!result)
-        {
-            throw new RoleNotFoundException();
-        }
-
         user.RemoveRole(request.RoleId);
         await _uow.SaveAsync();
     }

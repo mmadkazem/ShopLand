@@ -49,7 +49,7 @@ public class RemoveRoleCommandHandlerTest
 
         // ASSERT
         exception.ShouldBeNull();
-        await _removedRole.Received(1).HandelAsync(Arg.Any<Role>());
+        await _removedRole.Received(1).HandelAsync(Arg.Any<Guid>());
     }
 
 

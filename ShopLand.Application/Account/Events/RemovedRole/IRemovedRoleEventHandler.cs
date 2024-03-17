@@ -2,7 +2,7 @@ namespace ShopLand.Application.Account.Events.RemovedRole;
 
 public interface IRemovedRoleEventHandler
 {
-    Task HandelAsync(Role role);
+    Task HandelAsync(Guid roleId);
 }
 public class RemovedRoleEventHandler : IRemovedRoleEventHandler
 {
@@ -10,9 +10,10 @@ public class RemovedRoleEventHandler : IRemovedRoleEventHandler
     public RemovedRoleEventHandler(IUnitOfWork uow)
         => _uow = uow;
 
-    public async Task HandelAsync(Role role)
+    public async Task HandelAsync(Guid roleId)
     {
-        await _uow.Users.RemoveRange(role.Id);
+        var userRoles = await _uow.Users.FindAsyncUserRole(roleId);
+        _uow.Users.RemoveUserRoles(userRoles);
         await _uow.SaveAsync();
     }
 }

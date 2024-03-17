@@ -24,22 +24,6 @@ public class RemoveUserRoleCommandHandlerTest
     }
 
     [Fact]
-    public async Task HandelAsync_RoleNotFoundException_When_There_Is_No_Role_Found_With_This_Information()
-    {
-        // ARRANGE
-        var request = new RemoveUserRoleCommandRequest(Guid.NewGuid(), Guid.NewGuid());
-        _uow.Users.FindAsync(request.UserId).Returns(new User());
-        _uow.Roles.Any(request.RoleId).Returns(false);
-
-        // ACT
-        var exception = await Record.ExceptionAsync(() => Act(request));
-
-        // ASSERT
-        exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<RoleNotFoundException>();
-    }
-
-    [Fact]
     public async Task HandleAsync_Calls_RemoveUserRole_On_Success()
     {
         // ARRANGE
@@ -48,7 +32,6 @@ public class RemoveUserRoleCommandHandlerTest
         user.AddRole(request.RoleId);
         user.AddRole(Guid.NewGuid());
         _uow.Users.FindAsync(request.UserId).Returns(user);
-        _uow.Roles.Any(request.RoleId).Returns(true);
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));

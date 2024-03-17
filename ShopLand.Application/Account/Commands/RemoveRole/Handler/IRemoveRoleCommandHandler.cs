@@ -27,6 +27,6 @@ public class RemoveRoleCommandHandler : IRemoveRoleCommandHandler
 
         _uow.Roles.Remove(role);
         await _uow.SaveAsync();
-        await _removedRoleEvent.HandelAsync(role);
+        await _removedRoleEvent.HandelAsync(role.Id);
     }
 }

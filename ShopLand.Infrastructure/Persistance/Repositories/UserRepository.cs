@@ -1,3 +1,4 @@
+
 namespace ShopLand.Infrastructure.Persistance.Repositories;
 
 public sealed class UserRepository(DataBaseContext context) : IUserRepository
@@ -20,20 +21,6 @@ public sealed class UserRepository(DataBaseContext context) : IUserRepository
                     .Where(u => u.Email == email)
                     .FirstOrDefaultAsync();
 
-    public async Task RemoveRange(Guid role)
-    {
-        var userRoles = await _context.UserInRoles
-                        .AsQueryable()
-                        .Where(u => u.Role == role)
-                        .ToListAsync();
-        List<User> users = new();
-        foreach (var userRole in userRoles)
-        {
-            users.Add(await FindAsync(userRole.UserId));
-        }
-        _context.RemoveRange(users);
-    }
-
     public async Task<IEnumerable<User>> GetAll(int pageSize, int page)
         => await _context.Users
                     .Include("_usedInRoles")
@@ -41,12 +28,19 @@ public sealed class UserRepository(DataBaseContext context) : IUserRepository
                     .Take(pageSize)
                     .ToListAsync();
 
-
-    public void Remove(User user)
-        => _context.Users.Remove(user);
-
     public async Task<bool> Any(UserId id)
         => await _context.Users
             .AsQueryable()
             .AnyAsync(u => u.Id == id);
+
+
+    public async Task<IEnumerable<UserInRole>> FindAsyncUserRole(Guid roleId)
+        => await _context.UserInRoles
+                     .AsQueryable()
+                     .Where(r => r.Role == roleId)
+                     .ToListAsync();
+    public void Remove(User user)
+        => _context.Users.Remove(user);
+    public void RemoveUserRoles(IEnumerable<UserInRole> userInRoles)
+        => _context.UserInRoles.RemoveRange(userInRoles);
 }

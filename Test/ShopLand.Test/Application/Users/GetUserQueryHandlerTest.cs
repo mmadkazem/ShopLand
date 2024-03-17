@@ -23,6 +23,21 @@ public class GetUserQueryHandlerTest
         exception.ShouldBeOfType<UserNotFoundException>();
     }
 
+    [Fact]
+    public async Task HandleAsync_Calls_Get_User_Information_On_Success()
+    {
+        // ARRANGE
+        var request = new GetUserQueryRequest(Guid.NewGuid());
+        var user = new User(Guid.NewGuid(), FullName.Create("Test,Test"), "TestEmail@test.com", new Password("@@Test11@@", "@@Test11@@"));
+        user.AddRole([Guid.NewGuid(), Guid.NewGuid()]);
+        _uow.Users.FindAsync(request.UserId).Returns(user);
+
+        // ACT
+        var exception = await Record.ExceptionAsync(() => Act(request));
+
+        // ASSERT
+        exception.ShouldBeNull();
+    }
     #region ARRANGE
 
     private readonly IUnitOfWork _uow;
