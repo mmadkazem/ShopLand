@@ -15,6 +15,13 @@ public sealed class CartRepository(DataBaseContext context)
                     .Where(p => p.Id == cartId)
                     .FirstOrDefaultAsync();
 
+    public async Task<IEnumerable<CartItem>> FindAsyncCartItem(Guid productId)
+         => await _context.CartItems
+                     .AsQueryable()
+                     .Where(c => c.ProductId == productId)
+                     .ToListAsync();
+
+
     public async Task<Cart> FindAsyncByUserId(Guid userId)
         => await _context.Carts
                     .AsQueryable()
@@ -24,4 +31,7 @@ public sealed class CartRepository(DataBaseContext context)
 
     public void Remove(Cart cart)
         => _context.Carts.Remove(cart);
+
+    public void RemoveCartItem(IEnumerable<CartItem> cartItems)
+        => _context.CartItems.RemoveRange(cartItems);
 }
