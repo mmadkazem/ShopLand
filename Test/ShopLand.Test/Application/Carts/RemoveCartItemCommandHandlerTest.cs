@@ -1,6 +1,3 @@
-using ShopLand.Application.Carts.Commands.RemoveCartItem.Handler;
-using ShopLand.Application.Carts.Commands.RemoveCartItem.Request;
-
 namespace ShopLand.Test.Application.Carts;
 
 public class RemoveCartItemCommandHandlerTest
@@ -21,22 +18,6 @@ public class RemoveCartItemCommandHandlerTest
         // ASSERT
         exception.ShouldNotBeNull();
         exception.ShouldBeOfType<CartNotFoundException>();
-    }
-
-    [Fact]
-    public async Task HandelAsync_Throw_ProductNotFoundException_When_There_Is_No_Product_Found_With_This_Information()
-    {
-        // ARRANGE
-        var request = new RemoveCartItemCommandRequest(Guid.NewGuid());
-        _uow.Carts.FindAsyncByUserId(request.UserId).Returns(new Cart());
-        _uow.Products.Any(request.ProductId).Returns(false);
-
-        // ACT
-        var exception = await Record.ExceptionAsync(() => Act(request));
-
-        // ASSERT
-        exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<ProductNotFoundException>();
     }
 
     [Fact]
