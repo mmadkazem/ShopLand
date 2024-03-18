@@ -21,8 +21,8 @@ public class RemoveCategoryCommandHandler : IRemoveCategoryCommandHandler
         }
 
         _uow.Categories.Remove(category);
-
         await _uow.SaveAsync();
+        
         await _removedCategory.HandelAsync(category);
     }
 }

@@ -1,3 +1,5 @@
+using ShopLand.Application.Account.Events.AddedUser;
+
 namespace ShopLand.Test.Application.Users;
 
 
@@ -43,17 +45,37 @@ public class RegisterUserCommandHandlerTest
         await _uow.Received(1).SaveAsync();
     }
 
+    [Fact]
+    public async Task HandleAsync_Calls_Added_User_Event_On_Success()
+    {
+        // ARRANGE
+        var request = new RegisterUserCommandRequest("TestFistName", "TestLastName", "TestEmail@test.com", "@@Test11@@", "@@Test11@@");
+
+        _userFactories.Create(request.FirstName, request.LastName,
+            request.Password, request.ConfirmPassword, request.Email).Returns(new User());
+        _uow.Roles.FindAsyncByName(CustomRoles.Customer).Returns(new Role());
+
+        // ACT
+        var exception = await Record.ExceptionAsync(() => Act(request));
+
+        // ASSERT
+        exception.ShouldBeNull();
+        await _addedUser.Received(1).HandelAsync(Arg.Any<Guid>());
+    }
+
     #region ARRANGE
 
     private readonly IUnitOfWork _uow;
     private readonly IUserFactories _userFactories;
+    private readonly IAddedUserEventHandler _addedUser;
 
     private readonly IRegisterUserCommandHandler _registerUser;
     public RegisterUserCommandHandlerTest()
     {
         _uow = Substitute.For<IUnitOfWork>();
         _userFactories = Substitute.For<IUserFactories>();
-        _registerUser = new RegisterUserCommandHandler(_userFactories, _uow);
+        _addedUser = Substitute.For<IAddedUserEventHandler>();
+        _registerUser = new RegisterUserCommandHandler(_userFactories, _uow, _addedUser);
     }
 
     #endregion

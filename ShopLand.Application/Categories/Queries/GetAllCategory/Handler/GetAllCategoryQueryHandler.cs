@@ -8,7 +8,7 @@ public class GetAllCategoryQueryHandler(IUnitOfWork uow) : IGetAllCategoryQueryH
         (PageNumberRequest request)
     {
         var categories = await _uow.Categories.GetAll(request.Page);
-        if (categories is null)
+        if (categories.Count() is 0)
         {
             throw new CategoryNotFoundException();
         }

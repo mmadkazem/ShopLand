@@ -1,8 +1,4 @@
 namespace ShopLand.Application.Orders.Commands.UpdateOrderState.Handler;
-public interface IUpdateOrderStateCommandHandler
-{
-    Task HandelAsync(UpdateOrderStateCommandRequest request);
-}
 
 public class UpdateOrderStateCommandHandler(IUnitOfWork uow)
     : IUpdateOrderStateCommandHandler
@@ -14,7 +10,7 @@ public class UpdateOrderStateCommandHandler(IUnitOfWork uow)
         var order = await _uow.Orders.FindAsync(request.OrderId);
         if (order is null)
         {
-            throw new RequestPayNotFoundException();
+            throw new OrderNotFoundException();
         }
 
         order.UpdateOrderState(request.OrderState);

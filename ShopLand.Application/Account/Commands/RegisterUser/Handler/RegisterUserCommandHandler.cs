@@ -1,16 +1,21 @@
+using ShopLand.Application.Account.Events.AddedUser;
+
 namespace ShopLand.Application.Account.Commands.RegisterUser.Handler;
 
 public class RegisterUserCommandHandler : IRegisterUserCommandHandler
 {
     private readonly IUserFactories _userFactories;
     private readonly IUnitOfWork _uow;
+    private readonly IAddedUserEventHandler _addedUser;
 
     public RegisterUserCommandHandler
         (IUserFactories userFactories,
-         IUnitOfWork uow)
+         IUnitOfWork uow,
+         IAddedUserEventHandler addedUser)
     {
         _userFactories = userFactories;
         _uow = uow;
+        _addedUser = addedUser;
     }
 
     public async Task HandelAsync(RegisterUserCommandRequest request)
@@ -25,5 +30,6 @@ public class RegisterUserCommandHandler : IRegisterUserCommandHandler
 
         _uow.Users.Add(user);
         await _uow.SaveAsync();
+        await _addedUser.HandelAsync(user.Id);
     }
 }

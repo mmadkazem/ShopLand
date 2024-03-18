@@ -1,10 +1,5 @@
 namespace ShopLand.Application.Products.Queries.GetAllProduct.Handler;
 
-public interface IGetAllProductQueryHandler
-{
-    Task<IEnumerable<GetAllProductQueryResponse>> HandelAsync(PageNumberRequest request);
-}
-
 public class GetAllProductQueryHandler(IUnitOfWork uow)
     : IGetAllProductQueryHandler
 {
@@ -14,6 +9,10 @@ public class GetAllProductQueryHandler(IUnitOfWork uow)
         (PageNumberRequest request)
     {
         var products = await _uow.Products.GetAll(request.Page);
+        if (products.Count() is 0)
+        {
+            throw new ProductNotFoundException();
+        }
 
         return products.Select(p => p.AsResponses()).ToList();
     }

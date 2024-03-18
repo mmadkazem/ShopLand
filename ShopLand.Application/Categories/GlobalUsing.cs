@@ -7,3 +7,7 @@ global using ShopLand.Application.Categories.Commands.RemoveCategory.Handler;
 global using ShopLand.Application.Categories.Commands.UpdateCategory.Handler;
 global using ShopLand.Application.Categories.Facade;
 global using ShopLand.Application.Categories.Queries.GetAllCategory.Response;
+global using ShopLand.Domain.Products.Category_Aggregate.Factories;
+global using ShopLand.Application.Categories.Commands.UpdateCategory.Request;
+global using ShopLand.Application.Categories.Queries.GetCategory.Request;
+global using ShopLand.Application.Categories.Queries.GetCategory.Response;
