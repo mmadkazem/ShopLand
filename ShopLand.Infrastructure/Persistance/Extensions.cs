@@ -1,5 +1,3 @@
-using ShopLand.Domain.Orders.Factories;
-
 namespace ShopLand.Infrastructure.Persistance;
 
 internal static class Extensions
@@ -12,6 +10,7 @@ internal static class Extensions
         services.AddTransient<IProductRepository, ProductRepository>();
         services.AddTransient<ICategoryRepository, CategoryRepository>();
         services.AddTransient<ICartRepository, CartRepository>();
+        services.AddTransient<IRequestPayRepository, RequestPayRepository>();
         services.AddTransient<IOrderRepository, OrderRepository>();
 
         // DI Factories
@@ -20,6 +19,7 @@ internal static class Extensions
         services.AddTransient<IProductFactory, ProductFactory>();
         services.AddTransient<ICategoryFactory, CategoryFactory>();
         services.AddTransient<ICartFactory, CartFactory>();
+        services.AddTransient<IRequestPayFactory, RequestPayFactory>();
         services.AddTransient<IOrderFactory, OrderFactory>();
 
         // DI UnitOfWork

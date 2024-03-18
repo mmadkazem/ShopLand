@@ -1,3 +1,5 @@
+using ShopLand.Application.Account.Events.AddedUser;
+
 namespace ShopLand.Application.Account;
 
 public static class Extensions
@@ -16,6 +18,7 @@ public static class Extensions
         services.AddTransient<IGetAllRoleQueryHandler, GetAllRoleQueryHandler>();
 
         // DI Account Events Handlers
+        services.AddTransient<IAddedUserEventHandler, AddedUserEventHandler>();
         services.AddTransient<IRemovedRoleEventHandler, RemovedRoleEventHandler>();
 
         // DI Account Facade

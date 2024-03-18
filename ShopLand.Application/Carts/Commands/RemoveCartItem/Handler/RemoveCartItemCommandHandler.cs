@@ -13,12 +13,6 @@ public class RemoveCartItemCommandHandler(IUnitOfWork uow)
             throw new CartNotFoundException();
         }
 
-        var IsExist = await _uow.Products.Any(request.ProductId);
-        if (!IsExist)
-        {
-            throw new ProductNotFoundException();
-        }
-
         cart.RemoveCartItem(request.ProductId);
         await _uow.SaveAsync();
     }

@@ -37,3 +37,7 @@ global using ShopLand.Application.Carts.Commands.AddCartItem.Request;
 global using ShopLand.Application.Carts.Commands.RemoveCartItem.Request;
 global using ShopLand.Application.Carts.Commands.UpdateCartItem.Request;
 global using ShopLand.Application.Carts.Facade;
+global using ShopLand.Application.Orders.Commands.CreateOrder.Request;
+global using ShopLand.Application.Orders.Commands.UpdateOrderState.Request;
+global using ShopLand.Application.Orders.Facade;
+global using ShopLand.Application.Orders.Queries.GetOrderByUserId.Request;
