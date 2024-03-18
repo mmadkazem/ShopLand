@@ -9,7 +9,7 @@ public class RequestPay : BaseEntity<RequestPayId>
     public DateTime? PayDate { get; private set; }
     public string Authority { get; private set; }
     public long RefId { get; private set; } = 0;
-    internal RequestPay(RequestPayId id, Guid userId, uint amount)
+    public RequestPay(RequestPayId id, Guid userId, uint amount)
         : base(id)
     {
         UserId = userId;

@@ -6,3 +6,5 @@ global using ShopLand.Domain.Finances.Entities;
 global using ShopLand.Application.RequestPays.Queries.GetRequestPaysUser.Request;
 global using ShopLand.Application.RequestPays.Queries.GetRequestPay.Handler;
 global using ShopLand.Application.RequestPays.Queries.GetRequestPaysUser.Handler;
+global using ShopLand.Application.RequestPays.Commands.CreateRequestPay.Request;
+global using ShopLand.Domain.Finances.Factories;
