@@ -60,15 +60,6 @@ namespace ShopLand.Infrastructure.Persistance.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.InsertData(
-                table: "Roles",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
-                {
-                    { new Guid("4219cf5f-cc05-46d0-9184-49e3d88a0186"), "Customer" },
-                    { new Guid("a822e0f7-5893-43cd-8252-4e19ac2055af"), "Admin" }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_OrderId",
                 table: "OrderDetails",
@@ -83,16 +74,6 @@ namespace ShopLand.Infrastructure.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: new Guid("4219cf5f-cc05-46d0-9184-49e3d88a0186"));
-
-            migrationBuilder.DeleteData(
-                table: "Roles",
-                keyColumn: "Id",
-                keyValue: new Guid("a822e0f7-5893-43cd-8252-4e19ac2055af"));
 
             migrationBuilder.InsertData(
                 table: "Roles",

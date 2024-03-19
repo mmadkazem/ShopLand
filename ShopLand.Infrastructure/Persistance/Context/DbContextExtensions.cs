@@ -24,15 +24,4 @@ public static class DbContextExtensions
         modelBuilder.ApplyConfiguration(roleConfiguration);
         modelBuilder.ApplyConfiguration(categoryConfiguration);
     }
-
-    public static void AddSeedData(this ModelBuilder modelBuilder)
-    {
-        var roleAdmin = new RoleFactories().Create("Admin");
-        var roleCustomer = new RoleFactories().Create("Customer");
-
-        modelBuilder.Entity<Role>()
-        .HasData(roleAdmin);
-        modelBuilder.Entity<Role>()
-        .HasData(roleCustomer);
-    }
 }

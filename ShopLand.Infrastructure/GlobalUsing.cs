@@ -45,3 +45,5 @@ global using ShopLand.Domain.Orders.ValueObject;
 global using ShopLand.Domain.Orders.Const;
 global using ShopLand.Domain.Finances.Factories;
 global using ShopLand.Domain.Orders.Factories;
+global using ShopLand.Application.Account.DTOs;
+global using ShopLand.Application.Common;

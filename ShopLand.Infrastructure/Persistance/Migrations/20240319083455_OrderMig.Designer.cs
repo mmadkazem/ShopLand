@@ -12,7 +12,7 @@ using ShopLand.Infrastructure.Persistance.Context;
 namespace ShopLand.Infrastructure.Persistance.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20240309182725_OrderMig")]
+    [Migration("20240319083455_OrderMig")]
     partial class OrderMig
     {
         /// <inheritdoc />
@@ -36,18 +36,6 @@ namespace ShopLand.Infrastructure.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a822e0f7-5893-43cd-8252-4e19ac2055af"),
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("4219cf5f-cc05-46d0-9184-49e3d88a0186"),
-                            Name = "Customer"
-                        });
                 });
 
             modelBuilder.Entity("ShopLand.Domain.Account.Users.Entities.User", b =>

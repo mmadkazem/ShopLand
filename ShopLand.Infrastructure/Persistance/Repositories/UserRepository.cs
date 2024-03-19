@@ -10,20 +10,20 @@ public sealed class UserRepository(DataBaseContext context) : IUserRepository
     public async Task<User> FindAsync(UserId id)
         => await _context.Users
                     .AsQueryable()
-                    .Include("_usedInRoles")
+                    .Include(u => u.UsedInRoles)
                     .Where(u => u.Id == id)
                     .FirstOrDefaultAsync();
 
     public async Task<User> FindAsyncByEmail(Email email)
         => await _context.Users
                     .AsQueryable()
-                    .Include("_usedInRoles")
+                    .Include(u => u.UsedInRoles)
                     .Where(u => u.Email == email)
                     .FirstOrDefaultAsync();
 
     public async Task<IEnumerable<User>> GetAll(int pageSize, int page)
         => await _context.Users
-                    .Include("_usedInRoles")
+                    .Include(u => u.UsedInRoles)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();

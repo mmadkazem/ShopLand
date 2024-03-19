@@ -29,6 +29,5 @@ public sealed class DataBaseContext(DbContextOptions<DataBaseContext> options)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.AddConfig();
-        modelBuilder.AddSeedData();
     }
 }
