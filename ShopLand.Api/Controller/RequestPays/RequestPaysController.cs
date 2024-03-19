@@ -1,8 +1,3 @@
-using ShopLand.Application.RequestPays.Commands.CreateRequestPay.Request;
-using ShopLand.Application.RequestPays.Facade;
-using ShopLand.Application.RequestPays.Queries.GetRequestPay.Request;
-using ShopLand.Application.RequestPays.Queries.GetRequestPaysUser.Request;
-
 namespace ShopLand.Api.Controller.RequestPays;
 
 [ApiController]

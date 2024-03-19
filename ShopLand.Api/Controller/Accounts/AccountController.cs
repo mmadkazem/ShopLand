@@ -44,6 +44,7 @@ public class AccountController(IAccountFacade account)
     }
 
     [HttpGet("{id}")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetUserById(Guid id)
     {
         var result = await _account.GetCurrentUser
@@ -52,6 +53,7 @@ public class AccountController(IAccountFacade account)
     }
 
     [HttpPut("ChangePassword")]
+    [AllowAnonymous]
     public async Task<IActionResult> ChangePassword
         ([FromBody] ChangePasswordCommandRequest request)
     {
@@ -65,14 +67,6 @@ public class AccountController(IAccountFacade account)
         ([FromBody] RemoveUserRoleCommandRequest request)
     {
         await _account.RemoveUserRole.HandelAsync(request);
-        return Ok();
-    }
-
-    [HttpDelete]
-    [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> RemoveUser()
-    {
-        await Task.CompletedTask;
         return Ok();
     }
 }
