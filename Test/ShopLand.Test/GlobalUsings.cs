@@ -82,3 +82,8 @@ global using ShopLand.Application.Categories.Commands.UpdateCategory.Request;
 global using ShopLand.Application.Products.Queries.GetAllProduct.Handler;
 global using ShopLand.Application.Categories.Queries.GetCategory.Handler;
 global using ShopLand.Application.Categories.Queries.GetCategory.Request;
+global using Microsoft.EntityFrameworkCore;
+global using ShopLand.Infrastructure.Persistance.Context;
+global using ShopLand.Infrastructure.Persistance.Repositories;
+global using ShopLand.Domain.Account.Roles.ValueObject;
+global using ShopLand.Domain.Finances.ValueObject;

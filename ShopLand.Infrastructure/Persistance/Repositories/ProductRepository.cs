@@ -36,11 +36,11 @@ public sealed class ProductRepository(DataBaseContext context)
     public void Remove(Product product)
         => _context.Products.Remove(product);
 
-    public async Task RemoveProductCategories(Guid id)
+    public async Task RemoveProductCategories(Guid categoryId)
     {
         var categories = await _context.ProductCategories
             .AsQueryable()
-            .Where( pc => pc.Category == id)
+            .Where( pc => pc.Category == categoryId)
             .ToListAsync();
 
         _context.ProductCategories.RemoveRange(categories);

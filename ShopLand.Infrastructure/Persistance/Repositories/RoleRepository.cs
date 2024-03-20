@@ -19,16 +19,19 @@ public sealed class RoleRepository(DataBaseContext context) : IRoleRepository
 
     public async Task<Role> FindAsync(RoleId id)
         => await _context.Roles
+                    .AsQueryable()
                     .Where(r => r.Id == id)
                     .FirstOrDefaultAsync();
 
     public async Task<Role> FindAsyncByName(RoleName name)
         => await _context.Roles
+                    .AsQueryable()
                     .Where(r => r.Name == name)
                     .FirstOrDefaultAsync();
 
     public async Task<List<Role>> GetAll(int page)
     => await _context.Roles
+                    .AsQueryable()
                     .Skip((page - 1) * 25)
                     .Take(25)
                     .ToListAsync();
