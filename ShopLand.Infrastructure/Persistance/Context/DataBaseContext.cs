@@ -9,6 +9,7 @@ public sealed class DataBaseContext(DbContextOptions<DataBaseContext> options)
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserInRole> UserInRoles { get; set; }
+    public DbSet<UserToken> UserTokens { get; set; }
 
     // Product
     public DbSet<Product> Products { get; set; }

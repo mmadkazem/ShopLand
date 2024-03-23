@@ -8,7 +8,7 @@ public class AccountController(IAccountFacade account)
 {
     private readonly IAccountFacade _account = account;
 
-    [HttpPost("Register")]
+    [HttpPost("api/[action]")]
     [AllowAnonymous]
     public async Task<IActionResult> Register
         ([FromBody] RegisterUserCommandRequest request)
@@ -17,7 +17,7 @@ public class AccountController(IAccountFacade account)
         return Ok();
     }
 
-    [HttpPost("Login")]
+    [HttpPost("[action]")]
     [AllowAnonymous]
     public async Task<IActionResult> Login
         ([FromBody] LoginUserQueryRequest request)
@@ -35,11 +35,11 @@ public class AccountController(IAccountFacade account)
         return Ok();
     }
 
-    [HttpGet]
+    [HttpGet("[action]")]
     public async Task<IActionResult> GetCurrentUser()
     {
-        var result = await _account.GetCurrentUser
-        .HandelAsync(User.UserId());
+        var result = await _account.GetUser
+            .HandelAsync(User.UserId());
         return Ok(result);
     }
 
@@ -47,12 +47,12 @@ public class AccountController(IAccountFacade account)
     [AllowAnonymous]
     public async Task<IActionResult> GetUserById(Guid id)
     {
-        var result = await _account.GetCurrentUser
+        var result = await _account.GetUser
         .HandelAsync(id);
         return Ok(result);
     }
 
-    [HttpPut("ChangePassword")]
+    [HttpPut("[action]")]
     [AllowAnonymous]
     public async Task<IActionResult> ChangePassword
         ([FromBody] ChangePasswordCommandRequest request)
@@ -67,6 +67,29 @@ public class AccountController(IAccountFacade account)
         ([FromBody] RemoveUserRoleCommandRequest request)
     {
         await _account.RemoveUserRole.HandelAsync(request);
+        return Ok();
+    }
+
+    [HttpPost("[action]")]
+    [AllowAnonymous]
+    public async Task<IActionResult> LoginByRefreshToken
+        ([FromBody] string refreshToken, Guid userId)
+    {
+        var refreshTokenSerial = new JsonWebToken(refreshToken)
+            .GetClaim(ClaimTypes.SerialNumber).Value;
+
+        var result = await _account.LoginUserByRefreshToken
+            .HandelAsync(new(userId, refreshTokenSerial));
+
+        return Ok(result);
+    }
+
+    [HttpPost("[action]")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Logout
+        ([FromBody] UserLogoutCommandRequest request)
+    {
+        await _account.UserLogout.HandelAsync(request);
         return Ok();
     }
 }

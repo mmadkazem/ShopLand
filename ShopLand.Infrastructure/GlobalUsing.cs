@@ -47,3 +47,6 @@ global using ShopLand.Domain.Finances.Factories;
 global using ShopLand.Domain.Orders.Factories;
 global using ShopLand.Application.Account.DTOs;
 global using ShopLand.Application.Common;
+global using ShopLand.Share.Security;
+global using ShopLand.Infrastructure.Services.DbInitializer;
+global using ShopLand.Infrastructure.Services.JwtToken;

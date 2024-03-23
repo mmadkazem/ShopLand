@@ -13,7 +13,7 @@ public record Password
             throw new InvalidUserPasswordException(_errorMessage);
         }
 
-        Value = Hash.GetSha256Hash(value.Trim());
+        Value = SecurityService.GetSha256Hash(value.Trim());
     }
     public Password(string value)
     {

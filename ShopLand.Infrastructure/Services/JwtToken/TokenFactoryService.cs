@@ -15,28 +15,47 @@ public class TokenFactoryService : ITokenFactoryService
         _roleRepository = roleRepository;
     }
 
-    public async Task<JwtTokensDataResponse> CreateJwtTokensAsync(User user)
+    public async Task<JwtTokensData> CreateJwtTokensAsync(User user)
     {
-        var accessToken = await createAccessTokenAsync(user);
-        var refreshTokenValue = createRefreshToken();
-        return new JwtTokensDataResponse(accessToken, refreshTokenValue);
+        var (accessToken, accessTokenExpireTime) = await createAccessTokenAsync(user);
+        var (refreshTokenValue, refreshTokenSerial, refreshTokenExpireTime) = createRefreshToken();
+        return new JwtTokensData(accessToken, accessTokenExpireTime,
+                refreshTokenValue, refreshTokenSerial, refreshTokenExpireTime);
     }
 
-    private string createRefreshToken()
+    private (string RefreshTokenValue, string RefreshTokenSerial, DateTimeOffset RefreshTokenExpireTime) createRefreshToken()
     {
+        var refreshTokenSerial = SecurityService.CreateCryptographicallySecureGuid();
+
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["BearerTokens:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var now = DateTime.UtcNow;
+        var Issuer = _configuration["BearerTokens:Issuer"];
+        var ExpireTime = now.AddMinutes(int.Parse(_configuration["BearerTokens:RefreshTokenExpirationMinutes"]));
+
+        var claims = new List<Claim>
+        {
+            // Unique Id for all Jwt tokes
+            new Claim(JwtRegisteredClaimNames.Jti, SecurityService.CreateCryptographicallySecureGuid(), ClaimValueTypes.String, Issuer),
+            // Issuer
+            new Claim(JwtRegisteredClaimNames.Iss, Issuer, ClaimValueTypes.String, Issuer),
+            // Issued at
+            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64, Issuer),
+            // for invalidation
+            new Claim(ClaimTypes.SerialNumber, refreshTokenSerial, ClaimValueTypes.String, Issuer)
+        };
+
         var token = new JwtSecurityToken(
-            issuer: _configuration["BearerTokens:Issuer"],
+            issuer: Issuer,
             audience: _configuration["BearerTokens:Audience"],
+            claims: claims,
             notBefore: now,
-            expires: now.AddMinutes(int.Parse(_configuration["BearerTokens:RefreshTokenExpirationMinutes"])),
+            expires: ExpireTime,
             signingCredentials: creds);
         var refreshTokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-        return refreshTokenValue;
+        return (refreshTokenValue, refreshTokenSerial, ExpireTime);
     }
-    private async Task<string> createAccessTokenAsync(User user)
+    private async Task<(string AccessTokenValue, DateTimeOffset AccessTokenExpireTime)> createAccessTokenAsync(User user)
     {
         var _issuer = _configuration["BearerTokens:Issuer"];
         var _audience = _configuration["BearerTokens:Audience"];
@@ -72,6 +91,6 @@ public class TokenFactoryService : ITokenFactoryService
             notBefore: now,
             expires: now.AddMinutes(_accessTokenExpirationMinutes),
             signingCredentials: creds);
-        return new JwtSecurityTokenHandler().WriteToken(token).ToString();
+        return (new JwtSecurityTokenHandler().WriteToken(token).ToString(), now.AddMinutes(_accessTokenExpirationMinutes));
     }
 }

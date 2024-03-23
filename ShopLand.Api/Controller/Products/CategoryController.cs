@@ -35,7 +35,7 @@ public class CategoryController(ICategoryFacade categoryFacade)
         return Ok(result);
     }
 
-    [HttpGet]
+    [HttpGet("{Page}")]
     public async Task<IActionResult> Get
         ([FromHeader] PageNumberRequest request)
     {

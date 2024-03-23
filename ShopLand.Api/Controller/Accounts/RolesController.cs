@@ -7,7 +7,7 @@ public class RolesController(IAccountFacade account)
 {
     private readonly IAccountFacade _account = account;
 
-    [HttpGet]
+    [HttpGet("{Page}")]
     public async Task<IActionResult> GetAllRole
         ([FromHeader] PageNumberRequest request)
     {

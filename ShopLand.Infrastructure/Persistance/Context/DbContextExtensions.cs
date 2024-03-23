@@ -16,6 +16,7 @@ public static class DbContextExtensions
         modelBuilder.ApplyConfiguration<ProductCategory>(productConfiguration);
         modelBuilder.ApplyConfiguration<User>(userConfiguration);
         modelBuilder.ApplyConfiguration<UserInRole>(userConfiguration);
+        modelBuilder.ApplyConfiguration<UserToken>(userConfiguration);
         modelBuilder.ApplyConfiguration<Cart>(cartConfiguration);
         modelBuilder.ApplyConfiguration<CartItem>(cartConfiguration);
         modelBuilder.ApplyConfiguration<Order>(orderConfiguration);

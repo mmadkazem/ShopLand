@@ -2,7 +2,7 @@ global using ShopLand.Domain.Account.Users.ValueObject;
 global using ShopLand.Share.Abstract.Domain;
 global using ShopLand.Domain.Account.Users.Exceptions;
 global using System.Text.RegularExpressions;
-global using ShopLand.Share.Hashing;
+global using ShopLand.Share.Security;
 global using ShopLand.Share.Abstract.Exceptions;
 global using ShopLand.Domain.Account.Roles.Exceptions;
 global using ShopLand.Domain.Account.Roles.ValueObject;

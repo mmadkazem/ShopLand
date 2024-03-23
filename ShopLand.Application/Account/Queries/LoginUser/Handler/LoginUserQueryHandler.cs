@@ -10,6 +10,7 @@ public class LoginUserQueryHandler : ILoginUserQueryHandler
         _uow = uow;
         _tokenFactory = tokenFactory;
     }
+
     public async Task<JwtTokensDataResponse> HandelAsync(LoginUserQueryRequest request)
     {
         var user = await _uow.Users.FindAsyncByEmail(request.Email);
@@ -23,8 +24,21 @@ public class LoginUserQueryHandler : ILoginUserQueryHandler
         {
             throw new UserNotLoginException();
         }
+        var jwt = await _tokenFactory.CreateJwtTokensAsync(user);
 
-        return await _tokenFactory.CreateJwtTokensAsync(user);
+        user.RemoveToken();
+        user.AddToken(UserToken.Create
+        (
+            jwt.AccessToken,
+            jwt.AccessTokenExpireTime,
+            jwt.RefreshToken,
+            jwt.RefreshTokenSerial,
+            jwt.RefreshTokenExpireTime,
+            user.Id
+        ));
+        await _uow.SaveAsync();
+
+        return new (jwt.AccessToken, jwt.RefreshToken);
     }
 }
 

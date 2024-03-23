@@ -11,6 +11,7 @@ public sealed class UserRepository(DataBaseContext context) : IUserRepository
         => await _context.Users
                     .AsQueryable()
                     .Include(u => u.UsedInRoles)
+                    .Include(u => u.UserTokens)
                     .Where(u => u.Id == id)
                     .FirstOrDefaultAsync();
 

@@ -2,7 +2,8 @@ namespace ShopLand.Infrastructure.Persistance.Config;
 
 
 internal sealed class UserConfiguration
-    : IEntityTypeConfiguration<User>, IEntityTypeConfiguration<UserInRole>
+    : IEntityTypeConfiguration<User>, IEntityTypeConfiguration<UserInRole>,
+        IEntityTypeConfiguration<UserToken>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -37,6 +38,7 @@ internal sealed class UserConfiguration
             .HasColumnName(nameof(Password));
 
         builder.HasMany(u => u.UsedInRoles);
+        builder.HasMany(u => u.UserTokens);
     }
 
     public void Configure(EntityTypeBuilder<UserInRole> builder)
@@ -44,6 +46,22 @@ internal sealed class UserConfiguration
         builder.Property<int>("Id");
 
         builder.Property(ur => ur.Role);
+
+        builder
+            .Property(ur => ur.UserId)
+            .HasConversion(uid => uid.Value, uid => new UserId(uid))
+            .HasColumnName(nameof(UserId));
+    }
+
+    public void Configure(EntityTypeBuilder<UserToken> builder)
+    {
+        builder.Property<int>("Id");
+
+        builder.Property(t => t.AccessTokenHash);
+        builder.Property(t => t.AccessTokenExpiresDateTime);
+        builder.Property(t => t.RefreshTokenIdHash);
+        builder.Property(t => t.RefreshTokenIdSerial);
+        builder.Property(t => t.RefreshTokenExpiresDateTime);
 
         builder
             .Property(ur => ur.UserId)

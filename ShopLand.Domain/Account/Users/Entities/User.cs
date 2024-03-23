@@ -7,6 +7,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
     private Password _password;
 
     public readonly LinkedList<UserInRole> UsedInRoles = new();
+    public readonly LinkedList<UserToken> UserTokens = new();
 
     public User(UserId id, FullName fullName, Email email, Password password)
         : base(id)
@@ -16,13 +17,15 @@ public class User : BaseEntity<UserId>, IAggregateRoot
         _password = password;
     }
     internal User(UserId id, FullName fullName, Email email, Password password,
-        LinkedList<UserInRole> userInRoles) : this(id, fullName, email, password)
+        LinkedList<UserInRole> userInRoles,
+        LinkedList<UserToken> userTokens) : this(id, fullName, email, password)
     {
         UsedInRoles = userInRoles;
+        UserTokens = userTokens;
     }
 
     // For Test
-    public User(): base(Guid.NewGuid()){}
+    public User() : base(Guid.NewGuid()) { }
 
     public void ChangePassword(string newPassword, string confirmNewPassword)
     {
@@ -58,7 +61,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
         UsedInRoles.Remove(userRole);
     }
 
-    public UserInRole GetRole (Guid role)
+    public UserInRole GetRole(Guid role)
     {
         var userRole = UsedInRoles.FirstOrDefault(r => r.Role == role);
 
@@ -72,10 +75,38 @@ public class User : BaseEntity<UserId>, IAggregateRoot
 
     public bool UserLogin(string email, string password)
     {
-        if (email == Email.Value && Hash.GetSha256Hash(password) == _password.Value)
+        if (email == Email.Value && SecurityService.GetSha256Hash(password) == _password.Value)
         {
             return true;
         }
         return false;
+    }
+
+    public void Logout()
+    {
+        foreach (var item in UserTokens)
+        {
+            item.IsExpireToken();
+        }
+    }
+    public void UserLoginByRefreshToken(string refreshTokenSerial)
+    {
+        var alreadyExists = UserTokens
+        .Any(t => t.RefreshTokenIdSerial == refreshTokenSerial && !t.IsExpire);
+        if (!alreadyExists)
+        {
+            throw new UserTokenNotExistException();
+        }
+    }
+
+    public void AddToken(UserToken userToken)
+        => UserTokens.AddLast(userToken);
+
+    public void RemoveToken()
+    {
+        if (UsedInRoles.Any())
+        {
+            UserTokens.Clear();
+        }
     }
 }

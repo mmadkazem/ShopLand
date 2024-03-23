@@ -32,3 +32,6 @@ global using ShopLand.Application.Account.Queries.GetAllRole.Response;
 global using ShopLand.Application.Account.Commands.RemoveUserRole.Handler;
 global using ShopLand.Application.Account.Queries.GetAllRole.Handler;
 global using ShopLand.Domain.Carts.Factories;
+global using ShopLand.Domain.Account.Users.ValueObject;
+global using ShopLand.Application.Account.Commands.LoginUserByRefreshToken.Request;
+global using ShopLand.Application.Account.Commands.UserLogout.Request;

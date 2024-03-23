@@ -1,3 +1,5 @@
+using ShopLand.Application.Account.Commands.LoginUserByRefreshToken.Handler;
+using ShopLand.Application.Account.Commands.UserLogout.Handler;
 using ShopLand.Application.Account.Events.AddedUser;
 
 namespace ShopLand.Application.Account;
@@ -16,6 +18,8 @@ public static class Extensions
         services.AddTransient<IRemoveRoleCommandHandler, RemoveRoleCommandHandler>();
         services.AddTransient<IRemoveUserRoleCommandHandler, RemoveUserRoleCommandHandler>();
         services.AddTransient<IGetAllRoleQueryHandler, GetAllRoleQueryHandler>();
+        services.AddTransient<IUserLogoutCommandHandler, UserLogoutCommandHandler>();
+        services.AddTransient<ILoginUserByRefreshTokenCommandHandler, LoginUserByRefreshTokenCommandHandler>();
 
         // DI Account Events Handlers
         services.AddTransient<IAddedUserEventHandler, AddedUserEventHandler>();

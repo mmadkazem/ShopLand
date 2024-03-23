@@ -20,22 +20,4 @@ public static class IdentityExtension
             return Guid.Empty;
         }
     }
-
-    public static List<string> Roles(this ClaimsPrincipal user)
-    {
-        if (user.Identity.IsAuthenticated)
-        {
-            var claimsIdentity = user.Identity as ClaimsIdentity;
-            return claimsIdentity.Claims.Where(x => x.Type == ClaimTypes.Role)
-                                            .Select(x => x.Value)
-                                            .ToList();
-        }
-        else
-            return null;
-    }
-
-    public static string FullName(this ClaimsPrincipal user)
-    {
-        return user.Identity.Name;
-    }
 }

@@ -45,3 +45,7 @@ global using ShopLand.Application.RequestPays.Commands.CreateRequestPay.Request;
 global using ShopLand.Application.RequestPays.Facade;
 global using ShopLand.Application.RequestPays.Queries.GetRequestPay.Request;
 global using ShopLand.Application.RequestPays.Queries.GetRequestPaysUser.Request;
+global using Microsoft.IdentityModel.JsonWebTokens;
+global using ShopLand.Application.Account.Commands.UserLogout.Request;
+global using ShopLand.Infrastructure.Services.JwtToken;
+global using ShopLand.Api.ApiExtensionConf;
