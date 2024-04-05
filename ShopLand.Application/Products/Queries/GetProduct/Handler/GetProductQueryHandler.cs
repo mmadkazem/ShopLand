@@ -19,6 +19,14 @@ public class GetProductQueryHandler(IUnitOfWork uow) : IGetProductQueryHandler
             throw new ProductNotFoundException();
         }
 
-        return product.AsResponse();
+        var response = product.AsResponse();
+
+        foreach (var productCategory in product.ProductCategories)
+        {
+            var result = await _uow.Categories.FindAsync(productCategory.Category);
+            response.Categories?.Add(result.CategoryName);
+        }
+
+        return response;
     }
 }

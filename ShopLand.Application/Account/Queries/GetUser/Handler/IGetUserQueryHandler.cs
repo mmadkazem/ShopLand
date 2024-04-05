@@ -18,6 +18,14 @@ public class GetUserQueryHandler : IGetUserQueryHandler
             throw new UserNotFoundException();
         }
 
-        return user.AsResponse();
+        var response = user.AsResponse();
+
+        foreach (var userRole in user.UsedInRoles)
+        {
+            var result = await _uow.Roles.FindAsync(userRole.Role);
+            response.Roles?.Add(result.Name);
+        }
+
+        return response;
     }
 }

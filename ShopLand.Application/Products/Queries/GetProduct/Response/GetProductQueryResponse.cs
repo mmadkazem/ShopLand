@@ -7,17 +7,18 @@ public record GetProductQueryResponse
     string Brand,
     string Description,
     uint Inventory,
-    uint Price,
-    List<Guid> Categories
-);
+    uint Price
+)
+{
+    public List<string> Categories { get; set; } = new();
+}
 
 public static class Exception
 {
     public static GetProductQueryResponse AsResponse(this Product product)
-    => new
-    (
-        product.Id, product.ProductName, product.Brand,
-        product.Description, product.Inventory, product.Price,
-        product.ProductCategories.Select(p => p.Category).ToList()
-    );
+        => new
+        (
+            product.Id, product.ProductName, product.Brand,
+            product.Description, product.Inventory, product.Price
+        );
 }
