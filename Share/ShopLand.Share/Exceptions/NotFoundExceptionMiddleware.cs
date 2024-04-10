@@ -10,7 +10,7 @@ public sealed class NotFoundExceptionMiddleware : IMiddleware
         }
         catch (ShopLandNotFoundBaseExceptions ex)
         {
-            context.Response.StatusCode = 400;
+            context.Response.StatusCode = 404;
             context.Response.Headers.Add("content-type", "application/json");
             var errorCode = ToUnderscoreCase(ex.GetType().Name.Replace("Exception", string.Empty));
             var json = JsonSerializer.Serialize(new { ErrorCode = errorCode, ex.Message });
