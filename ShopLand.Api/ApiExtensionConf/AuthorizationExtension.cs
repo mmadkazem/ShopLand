@@ -57,7 +57,15 @@ public static class AuthorizationExtension
                     }
                 };
             });
-
+            
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+        });
         return services;
     }
 
