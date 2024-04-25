@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Cors;
+
 namespace ShopLand.Api.Controller.Accounts;
 
 [ApiController]
