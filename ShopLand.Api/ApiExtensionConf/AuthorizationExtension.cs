@@ -57,7 +57,16 @@ public static class AuthorizationExtension
                     }
                 };
             });
-
+            
+        services.AddCors(options =>
+        {
+            options.AddPolicy(name: "CorsPolicy",
+                      policy  =>
+                      {
+                          policy.WithOrigins("http://localhost:5139",
+                                              "http://localhost:3000");
+                      });
+        });
         return services;
     }
 
