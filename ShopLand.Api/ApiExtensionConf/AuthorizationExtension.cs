@@ -60,20 +60,12 @@ public static class AuthorizationExtension
             
         services.AddCors(options =>
         {
-<<<<<<< HEAD
             options.AddPolicy(name: "CorsPolicy",
                       policy  =>
                       {
                           policy.WithOrigins("http://localhost:5139",
                                               "http://localhost:3000");
                       });
-=======
-            options.AddPolicy("CorsPolicy",
-                builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
->>>>>>> 24b87e26d6d23182369d3caf08215cba2a636c69
         });
         return services;
     }
