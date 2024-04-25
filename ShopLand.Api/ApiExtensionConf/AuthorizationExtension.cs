@@ -57,14 +57,15 @@ public static class AuthorizationExtension
                     }
                 };
             });
-            
+
         services.AddCors(options =>
         {
             options.AddPolicy(name: "CorsPolicy",
-                      policy  =>
+                      policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000",
-                                              "http://localhost:5139");
+                          policy.WithOrigins("http://localhost:3000")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
                       });
         });
         return services;

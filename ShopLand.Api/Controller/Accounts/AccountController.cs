@@ -20,7 +20,6 @@ public class AccountController(IAccountFacade account)
     }
 
     [HttpPost("[action]")]
-    [EnableCors("CorsPolicy")]
     [AllowAnonymous]
     public async Task<IActionResult> Login
         ([FromBody] LoginUserQueryRequest request)
