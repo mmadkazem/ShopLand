@@ -63,8 +63,8 @@ public static class AuthorizationExtension
             options.AddPolicy(name: "CorsPolicy",
                       policy  =>
                       {
-                          policy.WithOrigins("http://localhost:5139",
-                                              "http://localhost:3000");
+                          policy.WithOrigins("http://localhost:3000",
+                                              "http://localhost:5139");
                       });
         });
         return services;
