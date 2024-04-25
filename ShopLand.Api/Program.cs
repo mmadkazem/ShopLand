@@ -24,7 +24,10 @@ var app = builder.Build();
     }
     app.UseHttpsRedirection();
     app.UseShared();
-    app.UseCors("CorsPolicy");
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseCors("CorsPolicy");
+    }
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
