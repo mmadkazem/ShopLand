@@ -9,7 +9,7 @@ public static class IdentityExtension
             if (user.Identity.IsAuthenticated)
             {
                 var sub = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var res = sub.Replace(" ", "").Replace("Value", "").Replace("=", "").Replace("UserId", "");
+                var res = sub.ToUserId();
                 return new Guid(res);
             }
             else
@@ -19,5 +19,11 @@ public static class IdentityExtension
         {
             return Guid.Empty;
         }
+    }
+
+    public static string ToUserId(this string str)
+    {
+        return str.Replace(" ", "").Replace("Value", "")
+            .Replace("=", "").Replace("UserId", "");
     }
 }

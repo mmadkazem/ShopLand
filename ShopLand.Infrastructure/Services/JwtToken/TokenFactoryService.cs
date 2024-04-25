@@ -18,12 +18,12 @@ public class TokenFactoryService : ITokenFactoryService
     public async Task<JwtTokensData> CreateJwtTokensAsync(User user)
     {
         var (accessToken, accessTokenExpireTime) = await createAccessTokenAsync(user);
-        var (refreshTokenValue, refreshTokenSerial, refreshTokenExpireTime) = createRefreshToken();
+        var (refreshTokenValue, refreshTokenSerial, refreshTokenExpireTime) = createRefreshToken(user);
         return new JwtTokensData(accessToken, accessTokenExpireTime,
                 refreshTokenValue, refreshTokenSerial, refreshTokenExpireTime);
     }
 
-    private (string RefreshTokenValue, string RefreshTokenSerial, DateTimeOffset RefreshTokenExpireTime) createRefreshToken()
+    private (string RefreshTokenValue, string RefreshTokenSerial, DateTimeOffset RefreshTokenExpireTime) createRefreshToken(User user)
     {
         var refreshTokenSerial = SecurityService.CreateCryptographicallySecureGuid();
 
@@ -38,6 +38,7 @@ public class TokenFactoryService : ITokenFactoryService
             // Unique Id for all Jwt tokes
             new Claim(JwtRegisteredClaimNames.Jti, SecurityService.CreateCryptographicallySecureGuid(), ClaimValueTypes.String, Issuer),
             // Issuer
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), ClaimValueTypes.String, Issuer),
             new Claim(JwtRegisteredClaimNames.Iss, Issuer, ClaimValueTypes.String, Issuer),
             // Issued at
             new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64, Issuer),

@@ -75,10 +75,13 @@ public class AccountController(IAccountFacade account)
     [HttpPost("[action]")]
     [AllowAnonymous]
     public async Task<IActionResult> LoginByRefreshToken
-        ([FromBody] string refreshToken, Guid userId)
+        ([FromBody] string refreshToken)
     {
-        var refreshTokenSerial = new JsonWebToken(refreshToken)
+        var newRefreshToken = new JsonWebToken(refreshToken);
+        var refreshTokenSerial = newRefreshToken
             .GetClaim(ClaimTypes.SerialNumber).Value;
+
+        var userId = Guid.Parse(newRefreshToken.GetClaim(ClaimTypes.NameIdentifier).Value.ToUserId());
 
         var result = await _account.LoginUserByRefreshToken
             .HandelAsync(new(userId, refreshTokenSerial));
