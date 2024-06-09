@@ -23,7 +23,7 @@ public class CartRepositoryTest
         //ASSERT
         var result = context.Carts.Where(u => u.Id == cart.Id).FirstOrDefault();
 
-        Assert.Equal(cart.Id, result?.Id);
+        Assert.Equal(cart.Id.ToString(), Guid.NewGuid().ToString());
         Assert.Equal(cart.UserId, result?.UserId);
     }
 

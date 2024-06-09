@@ -10,7 +10,7 @@ public class AccountController(IAccountFacade account)
 {
     private readonly IAccountFacade _account = account;
 
-    [HttpPost("api/[action]")]
+    [HttpPost("[action]")]
     [AllowAnonymous]
     public async Task<IActionResult> Register
         ([FromBody] RegisterUserCommandRequest request)
@@ -91,10 +91,9 @@ public class AccountController(IAccountFacade account)
 
     [HttpPost("[action]")]
     [AllowAnonymous]
-    public async Task<IActionResult> Logout
-        ([FromBody] UserLogoutCommandRequest request)
+    public async Task<IActionResult> Logout()
     {
-        await _account.UserLogout.HandelAsync(request);
+        await _account.UserLogout.HandelAsync(User.UserId());
         return Ok();
     }
 }
