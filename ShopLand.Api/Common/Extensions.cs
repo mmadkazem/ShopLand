@@ -26,4 +26,13 @@ public static class IdentityExtension
         return str.Replace(" ", "").Replace("Value", "")
             .Replace("=", "").Replace("UserId", "");
     }
+
+    public static string RefreshTokenSerial(this ClaimsPrincipal user)
+    {
+        if (user.Identity.IsAuthenticated)
+        {
+            return user.FindFirst(ClaimTypes.SerialNumber)?.Value;
+        }
+        return string.Empty;
+    }
 }

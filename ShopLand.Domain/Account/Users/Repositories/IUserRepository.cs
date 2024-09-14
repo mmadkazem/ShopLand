@@ -4,10 +4,10 @@ public interface IUserRepository
 {
     void Add(User user);
     void Remove(User user);
-    void RemoveUserRoles(IEnumerable<UserInRole> userInRoles);
-    Task<User> FindAsync(UserId id);
-    Task<User> FindAsyncByEmail(Email email);
-    Task<IEnumerable<UserInRole>> FindAsyncUserRole(Guid roleId);
-    Task<bool> Any(UserId id);
-    Task<IEnumerable<User>> GetAll(int pageSize, int page);
+    Task<bool> Any(UserId id, CancellationToken token = default);
+    Task<User> FindAsync(UserId id, CancellationToken token = default);
+    Task RemoveUserRoles(Guid roleId, CancellationToken token = default);
+    Task<User> FindAsyncByEmail(Email email, CancellationToken token = default);
+    Task<IEnumerable<User>> GetAll(int pageSize, int page, CancellationToken token = default);
+    Task<IEnumerable<UserInRole>> FindAsyncUserRole(Guid roleId, CancellationToken token = default);
 }

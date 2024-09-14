@@ -5,8 +5,8 @@ public interface ICartRepository
 {
     void Add(Cart cart);
     void Remove(Cart cart);
-    void RemoveCartItem(IEnumerable<CartItem> cartItems);
-    Task<Cart> FindAsync(CartId cartId);
-    Task<IEnumerable<CartItem>> FindAsyncCartItem(Guid productId);
-    Task<Cart> FindAsyncByUserId(Guid userId);
+    Task<Cart> FindAsync(CartId cartId, CancellationToken token = default);
+    Task<Cart> FindAsyncByUserId(Guid userId, CancellationToken token = default);
+    Task RemoveCartItem(Guid productId, CancellationToken token = default);
+    Task<IEnumerable<CartItem>> FindAsyncCartItem(Guid productId, CancellationToken token = default);
 }

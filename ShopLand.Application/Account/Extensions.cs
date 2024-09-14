@@ -1,7 +1,3 @@
-using ShopLand.Application.Account.Commands.LoginUserByRefreshToken.Handler;
-using ShopLand.Application.Account.Commands.UserLogout.Handler;
-using ShopLand.Application.Account.Events.AddedUser;
-
 namespace ShopLand.Application.Account;
 
 public static class Extensions

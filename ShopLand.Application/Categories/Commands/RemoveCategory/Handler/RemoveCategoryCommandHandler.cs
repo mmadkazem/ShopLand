@@ -1,29 +1,20 @@
 namespace ShopLand.Application.Categories.Commands.RemoveCategory.Handler;
 
-public class RemoveCategoryCommandHandler : IRemoveCategoryCommandHandler
+public class RemoveCategoryCommandHandler(IUnitOfWork uow, IRemovedCategoryEventHandler removedCategory)
+    : IRemoveCategoryCommandHandler
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IRemovedCategoryEventHandler _removedCategory;
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IRemovedCategoryEventHandler _removedCategory = removedCategory;
 
-    public RemoveCategoryCommandHandler(IUnitOfWork uow,
-        IRemovedCategoryEventHandler removedCategory)
+    public async Task HandelAsync(RemoveCategoryCommandRequest request, CancellationToken token = default)
     {
-        _uow = uow;
-        _removedCategory = removedCategory;
-    }
-
-    public async Task HandelAsync(RemoveCategoryCommandRequest request)
-    {
-        var category = await _uow.Categories.FindAsync(request.Id);
-        if (category is null)
-        {
-            throw new CategoryNotFoundException();
-        }
+        var category = await _uow.Categories.FindAsync(request.Id, token)
+            ?? throw new CategoryNotFoundException();
 
         _uow.Categories.Remove(category);
-        await _uow.SaveAsync();
-        
-        await _removedCategory.HandelAsync(category);
+        await _uow.SaveAsync(token);
+
+        await _removedCategory.HandelAsync(category.Id, token);
     }
 }
 

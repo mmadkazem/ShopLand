@@ -8,16 +8,14 @@ public sealed class RequestPayRepository(DataBaseContext context)
     public void Add(RequestPay requestPay)
         => _context.requestPays.Add(requestPay);
 
-    public async Task<RequestPay> FindAsync(RequestPayId Id)
-        => await _context.requestPays
-                        .AsQueryable()
-                        .Where(p => p.Id == Id)
-                        .FirstOrDefaultAsync();
+    public async Task<RequestPay> FindAsync(RequestPayId Id, CancellationToken token = default)
+        => await _context.requestPays.AsQueryable()
+                                        .Where(p => p.Id == Id)
+                                        .FirstOrDefaultAsync(token);
 
-    public async Task<IEnumerable<RequestPay>> FindAsyncByUserId(Guid userId)
-        => await _context.requestPays
-                        .AsQueryable()
-                        .Where(p => p.UserId == userId)
-                        .ToListAsync();
+    public async Task<IEnumerable<RequestPay>> FindAsyncByUserId(Guid userId, CancellationToken token = default)
+        => await _context.requestPays.AsQueryable()
+                                        .Where(p => p.UserId == userId)
+                                        .ToListAsync(token);
 
 }

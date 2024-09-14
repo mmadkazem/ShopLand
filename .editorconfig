@@ -2,3 +2,6 @@
 
 # CA1711: Identifiers should not have incorrect suffix
 dotnet_diagnostic.CA1711.severity = none
+
+# IDE0160: Convert to block scoped namespace
+csharp_style_namespace_declarations = block_scoped

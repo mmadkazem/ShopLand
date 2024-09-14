@@ -5,11 +5,10 @@ public class GetAllOrderQueryHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task<IEnumerable<GetOrderQueryResponse>> HandelAsync
-        (PageNumberRequest request)
+    public async Task<IEnumerable<GetOrderQueryResponse>> HandelAsync(PageNumberRequest request, CancellationToken token = default)
     {
-        var orders = await _uow.Orders.GetAll(request);
-        if (orders.Count() == 0)
+        var orders = await _uow.Orders.GetAll(request, token);
+        if (!orders.Any())
         {
             throw new OrderNotFoundException();
         }

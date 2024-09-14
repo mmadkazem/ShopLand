@@ -4,7 +4,7 @@ public interface ICategoryRepository
 {
     void Add(Category category);
     void Remove(Category category);
-    Task<Category> FindAsync(CategoryId id);
-    Task<bool> Any(CategoryId id);
-    Task<IEnumerable<Category>> GetAll(int page);
+    Task<bool> Any(CategoryId id, CancellationToken token = default);
+    Task<Category> FindAsync(CategoryId id, CancellationToken token = default);
+    Task<IEnumerable<Category>> GetAll(int page, CancellationToken token = default);
 }

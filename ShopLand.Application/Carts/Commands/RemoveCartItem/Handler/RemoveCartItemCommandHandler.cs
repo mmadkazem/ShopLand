@@ -5,15 +5,12 @@ public class RemoveCartItemCommandHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task HandleAsync(RemoveCartItemCommandRequest request)
+    public async Task HandleAsync(RemoveCartItemCommandRequest request, CancellationToken token = default)
     {
-        var cart = await _uow.Carts.FindAsyncByUserId(request.UserId);
-        if (cart is null)
-        {
-            throw new CartNotFoundException();
-        }
+        var cart = await _uow.Carts.FindAsyncByUserId(request.UserId, token)
+            ?? throw new CartNotFoundException();
 
         cart.RemoveCartItem(request.ProductId);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

@@ -1,5 +1,3 @@
-using ShopLand.Domain.Orders.Repositories;
-
 namespace ShopLand.Domain.UnitOfWork;
 
 public interface IUnitOfWork
@@ -11,5 +9,5 @@ public interface IUnitOfWork
     ICartRepository Carts { get; }
     IRequestPayRepository RequestPays { get; }
     IOrderRepository Orders { get; }
-    Task<int> SaveAsync();
+    Task<int> SaveAsync(CancellationToken token = default);
 }

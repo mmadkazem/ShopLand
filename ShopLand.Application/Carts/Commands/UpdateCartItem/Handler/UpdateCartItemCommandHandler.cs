@@ -1,5 +1,3 @@
-using ShopLand.Application.Carts.Commands.UpdateCartItem.Request;
-
 namespace ShopLand.Application.Carts.Commands.UpdateCartItem.Handler;
 
 public class UpdateCartItemCommandHandler(IUnitOfWork uow)
@@ -7,28 +5,25 @@ public class UpdateCartItemCommandHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task HandelAsync(UpdateCartItemCommandRequest request)
+    public async Task HandelAsync(UpdateCartItemCommandRequest request, CancellationToken token = default)
     {
-        var cart = await _uow.Carts.FindAsyncByUserId(request.UserId);
-        if (cart is null)
+        var cart = await _uow.Carts.FindAsyncByUserId(request.UserId, token)
+            ?? throw new CartNotFoundException();
+
+        var product = await _uow.Products.FindAsync(request.ProductId, token)
+            ?? throw new ProductNotFoundException();
+
+        switch (request.CountType)
         {
-            throw new CartNotFoundException();
+            case CountType.Add:
+                cart.Add(product.Id, product.Inventory);
+                break;
+
+            case CountType.Low:
+                cart.Low(product.Id);
+                break;
         }
 
-        var product = await _uow.Products.FindAsync(request.ProductId);
-        if (product is null)
-        {
-            throw new ProductNotFoundException();
-        }
-
-        if (request.CountType == CountType.Add)
-        {
-            cart.Add(product.Id, product.Inventory);
-        }
-        else
-        {
-            cart.Low(product.Id);
-        }
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

@@ -2,5 +2,5 @@ namespace ShopLand.Application.Account.Commands.AddUserRole.Handler;
 
 public interface IAddUserRoleCommandHandler
 {
-    Task HandelAsync(AddUserRoleCommandRequest request);
+    Task HandelAsync(AddUserRoleCommandRequest request, CancellationToken token = default);
 }

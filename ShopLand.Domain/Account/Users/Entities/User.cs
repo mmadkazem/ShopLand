@@ -73,13 +73,12 @@ public class User : BaseEntity<UserId>, IAggregateRoot
         return userRole;
     }
 
-    public bool UserLogin(string email, string password)
+    public void UserLogin(string email, string password)
     {
-        if (email == Email.Value && SecurityService.GetSha256Hash(password) == _password.Value)
+        if (!(email == Email.Value && SecurityService.GetSha256Hash(password) == _password.Value))
         {
-            return true;
+            throw new UserNotLoginException();
         }
-        return false;
     }
 
     public void Logout()

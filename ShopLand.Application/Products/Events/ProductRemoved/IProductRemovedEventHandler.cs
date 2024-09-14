@@ -2,17 +2,15 @@ namespace ShopLand.Application.Products.Events.ProductRemoved;
 
 public interface IProductRemovedEventHandler
 {
-    Task HandelAsync(Guid productId);
+    Task HandelAsync(Guid productId, CancellationToken token = default);
 }
 
 public class ProductRemovedEventHandler(IUnitOfWork uow)
     : IProductRemovedEventHandler
 {
     private readonly IUnitOfWork _uow = uow;
-    public async Task HandelAsync(Guid productId)
+    public async Task HandelAsync(Guid productId, CancellationToken token = default)
     {
-        var cartItems = await _uow.Carts.FindAsyncCartItem(productId);
-        _uow.Carts.RemoveCartItem(cartItems);
-        await _uow.SaveAsync();
+        await _uow.Carts.RemoveCartItem(productId, token);
     }
 }

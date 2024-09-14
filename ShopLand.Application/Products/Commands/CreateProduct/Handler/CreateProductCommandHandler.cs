@@ -11,7 +11,7 @@ public class CreateProductCommandHandler : ICreateProductCommandHandler
         _uow = uow;
         _productFactory = productFactory;
     }
-    public async Task<Guid> HandelAsync(CreateProductCommandRequest request)
+    public async Task<Guid> HandelAsync(CreateProductCommandRequest request, CancellationToken token = default)
     {
         var (name, brand, description, inventory, price, categories) = request;
 
@@ -20,7 +20,7 @@ public class CreateProductCommandHandler : ICreateProductCommandHandler
 
         foreach (var item in request.Categories)
         {
-            var isExists = await _uow.Categories.Any(item);
+            var isExists = await _uow.Categories.Any(item, token);
             if (!isExists)
             {
                 throw new CategoryNotFoundException();
@@ -29,7 +29,7 @@ public class CreateProductCommandHandler : ICreateProductCommandHandler
 
         product.AddCategory(categories);
         _uow.Products.Add(product);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
 
         return product.Id;
     }

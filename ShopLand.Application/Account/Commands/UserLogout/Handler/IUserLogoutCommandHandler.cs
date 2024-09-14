@@ -2,22 +2,19 @@ namespace ShopLand.Application.Account.Commands.UserLogout.Handler;
 
 public interface IUserLogoutCommandHandler
 {
-    Task HandelAsync(UserLogoutCommandRequest request);
+    Task HandelAsync(UserLogoutCommandRequest request, CancellationToken token = default);
 }
 
 public sealed class UserLogoutCommandHandler(IUnitOfWork uow) : IUserLogoutCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task HandelAsync(UserLogoutCommandRequest request)
+    public async Task HandelAsync(UserLogoutCommandRequest request, CancellationToken token = default)
     {
-        var user = await _uow.Users.FindAsync(request.UserId);
-        if (user is null)
-        {
-            throw new UserNotFoundException();
-        }
+        var user = await _uow.Users.FindAsync(request.UserId, token)
+            ?? throw new UserNotFoundException();
 
         user.Logout();
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

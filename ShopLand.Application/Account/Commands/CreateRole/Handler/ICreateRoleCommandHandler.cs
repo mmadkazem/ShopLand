@@ -2,22 +2,16 @@ namespace ShopLand.Application.Account.Commands.CreateRole.Handler;
 
 public interface ICreateRoleCommandHandler
 {
-    Task HandelAsync(CreateRoleCommandRequest request);
+    Task HandelAsync(CreateRoleCommandRequest request, CancellationToken token = default);
 }
-public class CreateRoleCommandHandler : ICreateRoleCommandHandler
+public class CreateRoleCommandHandler(IUnitOfWork uow, IRoleFactories roleFactories) : ICreateRoleCommandHandler
 {
-    private readonly IUnitOfWork _uow;
-    private readonly IRoleFactories _roleFactories;
+    private readonly IUnitOfWork _uow = uow;
+    private readonly IRoleFactories _roleFactories = roleFactories;
 
-    public CreateRoleCommandHandler(IUnitOfWork uow, IRoleFactories roleFactories)
+    public async Task HandelAsync(CreateRoleCommandRequest request, CancellationToken token = default)
     {
-        _uow = uow;
-        _roleFactories = roleFactories;
-    }
-
-    public async Task HandelAsync(CreateRoleCommandRequest request)
-    {
-        var result = await _uow.Roles.Any(request.RoleName);
+        var result = await _uow.Roles.Any(request.RoleName, token);
         if (!result)
         {
             throw new RoleAlreadyExistsException();
@@ -25,7 +19,7 @@ public class CreateRoleCommandHandler : ICreateRoleCommandHandler
         var role = _roleFactories.Create(request.RoleName);
 
         _uow.Roles.Add(role);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
 
     }
 }

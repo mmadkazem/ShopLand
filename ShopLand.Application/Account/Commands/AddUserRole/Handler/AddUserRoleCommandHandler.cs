@@ -1,27 +1,18 @@
 namespace ShopLand.Application.Account.Commands.AddUserRole.Handler;
-public class AddUserRoleCommandHandler : IAddUserRoleCommandHandler
+public class AddUserRoleCommandHandler(IUnitOfWork uow) : IAddUserRoleCommandHandler
 {
-    private readonly IUnitOfWork _uow;
+    private readonly IUnitOfWork _uow = uow;
 
-    public AddUserRoleCommandHandler(IUnitOfWork uow)
-        => _uow = uow;
-
-    public async Task HandelAsync(AddUserRoleCommandRequest request)
+    public async Task HandelAsync(AddUserRoleCommandRequest request, CancellationToken token = default)
     {
-        var user = await _uow.Users.FindAsync(request.id);
-        if (user is null)
-        {
-            throw new UserNotFoundException();
-        }
+        var user = await _uow.Users.FindAsync(request.id, token)
+            ?? throw new UserNotFoundException();
 
-        var role = await _uow.Roles.FindAsyncByName(request.roleName);
-        if (role is null)
-        {
-            throw new RoleNotFoundException();
-        }
+        var role = await _uow.Roles.FindAsyncByName(request.roleName, token)
+            ?? throw new RoleNotFoundException();
 
         user.AddRole(role.Id);
 
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

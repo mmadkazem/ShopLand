@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Cors;
-
 namespace ShopLand.Api.Controller.Accounts;
 
 [ApiController]
@@ -12,88 +10,82 @@ public class AccountController(IAccountFacade account)
 
     [HttpPost("[action]")]
     [AllowAnonymous]
-    public async Task<IActionResult> Register
+    public async Task<Results<Ok, BadRequest>> Register
         ([FromBody] RegisterUserCommandRequest request)
     {
         await _account.RegisterUser.HandelAsync(request);
-        return Ok();
+        return TypedResults.Ok();
     }
 
     [HttpPost("[action]")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login
+    public async Task<Results<Ok<JwtTokensDataResponse>, BadRequest, NotFound>> Login
         ([FromBody] LoginUserQueryRequest request)
     {
         var result = await _account.LoginUser.HandelAsync(request);
-        return Ok(result);
+        return TypedResults.Ok(result);
     }
 
     [HttpPost("{UserId:guid}/UserRole")]
     [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> AddUserRole
-        ([FromBody] AddUserRoleCommandRequest request)
+    public async Task<IActionResult> AddUserRole(Guid userId, string roleName,
+        CancellationToken token = default)
     {
-        await _account.AddUserRole.HandelAsync(request);
+        await _account.AddUserRole.HandelAsync(new AddUserRoleCommandRequest(userId, roleName), token);
         return Ok();
     }
 
     [HttpGet("[action]")]
-    public async Task<IActionResult> GetCurrentUser()
+    public async Task<IActionResult> GetCurrentUser(CancellationToken token = default)
     {
         var result = await _account.GetUser
-            .HandelAsync(User.UserId());
+            .HandelAsync(User.UserId(), token);
         return Ok(result);
     }
 
     [HttpGet("{id}")]
     [AllowAnonymous]
-    public async Task<IActionResult> GetUserById(Guid id)
+    public async Task<IActionResult> GetUserById(Guid id,
+        CancellationToken token = default)
     {
         var result = await _account.GetUser
-        .HandelAsync(id);
+        .HandelAsync(id, token);
         return Ok(result);
     }
 
     [HttpPut("[action]")]
     [AllowAnonymous]
-    public async Task<IActionResult> ChangePassword
-        ([FromBody] ChangePasswordCommandRequest request)
+    public async Task<IActionResult> ChangePassword(ChangePasswordCommandRequest request,
+        CancellationToken token = default)
     {
-        await _account.ChangePassword.HandelAsync(request);
+        await _account.ChangePassword.HandelAsync(request, token);
         return Ok();
     }
 
-    [HttpDelete("{UserId:guid}/UserRole/{RoleName}")]
+    [HttpDelete("{UserId:guid}/UserRole/{RoleId:guid}")]
     [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> RemoveUserRole
-        ([FromBody] RemoveUserRoleCommandRequest request)
+    public async Task<IActionResult> RemoveUserRole(Guid userId, Guid roleId,
+        CancellationToken token = default)
     {
-        await _account.RemoveUserRole.HandelAsync(request);
+        await _account.RemoveUserRole.HandelAsync(new RemoveUserRoleCommandRequest(userId, roleId), token);
         return Ok();
     }
 
     [HttpPost("[action]")]
-    [AllowAnonymous]
-    public async Task<IActionResult> LoginByRefreshToken
-        ([FromBody] string refreshToken)
+    [Authorize(AuthenticationSchemes = "RefreshScheme")]
+    public async Task<IActionResult> LoginByRefreshToken(CancellationToken token = default)
     {
-        var newRefreshToken = new JsonWebToken(refreshToken);
-        var refreshTokenSerial = newRefreshToken
-            .GetClaim(ClaimTypes.SerialNumber).Value;
-
-        var userId = Guid.Parse(newRefreshToken.GetClaim(ClaimTypes.NameIdentifier).Value.ToUserId());
-
         var result = await _account.LoginUserByRefreshToken
-            .HandelAsync(new(userId, refreshTokenSerial));
+            .HandelAsync(new(User.UserId(), User.RefreshTokenSerial()), token);
 
         return Ok(result);
     }
 
     [HttpPost("[action]")]
     [AllowAnonymous]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout(CancellationToken token = default)
     {
-        await _account.UserLogout.HandelAsync(User.UserId());
+        await _account.UserLogout.HandelAsync(User.UserId(), token);
         return Ok();
     }
 }

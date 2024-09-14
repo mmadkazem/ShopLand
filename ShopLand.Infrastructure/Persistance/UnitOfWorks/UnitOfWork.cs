@@ -25,6 +25,6 @@ public sealed class UnitOfWork(DataBaseContext context) : IUnitOfWork
     public IOrderRepository Orders
         => new OrderRepository(_context);
 
-    public async Task<int> SaveAsync()
-        => await _context.SaveChangesAsync();
+    public async Task<int> SaveAsync(CancellationToken token = default)
+        => await _context.SaveChangesAsync(token);
 }

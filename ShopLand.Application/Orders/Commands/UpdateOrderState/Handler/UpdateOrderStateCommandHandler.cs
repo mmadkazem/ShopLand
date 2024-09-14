@@ -5,15 +5,12 @@ public class UpdateOrderStateCommandHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task HandelAsync(UpdateOrderStateCommandRequest request)
+    public async Task HandelAsync(UpdateOrderStateCommandRequest request, CancellationToken token = default)
     {
-        var order = await _uow.Orders.FindAsync(request.OrderId);
-        if (order is null)
-        {
-            throw new OrderNotFoundException();
-        }
+        var order = await _uow.Orders.FindAsync(request.OrderId, token)
+            ?? throw new OrderNotFoundException();
 
         order.UpdateOrderState(request.OrderState);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

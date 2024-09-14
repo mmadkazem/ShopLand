@@ -5,10 +5,10 @@ public sealed class GetOrderByUserIdQueryHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task<IEnumerable<GetOrderQueryResponse>> HandelAsync(GetOrderByUserIdQueryRequest request)
+    public async Task<IEnumerable<GetOrderQueryResponse>> HandelAsync(GetOrderByUserIdQueryRequest request, CancellationToken token = default)
     {
-        var orders = await _uow.Orders.FindAsyncByUserId(request.UserId);
-        if (orders.Count() is 0)
+        var orders = await _uow.Orders.FindAsyncByUserId(request.UserId, token);
+        if (!orders.Any())
         {
             throw new OrderNotFoundException();
         }

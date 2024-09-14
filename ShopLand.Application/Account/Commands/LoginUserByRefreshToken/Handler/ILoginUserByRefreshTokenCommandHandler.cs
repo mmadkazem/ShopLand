@@ -1,9 +1,10 @@
+using System.Security.Cryptography;
+
 namespace ShopLand.Application.Account.Commands.LoginUserByRefreshToken.Handler;
 
 public interface ILoginUserByRefreshTokenCommandHandler
 {
-    Task<JwtTokensDataResponse> HandelAsync
-        (LoginUserByRefreshTokenCommandRequest request);
+    Task<JwtTokensDataResponse> HandelAsync(LoginUserByRefreshTokenCommandRequest request, CancellationToken token = default);
 }
 
 public sealed class LoginUserByRefreshTokenCommandHandler
@@ -19,13 +20,10 @@ public sealed class LoginUserByRefreshTokenCommandHandler
         _tokenFactory = tokenFactory;
     }
 
-    public async Task<JwtTokensDataResponse> HandelAsync(LoginUserByRefreshTokenCommandRequest request)
+    public async Task<JwtTokensDataResponse> HandelAsync(LoginUserByRefreshTokenCommandRequest request, CancellationToken token = default)
     {
-        var user = await _uow.Users.FindAsync(request.UserId);
-        if (user is null)
-        {
-            throw new UserNotFoundException();
-        }
+        var user = await _uow.Users.FindAsync(request.UserId, token)
+            ?? throw new UserNotFoundException();
 
         user.UserLoginByRefreshToken(request.RefreshTokenSerial);
 

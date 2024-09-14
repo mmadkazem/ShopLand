@@ -1,20 +1,14 @@
 namespace ShopLand.Application.Account.Events.AddedUser;
 
-public class AddedUserEventHandler : IAddedUserEventHandler
+public class AddedUserEventHandler(IUnitOfWork uow, ICartFactory cartFactory) : IAddedUserEventHandler
 {
-    private readonly IUnitOfWork _uow;
-    private readonly ICartFactory _cartFactory;
+    private readonly IUnitOfWork _uow = uow;
+    private readonly ICartFactory _cartFactory = cartFactory;
 
-    public AddedUserEventHandler(IUnitOfWork uow, ICartFactory cartFactory)
-    {
-        _uow = uow;
-        _cartFactory = cartFactory;
-    }
-
-    public async Task HandelAsync(Guid userId)
+    public async Task HandelAsync(Guid userId, CancellationToken token = default)
     {
         var cart = _cartFactory.Create(userId);
         _uow.Carts.Add(cart);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

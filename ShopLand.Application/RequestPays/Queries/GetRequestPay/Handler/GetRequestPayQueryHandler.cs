@@ -1,24 +1,14 @@
 namespace ShopLand.Application.RequestPays.Queries.GetRequestPay.Handler;
 
-public class GetRequestPayQueryHandler : IGetRequestPayQueryHandler
+public sealed class GetRequestPayQueryHandler(IUnitOfWork uow)
+    : IGetRequestPayQueryHandler
 {
-    private readonly IUnitOfWork _uow;
+    private readonly IUnitOfWork _uow = uow;
 
-    public GetRequestPayQueryHandler(IUnitOfWork uow)
+    public async Task<GetRequestPayQueryResponse> HandelAsync(GetRequestPayQueryRequest request, CancellationToken token = default)
     {
-        _uow = uow;
-    }
-
-    public async Task<GetRequestPayQueryResponse> HandelAsync
-        (GetRequestPayQueryRequest request)
-    {
-        var requestPay = await _uow.RequestPays
-            .FindAsync(request.RequestPayId);
-
-        if (requestPay is null)
-        {
-            throw new RequestPayNotFoundException();
-        }
+        var requestPay = await _uow.RequestPays.FindAsync(request.RequestPayId, token)
+            ?? throw new RequestPayNotFoundException();
 
         return requestPay.AsResponse();
     }

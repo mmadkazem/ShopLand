@@ -2,7 +2,7 @@ namespace ShopLand.Application.Account.Commands.RemoveUserRole.Handler;
 
 public interface IRemoveUserRoleCommandHandler
 {
-    Task HandelAsync(RemoveUserRoleCommandRequest request);
+    Task HandelAsync(RemoveUserRoleCommandRequest request, CancellationToken token = default);
 }
 
 public class RemoveUserRoleCommandHandler(IUnitOfWork uow)
@@ -10,15 +10,12 @@ public class RemoveUserRoleCommandHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task HandelAsync(RemoveUserRoleCommandRequest request)
+    public async Task HandelAsync(RemoveUserRoleCommandRequest request, CancellationToken token = default)
     {
-        var user = await _uow.Users.FindAsync(request.UserId);
-        if (user is null)
-        {
-            throw new UserNotFoundException();
-        }
+        var user = await _uow.Users.FindAsync(request.UserId, token)
+            ?? throw new UserNotFoundException();
 
         user.RemoveRole(request.RoleId);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

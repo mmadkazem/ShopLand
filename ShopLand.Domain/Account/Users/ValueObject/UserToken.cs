@@ -15,9 +15,12 @@ public record UserToken
         UserId = userId;
     }
 
-    public static UserToken Create(string accessTokenHash, DateTimeOffset accessTokenExpiresDateTime,
+    public static UserToken Create
+    (
+        string accessTokenHash, DateTimeOffset accessTokenExpiresDateTime,
         string refreshTokenIdHash, string refreshTokenIdSerial,
-        DateTimeOffset refreshTokenExpiresDateTime, UserId userId)
+        DateTimeOffset refreshTokenExpiresDateTime, UserId userId
+    )
             => new(SecurityService.GetSha256Hash(accessTokenHash), accessTokenExpiresDateTime,
                 SecurityService.GetSha256Hash(refreshTokenIdHash), refreshTokenIdSerial,
                 refreshTokenExpiresDateTime, userId);

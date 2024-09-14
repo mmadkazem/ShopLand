@@ -5,13 +5,10 @@ public class GetRequestPaysUserQueryHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task<IEnumerable<GetRequestPayQueryResponse>> HandelAsync
-        (GetRequestPaysUserQueryRequest request)
+    public async Task<IEnumerable<GetRequestPayQueryResponse>> HandelAsync(GetRequestPaysUserQueryRequest request, CancellationToken token = default)
     {
-        var requestPays = await _uow.RequestPays
-            .FindAsyncByUserId(request.UserId);
-
-        if (requestPays.Count() == 0)
+        var requestPays = await _uow.RequestPays.FindAsyncByUserId(request.UserId, token);
+        if (!requestPays.Any())
         {
             throw new RequestPayNotFoundException();
         }

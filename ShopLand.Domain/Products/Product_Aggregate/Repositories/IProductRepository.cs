@@ -4,9 +4,9 @@ public interface IProductRepository
 {
     void Add(Product product);
     void Remove(Product product);
-    Task RemoveProductCategories(Guid id);
-    Task<Product> FindAsync(ProductId id);
-    Task<bool> Any(ProductId id);
-    Task<Product> FindAsyncByProductName(ProductName productName);
-    Task<IEnumerable<Product>> GetAll(int page);
+    Task<bool> Any(ProductId id, CancellationToken token = default);
+    Task RemoveProductCategories(Guid id, CancellationToken token = default);
+    Task<Product> FindAsync(ProductId id, CancellationToken token = default);
+    Task<IEnumerable<Product>> GetAll(int page, CancellationToken token = default);
+    Task<Product> FindAsyncByProductName(ProductName productName, CancellationToken token = default);
 }

@@ -5,15 +5,12 @@ public class RemoveProductCategoryCommandHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task HandelAsync(RemoveProductCategoryCommandRequest request)
+    public async Task HandelAsync(RemoveProductCategoryCommandRequest request, CancellationToken token = default)
     {
-        var product = await _uow.Products.FindAsync(request.ProductId);
-        if (product is null)
-        {
-            throw new ProductNotFoundException();
-        }
+        var product = await _uow.Products.FindAsync(request.ProductId, token)
+            ?? throw new ProductNotFoundException();
 
         product.RemoveCategory(request.CategoryId);
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
     }
 }

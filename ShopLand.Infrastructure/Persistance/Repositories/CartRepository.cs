@@ -8,30 +8,30 @@ public sealed class CartRepository(DataBaseContext context)
     public void Add(Cart cart)
         => _context.Add(cart);
 
-    public async Task<Cart> FindAsync(CartId cartId)
-        => await _context.Carts
-                    .AsQueryable()
-                    .Include(p => p.CartItems)
-                    .Where(p => p.Id == cartId)
-                    .FirstOrDefaultAsync();
+    public async Task<Cart> FindAsync(CartId cartId, CancellationToken token = default)
+        => await _context.Carts.AsQueryable()
+                                .Include(p => p.CartItems)
+                                .Where(p => p.Id == cartId)
+                                .FirstOrDefaultAsync(token);
 
-    public async Task<IEnumerable<CartItem>> FindAsyncCartItem(Guid productId)
-         => await _context.CartItems
-                     .AsQueryable()
-                     .Where(c => c.ProductId == productId)
-                     .ToListAsync();
+    public async Task<IEnumerable<CartItem>> FindAsyncCartItem(Guid productId, CancellationToken token = default)
+        => await _context.CartItems.AsQueryable()
+                                    .Where(c => c.ProductId == productId)
+                                    .ToListAsync(token);
 
 
-    public async Task<Cart> FindAsyncByUserId(Guid userId)
+    public async Task<Cart> FindAsyncByUserId(Guid userId, CancellationToken token = default)
         => await _context.Carts
                     .AsQueryable()
                     .Include(p => p.CartItems)
                     .Where(p => p.UserId == userId)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(token);
 
     public void Remove(Cart cart)
         => _context.Carts.Remove(cart);
 
-    public void RemoveCartItem(IEnumerable<CartItem> cartItems)
-        => _context.CartItems.RemoveRange(cartItems);
+    public async Task RemoveCartItem(Guid productId, CancellationToken token = default)
+        => await _context.CartItems.AsQueryable()
+                                    .Where(c => c.ProductId == productId)
+                                    .ExecuteDeleteAsync(token);
 }

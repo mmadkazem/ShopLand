@@ -49,7 +49,7 @@ public class RemoveCategoryCommandHandlerTest
 
         // ASSERT
         exception.ShouldBeNull();
-        await _removedCategory.Received(1).HandelAsync(Arg.Any<Category>());
+        await _removedCategory.Received(1).HandelAsync(Arg.Any<Guid>());
     }
 
     #region ARRANGE

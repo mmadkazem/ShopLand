@@ -1,29 +1,17 @@
 namespace ShopLand.Application.Account.Queries.LoginUser.Handler;
 
-public class LoginUserQueryHandler : ILoginUserQueryHandler
+public class LoginUserQueryHandler(IUnitOfWork uow, ITokenFactoryService tokenFactory) : ILoginUserQueryHandler
 {
-    private readonly IUnitOfWork _uow;
-    private readonly ITokenFactoryService _tokenFactory;
+    private readonly IUnitOfWork _uow = uow;
+    private readonly ITokenFactoryService _tokenFactory = tokenFactory;
 
-    public LoginUserQueryHandler(IUnitOfWork uow, ITokenFactoryService tokenFactory)
+    public async Task<JwtTokensDataResponse> HandelAsync(LoginUserQueryRequest request, CancellationToken token = default)
     {
-        _uow = uow;
-        _tokenFactory = tokenFactory;
-    }
+        var user = await _uow.Users.FindAsyncByEmail(request.Email, token)
+            ?? throw new UserNotFoundException();
 
-    public async Task<JwtTokensDataResponse> HandelAsync(LoginUserQueryRequest request)
-    {
-        var user = await _uow.Users.FindAsyncByEmail(request.Email);
-        if (user is null)
-        {
-            throw new UserNotFoundException();
-        }
+        user.UserLogin(request.Email, request.Password);
 
-        var result = user.UserLogin(request.Email, request.Password);
-        if (!result)
-        {
-            throw new UserNotLoginException();
-        }
         var jwt = await _tokenFactory.CreateJwtTokensAsync(user);
 
         user.RemoveToken();
@@ -36,9 +24,9 @@ public class LoginUserQueryHandler : ILoginUserQueryHandler
             jwt.RefreshTokenExpireTime,
             user.Id
         ));
-        await _uow.SaveAsync();
+        await _uow.SaveAsync(token);
 
-        return new (jwt.AccessToken, jwt.RefreshToken);
+        return new(jwt.AccessToken, jwt.RefreshToken);
     }
 }
 
