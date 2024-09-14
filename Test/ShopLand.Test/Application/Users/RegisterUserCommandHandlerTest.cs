@@ -42,7 +42,7 @@ public class RegisterUserCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.Users.Received(1).Add(Arg.Any<User>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     [Fact]

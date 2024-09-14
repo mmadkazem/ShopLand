@@ -33,9 +33,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
     }
     public void AddRole(Guid role)
     {
-        var alreadyExists = UsedInRoles.Any(r => r.Role == role);
-
-        if (alreadyExists)
+        if (UsedInRoles.Any(r => r.Role == role))
         {
             throw new UserInRoleAlreadyExistsException();
         }
@@ -62,16 +60,8 @@ public class User : BaseEntity<UserId>, IAggregateRoot
     }
 
     public UserInRole GetRole(Guid role)
-    {
-        var userRole = UsedInRoles.FirstOrDefault(r => r.Role == role);
-
-        if (userRole is null)
-        {
-            throw new UserInRoleNotFoundException();
-        }
-
-        return userRole;
-    }
+        => UsedInRoles.FirstOrDefault(r => r.Role == role)
+            ?? throw new UserInRoleNotFoundException();
 
     public void UserLogin(string email, string password)
     {
@@ -90,9 +80,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
     }
     public void UserLoginByRefreshToken(string refreshTokenSerial)
     {
-        var alreadyExists = UserTokens
-        .Any(t => t.RefreshTokenIdSerial == refreshTokenSerial && !t.IsExpire);
-        if (!alreadyExists)
+        if (!UserTokens.Any(t => t.RefreshTokenIdSerial == refreshTokenSerial && !t.IsExpire))
         {
             throw new UserTokenNotExistException();
         }
@@ -103,7 +91,7 @@ public class User : BaseEntity<UserId>, IAggregateRoot
 
     public void RemoveToken()
     {
-        if (UsedInRoles.Any())
+        if (UsedInRoles.Count != 0)
         {
             UserTokens.Clear();
         }

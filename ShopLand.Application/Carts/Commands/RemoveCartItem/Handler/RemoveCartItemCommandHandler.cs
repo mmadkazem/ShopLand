@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Carts.Commands.RemoveCartItem.Handler;
 
-public class RemoveCartItemCommandHandler(IUnitOfWork uow)
+public sealed class RemoveCartItemCommandHandler(IUnitOfWork uow)
     : IRemoveCartItemCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -11,6 +11,6 @@ public class RemoveCartItemCommandHandler(IUnitOfWork uow)
             ?? throw new CartNotFoundException();
 
         cart.RemoveCartItem(request.ProductId);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

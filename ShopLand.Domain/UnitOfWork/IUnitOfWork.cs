@@ -9,5 +9,5 @@ public interface IUnitOfWork
     ICartRepository Carts { get; }
     IRequestPayRepository RequestPays { get; }
     IOrderRepository Orders { get; }
-    Task<int> SaveAsync(CancellationToken token = default);
+    Task<int> SaveChangeAsync(CancellationToken token = default);
 }

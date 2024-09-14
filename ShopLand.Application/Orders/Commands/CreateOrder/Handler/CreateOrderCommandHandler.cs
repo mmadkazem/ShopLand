@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Orders.Commands.CreateOrder.Handler;
 
-public sealed  class CreateOrderCommandHandler(
+public sealed class CreateOrderCommandHandler(
     IUnitOfWork uow,
     IOrderFactory orderFactory,
     ICreatedOrderEventHandler createdOrder)
@@ -14,8 +14,7 @@ public sealed  class CreateOrderCommandHandler(
     {
         var (userId, requestPayId, cartId, authority, refId, street, city, state, postalCode) = request;
 
-        var isExist = await _uow.Users.Any(userId, token);
-        if (!isExist)
+        if (!await _uow.Users.Any(userId, token))
         {
             throw new UserNotFoundException();
         }
@@ -37,7 +36,7 @@ public sealed  class CreateOrderCommandHandler(
         }
         cart.IsFinished();
         _uow.Orders.Add(order);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
 
         await _createdOrder.HandelAsync(userId, token);
     }

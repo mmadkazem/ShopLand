@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Account.Commands.RegisterUser.Handler;
 
-public class RegisterUserCommandHandler(IUserFactories userFactories,
+public sealed class RegisterUserCommandHandler(IUserFactories userFactories,
         IUnitOfWork uow,
         IAddedUserEventHandler addedUser)
     : IRegisterUserCommandHandler
@@ -20,7 +20,7 @@ public class RegisterUserCommandHandler(IUserFactories userFactories,
         user.AddRole(role.Id);
 
         _uow.Users.Add(user);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
         await _addedUser.HandelAsync(user.Id, token);
     }
 }

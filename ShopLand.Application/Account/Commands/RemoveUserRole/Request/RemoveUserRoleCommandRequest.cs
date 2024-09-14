@@ -1,3 +1,3 @@
 namespace ShopLand.Application.Account.Commands.RemoveUserRole.Request;
 
-public record RemoveUserRoleCommandRequest(Guid UserId, Guid RoleId);
+public readonly record struct RemoveUserRoleCommandRequest(Guid UserId, Guid RoleId);

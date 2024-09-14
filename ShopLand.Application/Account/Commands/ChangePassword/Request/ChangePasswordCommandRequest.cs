@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Account.Commands.ChangePassword.Request;
 
-public record ChangePasswordCommandRequest
+public readonly record struct ChangePasswordCommandRequest
 (
     string Email,
     string Password,

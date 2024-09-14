@@ -14,7 +14,7 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
     }
 
     // For Test
-    public Cart() : base(Guid.NewGuid()){}
+    public Cart() : base(Guid.NewGuid()) { }
 
     internal Cart(CartId id, Guid userId, LinkedList<CartItem> cartItems)
         : base(id)
@@ -23,17 +23,16 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
         CartItems = cartItems;
     }
 
-    public void AddCartItem(Guid productId, Count count, uint inventory)
+    public void AddCartItem(Guid productId, Count count, uint inventory, uint productPrice)
     {
-        var alreadyExists = CartItems.Any(c => c.ProductId == productId);
-
-        if (alreadyExists)
+        var cartItem = CartItems.FirstOrDefault(c => c.ProductId == productId);
+        if (cartItem is not null)
         {
-            throw new CartItemAlreadyExistsException();
+            cartItem.AddCount(count);
+            return;
         }
-        var cartItem = new CartFactory().CreateCartItem
-            (count, inventory, productId, Id);
 
+        var newCartItem = new CartFactory().CreateCartItem(count, inventory, productId, Id, productPrice);
         CartItems.AddLast(cartItem);
     }
 
@@ -63,15 +62,9 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
         Finished = true;
     }
     public CartItem GetCartItem(Guid productId)
-    {
-        var cartItem = CartItems
-            .FirstOrDefault(c => c.ProductId == productId);
+        => CartItems.FirstOrDefault(c => c.ProductId == productId)
+            ?? throw new CartItemNotFoundException();
 
-        if (cartItem is null)
-        {
-            throw new CartItemNotFoundException();
-        }
-
-        return cartItem;
-    }
+    public uint TotalAmount()
+        => (uint)CartItems.Sum(c => c.TotalPrice);
 }

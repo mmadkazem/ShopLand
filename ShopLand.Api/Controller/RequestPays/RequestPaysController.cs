@@ -1,4 +1,7 @@
+using ShopLand.Application.RequestPays.Queries.Response;
+
 namespace ShopLand.Api.Controller.RequestPays;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -8,28 +11,32 @@ public class RequestPaysController(IRequestPayFacade requestPayFacade)
 {
     private readonly IRequestPayFacade _requestPayFacade = requestPayFacade;
 
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     [HttpPost]
-    public async Task<IActionResult> Post
-        ([FromBody] CreateRequestPayCommandRequest request)
+    public async Task<IActionResult> Post(CancellationToken token = default)
     {
-        await _requestPayFacade.CreateRequestPay.HandelAsync(request);
+        await _requestPayFacade.CreateRequestPay.HandelAsync(new(User.UserId()), token);
         return Created();
     }
 
-    [HttpGet("{RequestPayId:guid}")]
-    public async Task<IActionResult> Get
-        ([FromHeader] GetRequestPayQueryRequest request)
+    [ProducesResponseType<GetRequestPayQueryResponse>((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [HttpGet("{Id:guid}")]
+    public async Task<IActionResult> Get(Guid id,
+        CancellationToken token = default)
     {
-        var result = await _requestPayFacade.GetRequestPay.HandelAsync(request);
+        var result = await _requestPayFacade.GetRequestPay.HandelAsync(new(id), token);
         return Ok(result);
     }
 
-    [HttpGet("User/{UserId:guid}")]
-    public async Task<IActionResult> GetByUserId
-        ([FromHeader] GetRequestPaysUserQueryRequest request)
+    [ProducesResponseType<IEnumerable<GetRequestPayQueryResponse>>((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [HttpGet]
+    public async Task<IActionResult> GetByUserId(CancellationToken token = default)
     {
-        var result = await _requestPayFacade.GetRequestPaysUser
-            .HandelAsync(request);
+        var result = await _requestPayFacade.GetRequestPaysUser.HandelAsync(new(User.UserId()), token);
         return Ok(result);
     }
 }

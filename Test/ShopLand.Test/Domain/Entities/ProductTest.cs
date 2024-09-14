@@ -37,22 +37,6 @@ public class ProductTest
     }
 
     [Fact]
-    public void UpdateProductCategory_Throw_ProductCategoryNotFoundException_When_There_Category_Not_Found()
-    {
-        //ARRANGE
-        var product = GetProduct();
-        var category = Guid.NewGuid();
-        product.AddCategory(category);
-
-        //ACT
-        var exception = Record.Exception(() => product.UpdateCategory(Guid.NewGuid(), Guid.NewGuid()));
-
-        //ASSERT
-        exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<ProductCategoryNotFoundException>();
-    }
-
-    [Fact]
     public void GetRole_Throws_UserInRoleNotFoundException_When_There_Role_Not_Found()
     {
         //ARRANGE

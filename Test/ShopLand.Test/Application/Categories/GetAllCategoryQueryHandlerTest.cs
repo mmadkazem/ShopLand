@@ -1,3 +1,4 @@
+using ShopLand.Application.Categories.Exceptions;
 using ShopLand.Application.Categories.Queries.GetAllCategory.Handler;
 
 namespace ShopLand.Test.Application.Categories;

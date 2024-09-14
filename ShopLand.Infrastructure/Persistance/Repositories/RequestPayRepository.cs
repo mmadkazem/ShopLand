@@ -13,9 +13,17 @@ public sealed class RequestPayRepository(DataBaseContext context)
                                         .Where(p => p.Id == Id)
                                         .FirstOrDefaultAsync(token);
 
-    public async Task<IEnumerable<RequestPay>> FindAsyncByUserId(Guid userId, CancellationToken token = default)
+    public async Task<IResponse> Get(RequestPayId id, CancellationToken token)
+        => await _context.requestPays.AsQueryable()
+                                        .Where(p => p.Id == id)
+                                        .Select(r => r.AsResponse())
+                                        .AsNoTracking()
+                                        .FirstOrDefaultAsync(token);
+
+    public async Task<IEnumerable<IResponse>> GetByUserId(Guid userId, CancellationToken token = default)
         => await _context.requestPays.AsQueryable()
                                         .Where(p => p.UserId == userId)
+                                        .Select(r => r.AsResponse())
+                                        .AsNoTracking()
                                         .ToListAsync(token);
-
 }

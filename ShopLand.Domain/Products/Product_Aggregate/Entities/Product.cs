@@ -10,10 +10,11 @@ public class Product : BaseEntity<ProductId>, IAggregateRoot
 
     public readonly LinkedList<ProductCategory> ProductCategories = new();
     public Product
-        (ProductId id, Brand brand, ProductName productName,
-         Inventory inventory, ProductDescription description,
-         ProductPrice price)
-        : base(id)
+    (
+        ProductId id, Brand brand, ProductName productName,
+        Inventory inventory, ProductDescription description,
+        ProductPrice price
+    ) : base(id)
     {
         Brand = brand;
         Inventory = inventory;
@@ -27,9 +28,7 @@ public class Product : BaseEntity<ProductId>, IAggregateRoot
 
     public void AddCategory(Guid category)
     {
-        var alreadyExists = ProductCategories.Any(r => r.Category == category);
-
-        if (alreadyExists)
+        if (ProductCategories.Any(r => r.Category == category))
         {
             throw new ProductCategoryAlreadyExistsException();
         }
@@ -61,18 +60,6 @@ public class Product : BaseEntity<ProductId>, IAggregateRoot
         }
         var category = GetCategory(id);
         ProductCategories.Remove(category);
-    }
-
-    public void UpdateCategory(Guid oldCategory, Guid newCategory)
-    {
-        var isExists = ProductCategories.Any(r => r.Category == oldCategory);
-        if (!isExists)
-        {
-            throw new ProductCategoryNotFoundException();
-        }
-        RemoveCategory(oldCategory);
-        AddCategory(newCategory);
-
     }
 
     public ProductCategory GetCategory(Guid id)

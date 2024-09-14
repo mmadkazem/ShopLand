@@ -1,43 +1,55 @@
 namespace ShopLand.Api.Controller.Carts;
 
+
+
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
 public class CartsController(ICartFacade cartFacade)
     : ControllerBase
 {
-    ICartFacade _cartFacade = cartFacade;
+    private readonly ICartFacade _cartFacade = cartFacade;
 
     [HttpPost]
-    public async Task<IActionResult> Post
-        ([FromBody] AddCartItemCommandRequest request)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Post(AddCartItemDTO model,
+        CancellationToken token)
     {
-        await _cartFacade.AddCartItem.HandelAsync(request);
+        var request = AddCartItemCommandRequest.Create(User.UserId(), model);
+        await _cartFacade.AddCartItem.HandelAsync(request, token);
         return Ok();
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType<GetCartQueryResponse>((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Get(CancellationToken token = default)
     {
-        var cart = await _cartFacade.GetCart.HandelAsync(User.UserId());
+        var cart = await _cartFacade.GetCart.HandelAsync(User.UserId(), token);
         return Ok(cart);
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update
-        ([FromBody] UpdateCartItemCommandRequest request)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Update(UpdateCartItemDTO model,
+        CancellationToken token = default)
     {
-        request.UserId = User.UserId();
-        await _cartFacade.UpdateCartItem.HandelAsync(request);
+        var request = UpdateCartItemCommandRequest.Create(User.UserId(), model);
+        await _cartFacade.UpdateCartItem.HandelAsync(request, token);
         return Ok();
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> Remove
-        ([FromBody] RemoveCartItemCommandRequest request)
+    [HttpDelete("Products/{productId:guid}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Remove(Guid productId,
+        CancellationToken token = default)
     {
-        request.UserId = User.UserId();
-        await _cartFacade.RemoveCartItem.HandleAsync(request);
+        await _cartFacade.RemoveCartItem.HandleAsync(new(User.UserId(), productId), token);
         return Ok();
     }
 }

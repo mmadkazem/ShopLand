@@ -1,3 +1,5 @@
+using ShopLand.Application.Categories.Queries.Response;
+
 namespace ShopLand.Infrastructure.Persistance.Repositories;
 
 public sealed class CategoryRepository(DataBaseContext context)
@@ -18,10 +20,21 @@ public sealed class CategoryRepository(DataBaseContext context)
                                     .Where(c => c.Id == id)
                                     .FirstOrDefaultAsync(token);
 
-    public async Task<IEnumerable<Category>> GetAll(int page, CancellationToken token = default)
+    public async Task<IEnumerable<IResponse>> GetAll(int page, CancellationToken token = default)
         => await _context.Categories.AsQueryable()
                                     .Skip((page - 1) * 25)
                                     .Take(25)
+                                    .Select(c => c.AsResponse())
+                                    .AsNoTracking()
                                     .ToListAsync(token);
 
+    public async Task<bool> Any(CategoryName name, CancellationToken token = default)
+        => await _context.Categories.AsQueryable().AnyAsync(p => p.CategoryName == name, token);
+
+    public async Task<IResponse> Get(CategoryId id, CancellationToken token = default)
+        => await _context.Categories.AsQueryable()
+                                    .Where(c => c.Id == id)
+                                    .Select(c => c.AsResponse())
+                                    .AsNoTracking()
+                                    .FirstOrDefaultAsync(token);
 }

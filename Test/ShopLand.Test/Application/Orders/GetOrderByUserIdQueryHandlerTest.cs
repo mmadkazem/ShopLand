@@ -10,7 +10,7 @@ public class GetOrderByUserIdQueryHandlerTest
     {
         // ARRANGE
         var request = new GetOrderByUserIdQueryRequest(Guid.NewGuid());
-        _uow.Orders.FindAsyncByUserId(request.UserId).Returns([]);
+        _uow.Orders.GetByUserId(request.UserId).Returns([]);
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -27,7 +27,7 @@ public class GetOrderByUserIdQueryHandlerTest
         var request = new GetOrderByUserIdQueryRequest(Guid.NewGuid());
         var order = new Order(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
             new Address("TestStreet", "TestCity", "TestState", "TestPostalCode"));
-        _uow.Orders.FindAsyncByUserId(request.UserId).Returns([order]);
+        _uow.Orders.GetByUserId(request.UserId).Returns([order]);
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));

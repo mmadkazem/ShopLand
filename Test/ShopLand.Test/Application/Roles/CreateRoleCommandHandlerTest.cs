@@ -49,7 +49,7 @@ public class CreateRoleCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.Roles.Received(1).Add(Arg.Any<Role>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

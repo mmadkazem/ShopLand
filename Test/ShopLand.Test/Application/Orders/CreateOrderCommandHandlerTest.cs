@@ -72,7 +72,7 @@ public class CreateOrderCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.Orders.Received(1).Add(Arg.Any<Order>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     [Fact]

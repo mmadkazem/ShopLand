@@ -1,7 +1,7 @@
 namespace ShopLand.Application.Products.Commands.AddProductCategory.Handler;
 
 
-public sealed  class AddProductCategoryCommandHandler(IUnitOfWork uow)
+public sealed class AddProductCategoryCommandHandler(IUnitOfWork uow)
     : IAddProductCategoryCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -11,13 +11,13 @@ public sealed  class AddProductCategoryCommandHandler(IUnitOfWork uow)
         var product = await _uow.Products.FindAsync(request.ProductId, token)
             ?? throw new ProductNotFoundException();
 
-        var isExist = await _uow.Categories.Any(request.Category, token);
+        var isExist = await _uow.Categories.Any(request.CategoryId, token);
         if (!isExist)
         {
             throw new CategoryNotFoundException();
         }
 
-        product.AddCategory(request.Category);
-        await _uow.SaveAsync(token);
+        product.AddCategory(request.CategoryId);
+        await _uow.SaveChangeAsync(token);
     }
 }

@@ -8,8 +8,9 @@ global using ShopLand.Application.Products.Events.ProductRemoved;
 global using ShopLand.Application.Carts.Queries.GetCart.Response;
 global using ShopLand.Application.Carts.Queries.GetCart.Request;
 global using ShopLand.Application.Carts.Queries.GetCart.Handler;
+global using ShopLand.Application.Categories.Exceptions;
 global using ShopLand.Application.Carts.Exceptions;
 global using ShopLand.Domain.Carts.ValueObject;
 global using ShopLand.Application.Carts.Facade;
+global using ShopLand.Share.Abstract.Response;
 global using ShopLand.Domain.Carts.Entities;
-

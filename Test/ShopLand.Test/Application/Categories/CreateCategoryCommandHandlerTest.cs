@@ -20,7 +20,7 @@ public class CreateCategoryCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.Categories.Received(1).Add(Arg.Any<Category>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

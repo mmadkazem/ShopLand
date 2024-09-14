@@ -2,5 +2,5 @@ namespace ShopLand.Application.RequestPays.Queries.GetRequestPay.Handler;
 
 public interface IGetRequestPayQueryHandler
 {
-    Task<GetRequestPayQueryResponse> HandelAsync(GetRequestPayQueryRequest request, CancellationToken token = default);
+    Task<IResponse> HandelAsync(GetRequestPayQueryRequest request, CancellationToken token = default);
 }

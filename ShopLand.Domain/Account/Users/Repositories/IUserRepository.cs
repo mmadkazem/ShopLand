@@ -10,4 +10,5 @@ public interface IUserRepository
     Task<User> FindAsyncByEmail(Email email, CancellationToken token = default);
     Task<IEnumerable<User>> GetAll(int pageSize, int page, CancellationToken token = default);
     Task<IEnumerable<UserInRole>> FindAsyncUserRole(Guid roleId, CancellationToken token = default);
+    Task<IResponse> GetById(UserId userId, CancellationToken token);
 }

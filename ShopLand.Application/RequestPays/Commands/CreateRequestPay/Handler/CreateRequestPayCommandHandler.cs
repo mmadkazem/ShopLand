@@ -8,16 +8,12 @@ public sealed class CreateRequestPayCommandHandler(IUnitOfWork uow, IRequestPayF
 
     public async Task HandelAsync(CreateRequestPayCommandRequest request, CancellationToken token = default)
     {
-        var isExist = await _uow.Users.Any(request.UserId, token);
-        if (!isExist)
-        {
-            throw new UserNotFoundException();
-        }
+        var cart = await _uow.Carts.FindAsyncByUserId(request.UserId)
+            ?? throw new CartNotFoundException();
 
-        var requestPay = _requestPayFactory
-            .Create(request.UserId, request.Amount);
+        var requestPay = _requestPayFactory.Create(request.UserId, cart.TotalAmount());
 
         _uow.RequestPays.Add(requestPay);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

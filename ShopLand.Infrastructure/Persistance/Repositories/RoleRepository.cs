@@ -26,9 +26,11 @@ public sealed class RoleRepository(DataBaseContext context) : IRoleRepository
                                 .Where(r => r.Name == name)
                                 .FirstOrDefaultAsync(token);
 
-    public async Task<List<Role>> GetAll(int page, CancellationToken token = default)
+    public async Task<IEnumerable<IResponse>> GetAll(int page, CancellationToken token = default)
     => await _context.Roles.AsQueryable()
+                            .Select(s => s.AsResponse())
                             .Skip((page - 1) * 25)
                             .Take(25)
+                            .AsNoTracking()
                             .ToListAsync(token);
 }

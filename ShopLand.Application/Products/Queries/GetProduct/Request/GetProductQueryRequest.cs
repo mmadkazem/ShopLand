@@ -1,3 +1,3 @@
 namespace ShopLand.Application.Products.Queries.GetProduct.Request;
 
-public record GetProductQueryRequest(Guid ProductId);
+public readonly record struct GetProductQueryRequest(Guid ProductId);

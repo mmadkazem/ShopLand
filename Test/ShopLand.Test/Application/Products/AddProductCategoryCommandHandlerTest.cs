@@ -1,3 +1,5 @@
+using ShopLand.Application.Categories.Exceptions;
+
 namespace ShopLand.Test.Application.Products;
 
 public class AddProductCategoryCommandHandlerTest
@@ -26,7 +28,7 @@ public class AddProductCategoryCommandHandlerTest
         // ARRANGE
         var request = new AddProductCategoryCommandRequest(Guid.NewGuid(), Guid.NewGuid());
         _uow.Products.FindAsync(request.ProductId).Returns(new Product());
-        _uow.Categories.Any(request.Category).Returns(false);
+        _uow.Categories.Any(request.CategoryId).Returns(false);
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -43,14 +45,14 @@ public class AddProductCategoryCommandHandlerTest
         var product = new Product(Guid.NewGuid(), "TestBrand", "TestName", 5, "TestDescription", 10_000);
         var request = new AddProductCategoryCommandRequest(Guid.NewGuid(), Guid.NewGuid());
         _uow.Products.FindAsync(request.ProductId).Returns(product);
-        _uow.Categories.Any(request.Category).Returns(true);
+        _uow.Categories.Any(request.CategoryId).Returns(true);
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
 
         // ASSERT
         exception.ShouldBeNull();
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

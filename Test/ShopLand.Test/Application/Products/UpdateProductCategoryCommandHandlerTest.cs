@@ -1,3 +1,4 @@
+using ShopLand.Application.Categories.Exceptions;
 using ShopLand.Application.Products.Commands.UpdateProductCategory.Handler;
 using ShopLand.Application.Products.Commands.UpdateProductCategory.Request;
 
@@ -55,7 +56,7 @@ public class UpdateProductCategoryCommandHandlerTest
 
         // ASSERT
         exception.ShouldBeNull();
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

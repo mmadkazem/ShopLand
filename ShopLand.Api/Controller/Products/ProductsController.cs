@@ -1,5 +1,6 @@
 namespace ShopLand.Api.Controller.Products;
 
+
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
@@ -8,78 +9,86 @@ public class ProductsController(IProductFacade productFacade)
 {
     private readonly IProductFacade _productFacade = productFacade;
 
-    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> Post
-        ([FromBody] CreateProductCommandRequest request)
+    [HttpPost]
+    public async Task<IActionResult> Post(CreateProductCommandRequest request,
+        CancellationToken token = default)
     {
-        var result = await _productFacade.CreateProduct.HandelAsync(request);
+        var result = await _productFacade.CreateProduct.HandelAsync(request, token);
         var url = Url.Action(nameof(Get), "Products", new { Id = result }, Request.Scheme);
         return Created(url, true);
     }
 
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     [HttpPut("{ProductId:guid}")]
     [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> Put
-        ([FromBody] UpdateProductCommandRequest request)
+    public async Task<IActionResult> Put(Guid productId, UpdateProductDTO model,
+        CancellationToken token = default)
     {
-        await _productFacade.UpdateProduct.HandelAsync(request);
+        var request = UpdateProductCommandRequest.Create(productId, model);
+        await _productFacade.UpdateProduct.HandelAsync(request, token);
         return Ok();
     }
 
-    [HttpGet("{Page:int}")]
+    [ProducesResponseType<IEnumerable<GetAllProductQueryResponse>>((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [HttpGet("Page/{Page:int}")]
     [AllowAnonymous]
-    public async Task<IActionResult> Get
-        ([FromHeader] PageNumberRequest request)
+
+    public async Task<IActionResult> Get(int page,
+        CancellationToken token = default)
     {
-        var products = await _productFacade
-            .GetAllProduct.HandelAsync(request);
+        var responses = await _productFacade.GetAllProduct.HandelAsync(new(page), token);
+        return Ok(responses);
+    }
+
+    [ProducesResponseType<GetProductQueryResponse>((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [HttpGet("{Id:guid}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Get(Guid id,
+        CancellationToken token = default)
+    {
+        var products = await _productFacade.GetProduct.HandelAsync(new(id), token);
         return Ok(products);
     }
 
-    [HttpGet("{ProductId:guid}")]
-    [AllowAnonymous]
-    public async Task<IActionResult> Get
-        ([FromHeader] GetProductQueryRequest request)
-    {
-        var products = await _productFacade
-            .GetProduct.HandelAsync(request);
-        return Ok(products);
-    }
-
-    [HttpDelete("{ProductId:guid}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> Remove
-        ([FromBody] RemoveProductCommandRequest request)
+    [HttpDelete("{Id:guid}")]
+    public async Task<IActionResult> Remove(Guid id,
+        CancellationToken token = default)
     {
-        await _productFacade.RemoveProduct.HandelAsync(request);
+        await _productFacade.RemoveProduct.HandelAsync(new(id), token);
         return Ok();
     }
 
-    [HttpPost("{ProductId:guid}/Category")]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [HttpPost("{Id:guid}/Category")]
     [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> AddCategory
-        (AddProductCategoryCommandRequest request)
+    public async Task<IActionResult> AddCategory(Guid id, Guid categoryId,
+        CancellationToken token = default)
     {
-        await _productFacade.AddCategory.HandelAsync(request);
+        await _productFacade.AddCategory.HandelAsync(new(id, categoryId), token);
         return Ok();
     }
 
-    [HttpPut("{ProductId:guid}/Category/{CategoryId:guid}")]
+    [HttpDelete("{Id:guid}/Categories/{CategoryId:guid}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> UpdateCategory
-        (UpdateProductCategoryCommandRequest request)
+    public async Task<IActionResult> RemoveCategory(Guid id, Guid categoryId,
+        CancellationToken token = default)
     {
-        await _productFacade.UpdateCategory.HandelAsync(request);
-        return Ok();
-    }
-
-    [HttpDelete("{ProductId:guid}/Category/{CategoryId:guid}")]
-    [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> RemoveCategory
-        (RemoveProductCategoryCommandRequest request)
-    {
-        await _productFacade.RemoveCategory.HandelAsync(request);
+        await _productFacade.RemoveCategory.HandelAsync(new(id, categoryId), token);
         return Ok();
     }
 }

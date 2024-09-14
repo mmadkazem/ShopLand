@@ -1,6 +1,9 @@
 namespace ShopLand.Application.Account.Queries.LoginUser.Handler;
 
-public class LoginUserQueryHandler(IUnitOfWork uow, ITokenFactoryService tokenFactory) : ILoginUserQueryHandler
+
+
+public sealed class LoginUserQueryHandler(IUnitOfWork uow, ITokenFactoryService tokenFactory)
+    : ILoginUserQueryHandler
 {
     private readonly IUnitOfWork _uow = uow;
     private readonly ITokenFactoryService _tokenFactory = tokenFactory;
@@ -24,7 +27,7 @@ public class LoginUserQueryHandler(IUnitOfWork uow, ITokenFactoryService tokenFa
             jwt.RefreshTokenExpireTime,
             user.Id
         ));
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
 
         return new(jwt.AccessToken, jwt.RefreshToken);
     }

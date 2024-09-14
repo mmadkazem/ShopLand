@@ -1,4 +1,4 @@
 namespace ShopLand.Application.Products.Commands.AddProductCategory.Request;
 
 
-public record AddProductCategoryCommandRequest(Guid ProductId, Guid Category);
+public readonly record struct AddProductCategoryCommandRequest(Guid ProductId, Guid CategoryId);

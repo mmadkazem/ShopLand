@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Products.Commands.UpdateProduct.Handler;
 
-public class UpdateProductCommandHandler(IUnitOfWork uow)
+public sealed class UpdateProductCommandHandler(IUnitOfWork uow)
     : IUpdateProductCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -13,6 +13,6 @@ public class UpdateProductCommandHandler(IUnitOfWork uow)
             ?? throw new ProductNotFoundException();
 
         product.Update(brand, inventory, name, description, price);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

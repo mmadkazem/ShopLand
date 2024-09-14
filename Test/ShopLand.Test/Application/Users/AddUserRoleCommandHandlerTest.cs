@@ -10,7 +10,7 @@ public class AddUserRoleCommandHandlerTest
     {
         // ARRANGE
         var request = new AddUserRoleCommandRequest(Guid.NewGuid(), "Test");
-        _uow.Users.FindAsync(request.id).Returns(default(User));
+        _uow.Users.FindAsync(request.Id).Returns(default(User));
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -25,8 +25,8 @@ public class AddUserRoleCommandHandlerTest
     {
         // ARRANGE
         var request = new AddUserRoleCommandRequest(Guid.NewGuid(), "Test");
-        _uow.Users.FindAsync(request.id).Returns(new User());
-        _uow.Roles.FindAsyncByName(request.roleName).Returns(default(Role));
+        _uow.Users.FindAsync(request.Id).Returns(new User());
+        _uow.Roles.FindAsyncByName(request.RoleName).Returns(default(Role));
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -41,15 +41,15 @@ public class AddUserRoleCommandHandlerTest
     {
         // ARRANGE
         var request = new AddUserRoleCommandRequest(Guid.NewGuid(), "Test");
-        _uow.Users.FindAsync(request.id).Returns(new User());
-        _uow.Roles.FindAsyncByName(request.roleName).Returns(new Role());
+        _uow.Users.FindAsync(request.Id).Returns(new User());
+        _uow.Roles.FindAsyncByName(request.RoleName).Returns(new Role());
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
 
         // ASSERT
         exception.ShouldBeNull();
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

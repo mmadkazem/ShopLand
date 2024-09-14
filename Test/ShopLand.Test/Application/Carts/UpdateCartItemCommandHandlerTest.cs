@@ -52,7 +52,7 @@ public class UpdateCartItemCommandHandlerTest
 
         // ASSERT
         exception.ShouldBeNull();
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     [Fact]
@@ -71,7 +71,7 @@ public class UpdateCartItemCommandHandlerTest
 
         // ASSERT
         exception.ShouldBeNull();
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

@@ -13,14 +13,17 @@ public sealed class OrderRepository(DataBaseContext context)
                                 .Where(o => o.Id == id)
                                 .FirstOrDefaultAsync(token);
 
-    public async Task<IEnumerable<Order>> FindAsyncByUserId(Guid userId, CancellationToken token = default)
+    public async Task<IEnumerable<IResponse>> GetByUserId(Guid userId, CancellationToken token = default)
         => await _context.Orders.AsQueryable()
                                 .Where(o => o.UserId == userId)
+                                .Select(o => o.AsResponse())
+                                .AsNoTracking()
                                 .ToListAsync(token);
 
-    public async Task<IEnumerable<Order>> GetAll(int page, CancellationToken token = default)
+    public async Task<IEnumerable<IResponse>> GetAll(int page, CancellationToken token = default)
         => await _context.Orders.AsQueryable()
-                                .Include(o => o.OrderDetails)
                                 .Skip((page - 1) * 25).Take(25)
+                                .Select(o => o.AsResponse())
+                                .AsNoTracking()
                                 .ToListAsync(token);
 }

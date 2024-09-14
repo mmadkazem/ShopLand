@@ -1,6 +1,6 @@
-namespace ShopLand.Application.Categories.Queries.GetCategory.Response;
+namespace ShopLand.Application.Categories.Queries.Response;
 
-public record GetCategoryQueryResponse(Guid Id, string Name);
+public record GetCategoryQueryResponse(Guid Id, string Name) : IResponse;
 
 public static class Extensions
 {

@@ -1,5 +1,4 @@
 namespace ShopLand.Application.Account.Commands.LoginUserByRefreshToken.Request;
 
 
-public record LoginUserByRefreshTokenCommandRequest
-(Guid UserId, string RefreshTokenSerial);
+public readonly record struct LoginUserByRefreshTokenCommandRequest(Guid UserId, string RefreshTokenSerial);

@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Categories.Commands.RemoveCategory.Handler;
 
-public class RemoveCategoryCommandHandler(IUnitOfWork uow, IRemovedCategoryEventHandler removedCategory)
+public sealed class RemoveCategoryCommandHandler(IUnitOfWork uow, IRemovedCategoryEventHandler removedCategory)
     : IRemoveCategoryCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -12,7 +12,7 @@ public class RemoveCategoryCommandHandler(IUnitOfWork uow, IRemovedCategoryEvent
             ?? throw new CategoryNotFoundException();
 
         _uow.Categories.Remove(category);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
 
         await _removedCategory.HandelAsync(category.Id, token);
     }

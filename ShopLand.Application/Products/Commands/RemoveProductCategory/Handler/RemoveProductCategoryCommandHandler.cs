@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Products.Commands.RemoveProductCategory.Handler;
 
-public class RemoveProductCategoryCommandHandler(IUnitOfWork uow)
+public sealed class RemoveProductCategoryCommandHandler(IUnitOfWork uow)
     : IRemoveProductCategoryCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -11,6 +11,6 @@ public class RemoveProductCategoryCommandHandler(IUnitOfWork uow)
             ?? throw new ProductNotFoundException();
 
         product.RemoveCategory(request.CategoryId);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

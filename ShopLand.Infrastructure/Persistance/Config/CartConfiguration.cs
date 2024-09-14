@@ -19,15 +19,15 @@ internal sealed class CartConfiguration : IEntityTypeConfiguration<Cart>,
     {
         builder.Property<int>("Id");
 
-        var countConverter = new ValueConverter<Count, uint>
-            (c => c.Value, c => new(c));
         builder
             .Property(c => c.Count)
-            .HasConversion(countConverter);
+            .HasConversion(c => c.Value, c => new(c));
+
+        builder.Ignore(c => c.TotalPrice);
 
         builder
             .Property(c => c.CartId)
-            .HasConversion(c => c.Value, c => new CartId(c))
+            .HasConversion(c => c.Value, c => new(c))
             .HasColumnName(nameof(CartId));
     }
 }

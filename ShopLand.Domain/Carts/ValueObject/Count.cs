@@ -41,6 +41,7 @@ public record Count
 
     public static implicit operator uint(Count count)
         => count.Value;
+
     public static implicit operator Count(uint value)
-    => new(value);
+        => new(value);
 }

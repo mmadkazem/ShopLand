@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Categories.Commands.CreateCategory.Handler;
 
-public class CreateCategoryCommandHandler(IUnitOfWork uow, ICategoryFactory categoryFactory)
+public sealed class CreateCategoryCommandHandler(IUnitOfWork uow, ICategoryFactory categoryFactory)
     : ICreateCategoryCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -8,10 +8,15 @@ public class CreateCategoryCommandHandler(IUnitOfWork uow, ICategoryFactory cate
 
     public async Task<Guid> HandelAsync(CreateCategoryCommandRequest request, CancellationToken token = default)
     {
+        if (await _uow.Categories.Any(request.Name, token))
+        {
+            throw new CategoryAlreadyExistException();
+        }
+
         var category = _categoryFactory.Create(request.Name);
 
         _uow.Categories.Add(category);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
 
         return category.Id;
     }

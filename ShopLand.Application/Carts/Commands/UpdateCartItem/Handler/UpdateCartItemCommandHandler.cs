@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Carts.Commands.UpdateCartItem.Handler;
 
-public class UpdateCartItemCommandHandler(IUnitOfWork uow)
+public sealed class UpdateCartItemCommandHandler(IUnitOfWork uow)
     : IUpdateCartItemCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -24,6 +24,6 @@ public class UpdateCartItemCommandHandler(IUnitOfWork uow)
                 break;
         }
 
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

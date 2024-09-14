@@ -1,3 +1,3 @@
 namespace ShopLand.Application.RequestPays.Queries.GetRequestPay.Request;
 
-public record GetRequestPayQueryRequest(Guid RequestPayId);
+public readonly record struct GetRequestPayQueryRequest(Guid RequestPayId);

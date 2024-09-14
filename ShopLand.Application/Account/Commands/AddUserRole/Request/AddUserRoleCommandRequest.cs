@@ -1,4 +1,4 @@
 namespace ShopLand.Application.Account.Commands.AddUserRole.Request;
 
 
-public record AddUserRoleCommandRequest(Guid id, string roleName);
+public readonly record struct AddUserRoleCommandRequest(Guid Id, string RoleName);

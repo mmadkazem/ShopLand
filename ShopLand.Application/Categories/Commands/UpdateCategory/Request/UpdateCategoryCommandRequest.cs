@@ -1,3 +1,3 @@
 namespace ShopLand.Application.Categories.Commands.UpdateCategory.Request;
 
-public record UpdateCategoryCommandRequest(Guid Id, string Name);
+public readonly record struct UpdateCategoryCommandRequest(Guid Id, string Name);

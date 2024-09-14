@@ -1,60 +1,71 @@
 namespace ShopLand.Api.Controller.Accounts;
 
+
 [ApiController]
-[Route("api/[controller]")]
-[Authorize]
-public class AccountController(IAccountFacade account)
+[Route("api/[controller]/[action]")]
+public sealed class AccountController(IAccountFacade account)
     : ControllerBase
 {
     private readonly IAccountFacade _account = account;
 
-    [HttpPost("[action]")]
-    [AllowAnonymous]
-    public async Task<Results<Ok, BadRequest>> Register
-        ([FromBody] RegisterUserCommandRequest request)
-    {
-        await _account.RegisterUser.HandelAsync(request);
-        return TypedResults.Ok();
-    }
-
-    [HttpPost("[action]")]
-    [AllowAnonymous]
-    public async Task<Results<Ok<JwtTokensDataResponse>, BadRequest, NotFound>> Login
-        ([FromBody] LoginUserQueryRequest request)
-    {
-        var result = await _account.LoginUser.HandelAsync(request);
-        return TypedResults.Ok(result);
-    }
-
-    [HttpPost("{UserId:guid}/UserRole")]
-    [Authorize(CustomRoles.Admin)]
-    public async Task<IActionResult> AddUserRole(Guid userId, string roleName,
+    [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Register(RegisterUserCommandRequest request,
         CancellationToken token = default)
     {
-        await _account.AddUserRole.HandelAsync(new AddUserRoleCommandRequest(userId, roleName), token);
+        await _account.RegisterUser.HandelAsync(request, token);
         return Ok();
     }
 
-    [HttpGet("[action]")]
+    [HttpGet]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType<JwtTokensDataResponse>((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Login(LoginUserQueryRequest request,
+        CancellationToken token = default)
+    {
+        var result = await _account.LoginUser.HandelAsync(request, token);
+        return Ok(result);
+    }
+
+    [Authorize(CustomRoles.Admin)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [HttpPost("api/[controller]/{UserId:guid}/UserRole")]
+
+    public async Task<IActionResult> AddUserRole(Guid userId, string roleName,
+        CancellationToken token = default)
+    {
+        await _account.AddUserRole.HandelAsync(new(userId, roleName), token);
+        return Ok();
+    }
+
+    [HttpGet]
+    [Authorize]
+    [ProducesResponseType<GetUserQueryResponse>((int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetCurrentUser(CancellationToken token = default)
     {
-        var result = await _account.GetUser
-            .HandelAsync(User.UserId(), token);
+        var result = await _account.GetUser.HandelAsync(User.UserId(), token);
         return Ok(result);
     }
 
     [HttpGet("{id}")]
-    [AllowAnonymous]
+    [Authorize(CustomRoles.Admin)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType<GetUserQueryResponse>((int)HttpStatusCode.OK)]
     public async Task<IActionResult> GetUserById(Guid id,
         CancellationToken token = default)
     {
-        var result = await _account.GetUser
-        .HandelAsync(id, token);
+        var result = await _account.GetUser.HandelAsync(id, token);
         return Ok(result);
     }
 
-    [HttpPut("[action]")]
-    [AllowAnonymous]
+    [HttpPut]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+
     public async Task<IActionResult> ChangePassword(ChangePasswordCommandRequest request,
         CancellationToken token = default)
     {
@@ -62,27 +73,33 @@ public class AccountController(IAccountFacade account)
         return Ok();
     }
 
-    [HttpDelete("{UserId:guid}/UserRole/{RoleId:guid}")]
     [Authorize(CustomRoles.Admin)]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [HttpDelete("api/[controller]/{UserId:guid}/UserRole/{RoleId:guid}")]
     public async Task<IActionResult> RemoveUserRole(Guid userId, Guid roleId,
         CancellationToken token = default)
     {
-        await _account.RemoveUserRole.HandelAsync(new RemoveUserRoleCommandRequest(userId, roleId), token);
+        await _account.RemoveUserRole.HandelAsync(new(userId, roleId), token);
         return Ok();
     }
 
-    [HttpPost("[action]")]
+    [HttpPost]
     [Authorize(AuthenticationSchemes = "RefreshScheme")]
+    [ProducesResponseType<JwtTokensDataResponse>((int)HttpStatusCode.OK)]
     public async Task<IActionResult> LoginByRefreshToken(CancellationToken token = default)
     {
-        var result = await _account.LoginUserByRefreshToken
-            .HandelAsync(new(User.UserId(), User.RefreshTokenSerial()), token);
-
+        var result = await _account.LoginUserByRefreshToken.HandelAsync
+        (
+            new(User.UserId(), User.RefreshTokenSerial()), token
+        );
         return Ok(result);
     }
 
-    [HttpPost("[action]")]
-    [AllowAnonymous]
+    [HttpGet]
+    [Authorize]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> Logout(CancellationToken token = default)
     {
         await _account.UserLogout.HandelAsync(User.UserId(), token);

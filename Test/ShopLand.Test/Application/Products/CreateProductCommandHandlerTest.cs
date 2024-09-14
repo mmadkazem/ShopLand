@@ -1,3 +1,5 @@
+using ShopLand.Application.Categories.Exceptions;
+
 namespace ShopLand.Test.Application.Products;
 
 public class CreateProductCommandHandlerTest
@@ -35,7 +37,7 @@ public class CreateProductCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.Products.Received(1).Add(Arg.Any<Product>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
     #region ARRANGE
 

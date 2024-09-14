@@ -4,7 +4,7 @@ public interface IOrderFacade
 {
     ICreateOrderCommandHandler CreateOrder { get; }
     IUpdateOrderStateCommandHandler UpdateOrderState { get; }
-    IGetOrderByUserIdQueryHandler GetOrderByUser { get; }
+    IGetOrderByUserIdQueryHandler GetOrderByUserId { get; }
     IGetAllOrderQueryHandler GetAllOrder { get; }
 }
 
@@ -30,7 +30,7 @@ public class OrderFacade : IOrderFacade
         => _updateOrderState;
 
     private readonly IGetOrderByUserIdQueryHandler _getOrderByUser;
-    public IGetOrderByUserIdQueryHandler GetOrderByUser
+    public IGetOrderByUserIdQueryHandler GetOrderByUserId
         => _getOrderByUser;
 
     private readonly IGetAllOrderQueryHandler _getAllOrder;

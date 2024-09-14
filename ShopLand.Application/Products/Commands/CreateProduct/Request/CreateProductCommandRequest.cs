@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Products.Commands.CreateProduct.Request;
 
-public record CreateProductCommandRequest
+public readonly record struct CreateProductCommandRequest
 (
     string Name,
     string Brand,

@@ -14,7 +14,7 @@ public class RemoveProductCommandHandlerTest
     {
         // ARRANGE
         var request = new RemoveProductCommandRequest(Guid.NewGuid());
-        _uow.Products.FindAsync(request.productId).Returns(default(Product));
+        _uow.Products.FindAsync(request.ProductId).Returns(default(Product));
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -29,7 +29,7 @@ public class RemoveProductCommandHandlerTest
     {
         // ARRANGE
         var request = new RemoveProductCommandRequest(Guid.NewGuid());
-        _uow.Products.FindAsync(request.productId).Returns(new Product());
+        _uow.Products.FindAsync(request.ProductId).Returns(new Product());
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -37,7 +37,7 @@ public class RemoveProductCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.Products.Received(1).Remove(Arg.Any<Product>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class RemoveProductCommandHandlerTest
     {
         // ARRANGE
         var request = new RemoveProductCommandRequest(Guid.NewGuid());
-        _uow.Products.FindAsync(request.productId).Returns(new Product());
+        _uow.Products.FindAsync(request.ProductId).Returns(new Product());
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));

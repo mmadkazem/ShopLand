@@ -9,4 +9,6 @@ public interface ICartRepository
     Task<Cart> FindAsyncByUserId(Guid userId, CancellationToken token = default);
     Task RemoveCartItem(Guid productId, CancellationToken token = default);
     Task<IEnumerable<CartItem>> FindAsyncCartItem(Guid productId, CancellationToken token = default);
+    Task<IResponse> Get(Guid userId, CancellationToken token = default);
+    Task UpdatedProduct(Guid productId, uint productPrice, CancellationToken token = default);
 }

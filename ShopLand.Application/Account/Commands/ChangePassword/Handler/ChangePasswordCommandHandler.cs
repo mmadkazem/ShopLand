@@ -1,6 +1,9 @@
 namespace ShopLand.Application.Account.Commands.ChangePassword.Handler;
 
-public class ChangePasswordCommandHandler(IUnitOfWork uow) : IChangePasswordCommandHandler
+
+
+public sealed class ChangePasswordCommandHandler(IUnitOfWork uow)
+    : IChangePasswordCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
 
@@ -17,6 +20,6 @@ public class ChangePasswordCommandHandler(IUnitOfWork uow) : IChangePasswordComm
         user.UserLogin(request.Email, request.Password);
 
         user.ChangePassword(request.NewPassword, request.ConfirmNewPassword);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

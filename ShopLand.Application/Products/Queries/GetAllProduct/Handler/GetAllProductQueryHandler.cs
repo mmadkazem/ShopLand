@@ -5,14 +5,14 @@ public class GetAllProductQueryHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task<IEnumerable<GetAllProductQueryResponse>> HandelAsync(PageNumberRequest request, CancellationToken token = default)
+    public async Task<IEnumerable<IResponse>> HandelAsync(PageNumberRequest request, CancellationToken token = default)
     {
-        var products = await _uow.Products.GetAll(request.Page, token);
-        if (products.Count() is 0)
+        var responses = await _uow.Products.GetAll(request.Page, token);
+        if (!responses.Any())
         {
             throw new ProductNotFoundException();
         }
 
-        return products.Select(p => p.AsResponses()).ToList();
+        return responses;
     }
 }

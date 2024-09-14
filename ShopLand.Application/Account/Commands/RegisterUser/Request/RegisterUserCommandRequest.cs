@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Account.Commands.RegisterUser.Request;
 
-public record RegisterUserCommandRequest
+public readonly record struct RegisterUserCommandRequest
 (
     string FirstName,
     string LastName,

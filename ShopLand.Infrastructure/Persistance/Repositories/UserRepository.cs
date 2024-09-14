@@ -1,3 +1,5 @@
+using ShopLand.Application.Account.Queries.GetUser.Response;
+
 namespace ShopLand.Infrastructure.Persistance.Repositories;
 
 public sealed class UserRepository(DataBaseContext context) : IUserRepository
@@ -40,4 +42,11 @@ public sealed class UserRepository(DataBaseContext context) : IUserRepository
     public async Task RemoveUserRoles(Guid roleId, CancellationToken token = default)
         => await _context.UserInRoles.Where(r => r.Role == roleId)
                                         .ExecuteDeleteAsync(token);
+
+    public async Task<IResponse> GetById(UserId userId, CancellationToken token)
+        => await _context.Users.AsQueryable()
+                                .Where(u => u.Id == userId)
+                                .Select(u => u.AsResponse())
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync(token);
 }

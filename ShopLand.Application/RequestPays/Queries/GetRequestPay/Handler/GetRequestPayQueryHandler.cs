@@ -5,11 +5,7 @@ public sealed class GetRequestPayQueryHandler(IUnitOfWork uow)
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task<GetRequestPayQueryResponse> HandelAsync(GetRequestPayQueryRequest request, CancellationToken token = default)
-    {
-        var requestPay = await _uow.RequestPays.FindAsync(request.RequestPayId, token)
+    public async Task<IResponse> HandelAsync(GetRequestPayQueryRequest request, CancellationToken token = default)
+        => await _uow.RequestPays.Get(request.RequestPayId, token)
             ?? throw new RequestPayNotFoundException();
-
-        return requestPay.AsResponse();
-    }
 }

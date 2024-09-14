@@ -10,39 +10,43 @@ public class OrdersController(IOrderFacade orderFacade)
     private readonly IOrderFacade _orderFacade = orderFacade;
 
     [HttpPost]
-    public async Task<IActionResult> Post
-        ([FromBody] CreateOrderCommandRequest request)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Post(CreateOrderDTO model,
+        CancellationToken token = default)
     {
-        await _orderFacade.CreateOrder.HandelAsync(request);
+        var request = CreateOrderCommandRequest.Create(User.UserId(), model);
+        await _orderFacade.CreateOrder.HandelAsync(request, token);
         return Created();
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update
-        ([FromBody] UpdateOrderStateCommandRequest request)
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> Update(Guid orderId, OrderState state,
+        CancellationToken token = default)
     {
-        await _orderFacade.UpdateOrderState.HandelAsync(request);
+        await _orderFacade.UpdateOrderState.HandelAsync(new(orderId, state), token);
         return Ok();
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType<IEnumerable<GetOrderQueryResponse>>((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Get(CancellationToken token = default)
     {
-        var cart = await _orderFacade.GetOrderByUser.HandelAsync(User.UserId());
+        var cart = await _orderFacade.GetOrderByUserId.HandelAsync(new(User.UserId()), token);
         return Ok(cart);
     }
 
-    [HttpGet("{UserId:guid}")]
-    public async Task<IActionResult> Get(GetOrderByUserIdQueryRequest request)
+    [HttpGet("Page/{page:int}")]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType<IEnumerable<GetOrderQueryResponse>>((int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Get(int page)
     {
-        var cart = await _orderFacade.GetOrderByUser.HandelAsync(request);
-        return Ok(cart);
-    }
-
-    [HttpGet("{Page:int}")]
-    public async Task<IActionResult> Get(PageNumberRequest request)
-    {
-        var cart = await _orderFacade.GetAllOrder.HandelAsync(request);
+        var cart = await _orderFacade.GetAllOrder.HandelAsync(new(page));
         return Ok(cart);
     }
 }

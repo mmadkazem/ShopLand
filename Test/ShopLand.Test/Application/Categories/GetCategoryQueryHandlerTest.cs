@@ -1,3 +1,5 @@
+using ShopLand.Application.Categories.Exceptions;
+
 namespace ShopLand.Test.Application.Categories;
 
 

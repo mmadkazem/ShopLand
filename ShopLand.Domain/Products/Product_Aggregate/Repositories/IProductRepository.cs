@@ -7,6 +7,7 @@ public interface IProductRepository
     Task<bool> Any(ProductId id, CancellationToken token = default);
     Task RemoveProductCategories(Guid id, CancellationToken token = default);
     Task<Product> FindAsync(ProductId id, CancellationToken token = default);
-    Task<IEnumerable<Product>> GetAll(int page, CancellationToken token = default);
+    Task<IEnumerable<IResponse>> GetAll(int page, CancellationToken token = default);
     Task<Product> FindAsyncByProductName(ProductName productName, CancellationToken token = default);
+    Task<IResponse> Get(ProductId id, CancellationToken token);
 }

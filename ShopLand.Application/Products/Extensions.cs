@@ -1,8 +1,6 @@
-using ShopLand.Application.Products.Commands.RemoveProductCategory.Handler;
-using ShopLand.Application.Products.Commands.UpdateProductCategory.Handler;
-using ShopLand.Application.Products.Events.ProductRemoved;
-
 namespace ShopLand.Application.Products;
+
+
 
 public static class Extensions
 {

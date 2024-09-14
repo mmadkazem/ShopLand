@@ -1,6 +1,7 @@
 namespace ShopLand.Application.Carts.Commands.RemoveCartItem.Request;
 
-public record RemoveCartItemCommandRequest(Guid ProductId)
+public readonly record struct RemoveCartItemCommandRequest(Guid UserId, Guid ProductId)
 {
-    public Guid UserId { get; set; }
+    public static RemoveCartItemCommandRequest Create(Guid userId, Guid productId)
+        => new(userId, productId);
 }

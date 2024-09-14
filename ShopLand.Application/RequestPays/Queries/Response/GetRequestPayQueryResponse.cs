@@ -1,7 +1,10 @@
 namespace ShopLand.Application.RequestPays.Queries.Response;
 
-public record GetRequestPayQueryResponse(Guid UserId, uint Amount
-    , DateTime? PayDate, bool IsPay);
+public record GetRequestPayQueryResponse
+(
+    Guid UserId, uint Amount,
+    DateTime? PayDate, bool IsPay
+) : IResponse;
 
 public static class Exceptions
 {

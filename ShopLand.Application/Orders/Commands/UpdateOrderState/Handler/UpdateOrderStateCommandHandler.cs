@@ -1,6 +1,6 @@
 namespace ShopLand.Application.Orders.Commands.UpdateOrderState.Handler;
 
-public class UpdateOrderStateCommandHandler(IUnitOfWork uow)
+public sealed class UpdateOrderStateCommandHandler(IUnitOfWork uow)
     : IUpdateOrderStateCommandHandler
 {
     private readonly IUnitOfWork _uow = uow;
@@ -11,6 +11,6 @@ public class UpdateOrderStateCommandHandler(IUnitOfWork uow)
             ?? throw new OrderNotFoundException();
 
         order.UpdateOrderState(request.OrderState);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

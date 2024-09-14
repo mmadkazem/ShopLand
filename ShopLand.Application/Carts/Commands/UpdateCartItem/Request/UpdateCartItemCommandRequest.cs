@@ -1,10 +1,12 @@
 namespace ShopLand.Application.Carts.Commands.UpdateCartItem.Request;
 
-public record UpdateCartItemCommandRequest
-    (CountType CountType, Guid ProductId)
+public readonly record struct UpdateCartItemCommandRequest(Guid UserId, CountType CountType, Guid ProductId)
 {
-    public Guid UserId { get; set; }
+    public static UpdateCartItemCommandRequest Create(Guid userId, UpdateCartItemDTO model)
+        => new(userId, model.CountType, model.ProductId);
 }
+
+public readonly record struct UpdateCartItemDTO(CountType CountType, Guid ProductId);
 
 public enum CountType
 {

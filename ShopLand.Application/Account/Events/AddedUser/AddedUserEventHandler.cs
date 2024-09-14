@@ -1,6 +1,7 @@
 namespace ShopLand.Application.Account.Events.AddedUser;
 
-public class AddedUserEventHandler(IUnitOfWork uow, ICartFactory cartFactory) : IAddedUserEventHandler
+public sealed class AddedUserEventHandler(IUnitOfWork uow, ICartFactory cartFactory)
+    : IAddedUserEventHandler
 {
     private readonly IUnitOfWork _uow = uow;
     private readonly ICartFactory _cartFactory = cartFactory;
@@ -9,6 +10,6 @@ public class AddedUserEventHandler(IUnitOfWork uow, ICartFactory cartFactory) : 
     {
         var cart = _cartFactory.Create(userId);
         _uow.Carts.Add(cart);
-        await _uow.SaveAsync(token);
+        await _uow.SaveChangeAsync(token);
     }
 }

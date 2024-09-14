@@ -1,3 +1,5 @@
+using ShopLand.Application.Categories.Exceptions;
+
 namespace ShopLand.Test.Application.Categories;
 
 
@@ -34,7 +36,7 @@ public class RemoveCategoryCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.Categories.Received(1).Remove(Arg.Any<Category>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     [Fact]

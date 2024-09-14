@@ -3,15 +3,10 @@ namespace ShopLand.Application.Products.Queries.GetProduct.Response;
 public record GetProductQueryResponse
 (
     Guid ProductId,
-    string Name,
-    string Brand,
-    string Description,
-    uint Inventory,
-    uint Price
-)
-{
-    public List<string> Categories { get; set; } = new();
-}
+    string Name, string Brand, string Description,
+    uint Inventory, uint Price,
+    IEnumerable<Guid> Categories
+) : IResponse;
 
 public static class Exception
 {
@@ -19,6 +14,7 @@ public static class Exception
         => new
         (
             product.Id, product.ProductName, product.Brand,
-            product.Description, product.Inventory, product.Price
+            product.Description, product.Inventory, product.Price,
+            product.ProductCategories.Select(p => p.Category).ToList()
         );
 }

@@ -76,7 +76,7 @@ public class OrderRepositoryTest
         context.SaveChanges();
 
         //ACT
-        var results = await orderRepository.FindAsyncByUserId(userId);
+        var results = await orderRepository.GetByUserId(userId);
 
         //ASSERT
 
@@ -110,7 +110,7 @@ public class OrderRepositoryTest
         context.SaveChanges();
 
         //ACT
-        var results = await orderRepository.FindAsyncByUserId(userId);
+        var results = await orderRepository.GetByUserId(userId);
 
         //ASSERT
 

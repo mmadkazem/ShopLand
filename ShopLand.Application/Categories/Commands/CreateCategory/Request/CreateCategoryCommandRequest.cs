@@ -1,3 +1,3 @@
 namespace ShopLand.Application.Categories.Commands.CreateCategory.Request;
 
-public record CreateCategoryCommandRequest(string Name);
+public readonly record struct CreateCategoryCommandRequest(string Name);

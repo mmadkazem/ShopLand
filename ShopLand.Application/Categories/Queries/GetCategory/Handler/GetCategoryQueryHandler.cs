@@ -1,14 +1,11 @@
 namespace ShopLand.Application.Categories.Queries.GetCategory.Handler;
 
-public class GetCategoryQueryHandler(IUnitOfWork uow) : IGetCategoryQueryHandler
+public sealed class GetCategoryQueryHandler(IUnitOfWork uow)
+    : IGetCategoryQueryHandler
 {
     private readonly IUnitOfWork _uow = uow;
 
-    public async Task<GetCategoryQueryResponse> HandelAsync(GetCategoryQueryRequest request, CancellationToken token = default)
-    {
-        var category = await _uow.Categories.FindAsync(request.Id, token)
+    public async Task<IResponse> HandelAsync(GetCategoryQueryRequest request, CancellationToken token = default)
+        => await _uow.Categories.Get(request.Id, token)
             ?? throw new CategoryNotFoundException();
-
-        return category.AsResponse();
-    }
 }

@@ -3,11 +3,11 @@ namespace ShopLand.Application.Carts.Queries.GetCart.Response;
 public record GetCartQueryResponse
 (
     Guid UserId, bool Finished,
-    List<GetCartItemQueryResponse> CartItems
-);
+    IEnumerable<GetCartItemDTO> CartItems
+) : IResponse;
 
 
-public record GetCartItemQueryResponse
+public readonly record struct GetCartItemDTO
 (
     Guid CartId, uint Count, uint TotalPrice,
     uint ProductPrice, Guid ProductId
@@ -17,13 +17,13 @@ public record GetCartItemQueryResponse
 
 public static class Extension
 {
-    public static GetCartItemQueryResponse AsResponse(this CartItem CartItem, Product product)
+    public static GetCartItemDTO AsResponse(this CartItem cartItem)
         => new
         (
-            CartItem.CartId, CartItem.Count,
-            product.Price * CartItem.Count,
-            product.Price, product.Id
+            cartItem.CartId, cartItem.Count,
+            cartItem.TotalPrice,
+            cartItem.ProductPrice, cartItem.ProductId
         );
-    public static GetCartQueryResponse AsResponse(this Cart Cart, List<GetCartItemQueryResponse> CartItems)
-        => new(Cart.UserId, Cart.Finished, CartItems);
+    public static GetCartQueryResponse AsResponse(this Cart cart)
+        => new(cart.UserId, cart.Finished, cart.CartItems.Select(c => c.AsResponse()).ToList());
 }

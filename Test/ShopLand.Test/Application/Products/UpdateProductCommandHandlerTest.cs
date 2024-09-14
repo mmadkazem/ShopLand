@@ -35,7 +35,7 @@ public class UpdateProductCommandHandlerTest
 
         // ASSERT
         exception.ShouldBeNull();
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

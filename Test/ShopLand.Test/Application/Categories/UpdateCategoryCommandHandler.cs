@@ -1,3 +1,5 @@
+using ShopLand.Application.Categories.Exceptions;
+
 namespace ShopLand.Test.Application.Categories;
 
 
@@ -33,7 +35,7 @@ public class UpdateCategoryCommandHandlerTest
 
         // ASSERT
         exception.ShouldBeNull();
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE

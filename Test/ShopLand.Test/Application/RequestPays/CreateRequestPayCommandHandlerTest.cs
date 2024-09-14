@@ -51,7 +51,7 @@ public class CreateRequestPayCommandHandlerTest
         // ASSERT
         exception.ShouldBeNull();
         _uow.RequestPays.Received(1).Add(Arg.Any<RequestPay>());
-        await _uow.Received(1).SaveAsync();
+        await _uow.Received(1).SaveChangeAsync();
     }
 
     #region ARRANGE
