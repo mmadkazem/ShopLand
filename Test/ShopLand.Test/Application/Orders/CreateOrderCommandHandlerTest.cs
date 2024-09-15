@@ -111,7 +111,7 @@ public class CreateOrderCommandHandlerTest
         _createOrder = new CreateOrderCommandHandler(_uow, _orderFactory, _createdOrder);
         cart = new Cart(Guid.NewGuid(), Guid.NewGuid());
         product = new Product(Guid.NewGuid(), "TestBrand", "TestName", 5, "TestDescription", 10_000);
-        cart.AddCartItem(product.Id, 5, 10);
+        cart.AddCartItem(product.Id, 5, 10, product.Price);
 
     }
 

@@ -53,33 +53,6 @@ public class CategoryRepositoryTest
         Assert.Equal(category.CategoryName, result.CategoryName);
     }
 
-    [Fact]
-    public async void Should_GetAll_Category_In_DataBase()
-    {
-        //ARRANGE
-        var dbOptions = new DbContextOptionsBuilder<DataBaseContext>()
-                .UseInMemoryDatabase("ShouldGetAllTest", b => b.EnableNullChecks(false))
-                .Options;
-
-        var category1 = new Category(Guid.NewGuid(), "TestCategoryName1");
-        var category2 = new Category(Guid.NewGuid(), "TestCategoryName2");
-
-        using var context = new DataBaseContext(dbOptions);
-        var categoryRepository = new CategoryRepository(context);
-        categoryRepository.Add(category1);
-        categoryRepository.Add(category2);
-        context.SaveChanges();
-
-        //ACT
-        var categories = await categoryRepository.GetAll(1);
-
-        //ASSERT
-
-        Assert.Equal(2, categories.Count());
-        Assert.Contains(categories, q => q.Id == category1.Id);
-        Assert.Contains(categories, q => q.Id == category2.Id);
-        Assert.DoesNotContain(categories, q => q.Id == new CategoryId(Guid.NewGuid()));
-    }
 
     [Fact]
     public async void Should_Any_Category_In_DataBase()

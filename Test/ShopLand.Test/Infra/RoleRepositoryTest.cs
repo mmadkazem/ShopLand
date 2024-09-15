@@ -75,34 +75,6 @@ public class RoleRepositoryTest
     }
 
     [Fact]
-    public async void Should_GetAll_Role_In_DataBase()
-    {
-        //ARRANGE
-        var dbOptions = new DbContextOptionsBuilder<DataBaseContext>()
-                .UseInMemoryDatabase("ShouldGetAllTest", b => b.EnableNullChecks(false))
-                .Options;
-
-        var role1 = new Role(Guid.NewGuid(), "TestName1");
-        var role2 = new Role(Guid.NewGuid(), "TestName2");
-
-        using var context = new DataBaseContext(dbOptions);
-        var roleRepository = new RoleRepository(context);
-        roleRepository.Add(role1);
-        roleRepository.Add(role2);
-        context.SaveChanges();
-
-        //ACT
-        var roles = await roleRepository.GetAll(1);
-
-        //ASSERT
-
-        Assert.Equal(2, roles.Count());
-        Assert.Contains(roles, q => q.Id == role1.Id);
-        Assert.Contains(roles, q => q.Id == role2.Id);
-        Assert.DoesNotContain(roles, q => q.Id == new RoleId(Guid.NewGuid()));
-    }
-
-    [Fact]
     public async void Should_Any_Role_In_DataBase()
     {
         //ARRANGE

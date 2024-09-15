@@ -9,10 +9,10 @@ public class CartTest
         //ARRANGE
         var Cart = GetCart();
         var ProductId = Guid.NewGuid();
-        Cart.AddCartItem(ProductId, 5, 11);
+        Cart.AddCartItem(ProductId, 5, 11, 10_000);
 
         //ACT
-        var exception = Record.Exception(() => Cart.AddCartItem(ProductId, 5, 11));
+        var exception = Record.Exception(() => Cart.AddCartItem(ProductId, 5, 11, 10_000));
 
         //ASSERT
         exception.ShouldNotBeNull();
@@ -25,7 +25,7 @@ public class CartTest
         //ARRANGE
         var Cart = GetCart();
         var productId = Guid.NewGuid();
-        Cart.AddCartItem(productId, 10, 11);
+        Cart.AddCartItem(productId, 10, 11, 10_000);
 
         //ACT
         var exception = Record.Exception(() => Cart.RemoveCartItem(productId));
@@ -41,7 +41,7 @@ public class CartTest
     {
         //ARRANGE
         var cart = GetCart();
-        cart.AddCartItem(Guid.NewGuid(), 10, 11);
+        cart.AddCartItem(Guid.NewGuid(), 10, 11, 10_000);
 
         //ACT
         var exception = Record.Exception(() => cart.GetCartItem(Guid.NewGuid()));

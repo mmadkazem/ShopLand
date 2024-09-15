@@ -1,4 +1,4 @@
-using ShopLand.Domain.Finances.Entities;
+using OrderDetail = ShopLand.Domain.Orders.ValueObject.OrderDetail;
 
 namespace ShopLand.Infrastructure.Persistance.Context;
 

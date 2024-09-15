@@ -8,7 +8,6 @@ public interface IProductFacade
     IRemoveProductCommandHandler RemoveProduct { get; }
     IUpdateProductCommandHandler UpdateProduct { get; }
     IAddProductCategoryCommandHandler AddCategory { get; }
-    IUpdateProductCategoryCommandHandler UpdateCategory { get; }
     IRemoveProductCategoryCommandHandler RemoveCategory { get; }
 }
 
@@ -21,7 +20,6 @@ public class ProductFacade : IProductFacade
         IRemoveProductCommandHandler removeProduct,
         IUpdateProductCommandHandler updateProduct,
         IAddProductCategoryCommandHandler addCategory,
-        IUpdateProductCategoryCommandHandler updateCategory,
         IRemoveProductCategoryCommandHandler removeCategory)
     {
         _createProduct = createProduct;
@@ -30,7 +28,6 @@ public class ProductFacade : IProductFacade
         _addCategory = addCategory;
         _removeProduct = removeProduct;
         _updateProduct = updateProduct;
-        _updateCategory = updateCategory;
         _removeCategory = removeCategory;
     }
 
@@ -61,10 +58,6 @@ public class ProductFacade : IProductFacade
     private readonly IUpdateProductCommandHandler _updateProduct;
     public IUpdateProductCommandHandler UpdateProduct
         => _updateProduct;
-
-    private readonly IUpdateProductCategoryCommandHandler _updateCategory;
-    public IUpdateProductCategoryCommandHandler UpdateCategory
-        => _updateCategory;
 
     private readonly IRemoveProductCategoryCommandHandler _removeCategory;
     public IRemoveProductCategoryCommandHandler RemoveCategory

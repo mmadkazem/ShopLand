@@ -7,27 +7,27 @@ public class CreateRequestPayCommandHandlerTest
         => await _createRequestPay.HandelAsync(request);
 
     [Fact]
-    public async Task HandelAsync_Throw_UserNotFoundException_When_There_Is_No_User_Found_With_This_Information()
+    public async Task HandelAsync_Throw_CartNotFoundException_When_There_Is_No_Cart_Found_With_This_Information()
     {
         // ARRANGE
-        var request = new CreateRequestPayCommandRequest(Guid.NewGuid(), 10_000);
-        _uow.Users.Any(request.UserId).Returns(false);
+        var request = new CreateRequestPayCommandRequest(Guid.NewGuid());
+        _uow.Carts.FindAsyncByUserId(request.UserId).Returns(default(Cart));
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
 
         // ASSERT
         exception.ShouldNotBeNull();
-        exception.ShouldBeOfType<UserNotFoundException>();
+        exception.ShouldBeOfType<CartNotFoundException>();
     }
 
     [Fact]
     public async Task HandleAsync_Calls_RequestPay_Factory_On_Success()
     {
         // ARRANGE
-        var request = new CreateRequestPayCommandRequest(Guid.NewGuid(), 10_000);
-        _uow.Users.Any(request.UserId).Returns(true);
-        _requestPayFactory.Create(request.UserId, request.Amount).Returns(new RequestPay());
+        var request = new CreateRequestPayCommandRequest(Guid.NewGuid());
+        _uow.Carts.FindAsyncByUserId(request.UserId).Returns(new Cart());
+        _requestPayFactory.Create(request.UserId, 10_000).Returns(new RequestPay());
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -41,9 +41,9 @@ public class CreateRequestPayCommandHandlerTest
     public async Task HandleAsync_Calls_UnitOfWork_RequestPayRepository_Add_On_Success()
     {
         // ARRANGE
-        var request = new CreateRequestPayCommandRequest(Guid.NewGuid(), 10_000);
-        _uow.Users.Any(request.UserId).Returns(true);
-        _requestPayFactory.Create(request.UserId, request.Amount).Returns(new RequestPay());
+        var request = new CreateRequestPayCommandRequest(Guid.NewGuid());
+        _uow.Carts.FindAsyncByUserId(request.UserId).Returns(new Cart());
+        _requestPayFactory.Create(request.UserId, 10_000).Returns(new RequestPay());
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));

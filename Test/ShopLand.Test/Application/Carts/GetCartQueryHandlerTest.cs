@@ -1,5 +1,6 @@
 using ShopLand.Application.Carts.Queries.GetCart.Handler;
 using ShopLand.Application.Carts.Queries.GetCart.Request;
+using ShopLand.Share.Abstract.Response;
 
 namespace ShopLand.Test.Application.Carts;
 
@@ -13,7 +14,7 @@ public class GetCartQueryHandlerTest
     {
         // ARRANGE
         var request = new GetCartQueryRequest(Guid.NewGuid());
-        _uow.Carts.FindAsyncByUserId(request.userId).Returns(default(Cart));
+        _uow.Carts.Get(request.UserId).Returns(default(IResponse));
 
         // ACT
         var exception = await Record.ExceptionAsync(() => Act(request));
@@ -30,9 +31,9 @@ public class GetCartQueryHandlerTest
         var cart = new Cart(Guid.NewGuid(), Guid.NewGuid());
         var request = new GetCartQueryRequest(cart.UserId);
         var product = new Product(Guid.NewGuid(), "TestBrand", "TestName", 5, "TestDescription", 10_000);
-        cart.AddCartItem(product.Id, 5, 10);
+        cart.AddCartItem(product.Id, 5, 10, product.Price);
         product.AddCategory(Guid.NewGuid());
-        _uow.Carts.FindAsyncByUserId(request.userId).Returns(cart);
+        _uow.Carts.FindAsyncByUserId(request.UserId).Returns(cart);
         _uow.Products.FindAsync(product.Id).Returns(product);
 
         // ACT

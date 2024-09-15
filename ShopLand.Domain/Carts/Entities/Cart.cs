@@ -6,7 +6,7 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
 {
     public Guid UserId { get; private set; }
     public bool Finished { get; private set; } = default;
-    public readonly LinkedList<CartItem> CartItems = new();
+    public readonly List<CartItem> CartItems = [];
     public Cart(CartId id, Guid userId)
         : base(id)
     {
@@ -16,7 +16,7 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
     // For Test
     public Cart() : base(Guid.NewGuid()) { }
 
-    internal Cart(CartId id, Guid userId, LinkedList<CartItem> cartItems)
+    internal Cart(CartId id, Guid userId, List<CartItem> cartItems)
         : base(id)
     {
         UserId = userId;
@@ -33,7 +33,7 @@ public class Cart : BaseEntity<CartId>, IAggregateRoot
         }
 
         var newCartItem = new CartFactory().CreateCartItem(count, inventory, productId, Id, productPrice);
-        CartItems.AddLast(cartItem);
+        CartItems.Add(cartItem);
     }
 
     public void RemoveCartItem(Guid productId)

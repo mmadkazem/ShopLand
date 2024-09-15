@@ -9,7 +9,7 @@ public class UpdateCartItemCommandHandlerTest
     public async Task HandelAsync_Throw_CartNotFoundException_When_There_Is_No_Cart_Found_With_This_Information()
     {
         // ARRANGE
-        var request = new UpdateCartItemCommandRequest(CountType.Add, Guid.NewGuid());
+        var request = new UpdateCartItemCommandRequest(Guid.NewGuid(), CountType.Add, Guid.NewGuid());
         _uow.Carts.FindAsyncByUserId(request.UserId).Returns(default(Cart));
 
         // ACT
@@ -24,7 +24,7 @@ public class UpdateCartItemCommandHandlerTest
     public async Task HandelAsync_Throw_ProductNotFoundException_When_There_Is_No_Product_Found_With_This_Information()
     {
         // ARRANGE
-        var request = new UpdateCartItemCommandRequest(CountType.Add, Guid.NewGuid());
+        var request = new UpdateCartItemCommandRequest(Guid.NewGuid(), CountType.Add, Guid.NewGuid());
         _uow.Carts.FindAsyncByUserId(request.UserId).Returns(new Cart());
         _uow.Products.FindAsync(request.ProductId).Returns(default(Product));
 
@@ -42,8 +42,8 @@ public class UpdateCartItemCommandHandlerTest
         // ARRANGE
         var cart = new Cart();
         var product = new Product(Guid.NewGuid(), "TestBrand", "TestName", 10, "TestDescription", 10_000);
-        var request = new UpdateCartItemCommandRequest(CountType.Add, Guid.NewGuid());
-        cart.AddCartItem(product.Id, 5, 10);
+        var request = new UpdateCartItemCommandRequest(Guid.NewGuid(), CountType.Add, Guid.NewGuid());
+        cart.AddCartItem(product.Id, 5, 10, product.Price);
         _uow.Carts.FindAsyncByUserId(request.UserId).Returns(cart);
         _uow.Products.FindAsync(request.ProductId).Returns(product);
 
@@ -61,8 +61,8 @@ public class UpdateCartItemCommandHandlerTest
         // ARRANGE
         var cart = new Cart();
         var product = new Product();
-        var request = new UpdateCartItemCommandRequest(CountType.Low, Guid.NewGuid());
-        cart.AddCartItem(product.Id, 5, 10);
+        var request = new UpdateCartItemCommandRequest(Guid.NewGuid(), CountType.Low, Guid.NewGuid());
+        cart.AddCartItem(product.Id, 5, 10, 10_000);
         _uow.Carts.FindAsyncByUserId(request.UserId).Returns(cart);
         _uow.Products.FindAsync(request.ProductId).Returns(product);
 

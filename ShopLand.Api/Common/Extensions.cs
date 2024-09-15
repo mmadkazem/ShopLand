@@ -15,7 +15,7 @@ public static class IdentityExtension
             else
                 return Guid.Empty;
         }
-        catch (Exception)
+        catch (System.Exception)
         {
             return Guid.Empty;
         }

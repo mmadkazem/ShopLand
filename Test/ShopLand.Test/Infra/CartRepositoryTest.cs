@@ -87,9 +87,9 @@ public class CartRepositoryTest
         var cart2 = new Cart();
         var cart3 = new Cart();
         var productId = Guid.NewGuid();
-        cart1.AddCartItem(productId, 5, 10);
-        cart2.AddCartItem(productId, 5, 10);
-        cart3.AddCartItem(productId, 5, 10);
+        cart1.AddCartItem(productId, 5, 10, 10_000);
+        cart2.AddCartItem(productId, 5, 10, 10_000);
+        cart3.AddCartItem(productId, 5, 10, 10_000);
 
         using var context = new DataBaseContext(dbOptions);
         var cartRepository = new CartRepository(context);

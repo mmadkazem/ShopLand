@@ -3,31 +3,30 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopLand.Domain", "ShopLand.Domain\ShopLand.Domain.csproj", "{8053523A-3AF4-40B7-B81B-DB17B9966399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopLand.Domain", "ShopLand.Domain\ShopLand.Domain.csproj", "{8053523A-3AF4-40B7-B81B-DB17B9966399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopLand.Application", "ShopLand.Application\ShopLand.Application.csproj", "{E6DCF0F0-8CD9-4A91-AAB1-E8C11039B79C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopLand.Application", "ShopLand.Application\ShopLand.Application.csproj", "{E6DCF0F0-8CD9-4A91-AAB1-E8C11039B79C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopLand.Infrastructure", "ShopLand.Infrastructure\ShopLand.Infrastructure.csproj", "{85717CBA-47F1-41EC-8E7F-9AB25D694E3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopLand.Infrastructure", "ShopLand.Infrastructure\ShopLand.Infrastructure.csproj", "{85717CBA-47F1-41EC-8E7F-9AB25D694E3C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Share", "Share", "{5E410E64-F31A-43BD-92AD-C44A6EEC945C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopLand.Share", "Share\ShopLand.Share\ShopLand.Share.csproj", "{097DFC5E-4E11-4D98-B8C3-42337C420C6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopLand.Share", "Share\ShopLand.Share\ShopLand.Share.csproj", "{097DFC5E-4E11-4D98-B8C3-42337C420C6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopLand.Share.Abstract", "Share\ShopLand.Share.Abstract\ShopLand.Share.Abstract.csproj", "{2FDB557D-184B-4C71-872B-98070F708FA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopLand.Share.Abstract", "Share\ShopLand.Share.Abstract\ShopLand.Share.Abstract.csproj", "{2FDB557D-184B-4C71-872B-98070F708FA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopLand.Api", "ShopLand.Api\ShopLand.Api.csproj", "{E86B3328-44A0-4A7B-A9A5-14A2CD13D9D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopLand.Api", "ShopLand.Api\ShopLand.Api.csproj", "{E86B3328-44A0-4A7B-A9A5-14A2CD13D9D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{C6D92FED-27CC-4EED-8B22-3B89745C6CD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopLand.Test", "Test\ShopLand.Test\ShopLand.Test.csproj", "{EB3E1832-74D4-4EB7-AEFD-E26BB96FAE40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopLand.Test", "Test\ShopLand.Test\ShopLand.Test.csproj", "{EB3E1832-74D4-4EB7-AEFD-E26BB96FAE40}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BDD4917E-A184-4775-9D99-45F95AC8C1C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8053523A-3AF4-40B7-B81B-DB17B9966399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,10 +37,6 @@ Global
 		{E6DCF0F0-8CD9-4A91-AAB1-E8C11039B79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6DCF0F0-8CD9-4A91-AAB1-E8C11039B79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6DCF0F0-8CD9-4A91-AAB1-E8C11039B79C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C65F533-73B0-44CB-B2C5-B28105083A2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C65F533-73B0-44CB-B2C5-B28105083A2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C65F533-73B0-44CB-B2C5-B28105083A2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C65F533-73B0-44CB-B2C5-B28105083A2C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{85717CBA-47F1-41EC-8E7F-9AB25D694E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85717CBA-47F1-41EC-8E7F-9AB25D694E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85717CBA-47F1-41EC-8E7F-9AB25D694E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,6 +57,13 @@ Global
 		{EB3E1832-74D4-4EB7-AEFD-E26BB96FAE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB3E1832-74D4-4EB7-AEFD-E26BB96FAE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB3E1832-74D4-4EB7-AEFD-E26BB96FAE40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDD4917E-A184-4775-9D99-45F95AC8C1C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDD4917E-A184-4775-9D99-45F95AC8C1C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDD4917E-A184-4775-9D99-45F95AC8C1C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDD4917E-A184-4775-9D99-45F95AC8C1C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{097DFC5E-4E11-4D98-B8C3-42337C420C6A} = {5E410E64-F31A-43BD-92AD-C44A6EEC945C}

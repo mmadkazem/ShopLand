@@ -9,7 +9,7 @@ public class RemoveCartItemCommandHandlerTest
     public async Task HandelAsync_Throw_CartNotFoundException_When_There_Is_No_Cart_Found_With_This_Information()
     {
         // ARRANGE
-        var request = new RemoveCartItemCommandRequest(Guid.NewGuid());
+        var request = new RemoveCartItemCommandRequest(Guid.NewGuid(), Guid.NewGuid());
         _uow.Carts.FindAsyncByUserId(request.UserId).Returns(default(Cart));
 
         // ACT
@@ -25,9 +25,10 @@ public class RemoveCartItemCommandHandlerTest
     {
         // ARRANGE
         var cart = new Cart();
-        var request = new RemoveCartItemCommandRequest(Guid.NewGuid());
-        cart.AddCartItem(Guid.NewGuid(), 5, 10);
-        cart.AddCartItem(request.ProductId, 5, 10);
+        var request = new RemoveCartItemCommandRequest(Guid.NewGuid(), Guid.NewGuid());
+        var product = new Product(Guid.NewGuid(), "TestBrand", "TestName", 5, "TestDescription", 10_000);
+        cart.AddCartItem(Guid.NewGuid(), 5, 10, 10_000);
+        cart.AddCartItem(Guid.NewGuid(), 5, 10, 10_000);
         _uow.Carts.FindAsyncByUserId(request.UserId).Returns(cart);
         _uow.Products.Any(request.ProductId).Returns(true);
 

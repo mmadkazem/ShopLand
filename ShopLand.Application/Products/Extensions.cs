@@ -13,7 +13,6 @@ public static class Extensions
         services.AddTransient<IGetProductQueryHandler, GetProductQueryHandler>();
         services.AddTransient<IUpdateProductCommandHandler, UpdateProductCommandHandler>();
         services.AddTransient<IAddProductCategoryCommandHandler, AddProductCategoryCommandHandler>();
-        services.AddTransient<IUpdateProductCategoryCommandHandler, UpdateProductCategoryCommandHandler>();
         services.AddTransient<IRemoveProductCategoryCommandHandler, RemoveProductCategoryCommandHandler>();
 
         // DI Account Events Handlers

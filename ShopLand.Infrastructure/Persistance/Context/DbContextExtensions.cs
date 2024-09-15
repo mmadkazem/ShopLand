@@ -1,3 +1,5 @@
+using OrderDetail = ShopLand.Domain.Orders.ValueObject.OrderDetail;
+
 namespace ShopLand.Infrastructure.Persistance.Context;
 
 public static class DbContextExtensions

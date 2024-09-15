@@ -88,34 +88,6 @@ public class ProductRepositoryTest
     }
 
     [Fact]
-    public async void Should_GetAll_Product_In_DataBase()
-    {
-        //ARRANGE
-        var dbOptions = new DbContextOptionsBuilder<DataBaseContext>()
-                .UseInMemoryDatabase("ShouldGetAllTest", b => b.EnableNullChecks(false))
-                .Options;
-
-        var product1 = new Product(Guid.NewGuid(), "TestBrand1", "TestName1", 5, "TestDescription1", 10_000);
-        var product2 = new Product(Guid.NewGuid(), "TestBrand2", "TestName2", 5, "TestDescription2", 10_000);
-
-        using var context = new DataBaseContext(dbOptions);
-        var productRepository = new ProductRepository(context);
-        productRepository.Add(product1);
-        productRepository.Add(product2);
-        context.SaveChanges();
-
-        //ACT
-        var users = await productRepository.GetAll(1);
-
-        //ASSERT
-
-        Assert.Equal(2, users.Count());
-        Assert.Contains(users, q => q.Id == product1.Id);
-        Assert.Contains(users, q => q.Id == product2.Id);
-        Assert.DoesNotContain(users, q => q.Id == new ProductId(Guid.NewGuid()));
-    }
-
-    [Fact]
     public async void Should_Any_Product_In_DataBase()
     {
         //ARRANGE

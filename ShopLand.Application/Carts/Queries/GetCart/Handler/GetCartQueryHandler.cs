@@ -6,6 +6,6 @@ public sealed class GetCartQueryHandler(IUnitOfWork uow)
     private readonly IUnitOfWork _uow = uow;
 
     public async Task<IResponse> HandelAsync(GetCartQueryRequest request, CancellationToken token = default)
-        => await _uow.Carts.Get(request.userId, token)
+        => await _uow.Carts.Get(request.UserId, token)
             ?? throw new CartNotFoundException();
 }
